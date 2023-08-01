@@ -1,4 +1,4 @@
-package org.wcci.adjrvirtualpet;
+package org.wcci.adjrvirtualpet.entities;
 
 public abstract class Cat extends Pet{
 
