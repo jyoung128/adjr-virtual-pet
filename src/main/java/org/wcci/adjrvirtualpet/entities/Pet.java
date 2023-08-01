@@ -92,6 +92,10 @@ public abstract class Pet {
         }
     }
 
+    public long getPetID() {
+        return petId;
+    }
+
     /** Hunger is on a scale from 0 to 100 */ // This is a "javadoc"
     public Integer getHunger() {
         return this.hunger;
@@ -340,6 +344,10 @@ public abstract class Pet {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /** Removes the previously set feeding schedule */

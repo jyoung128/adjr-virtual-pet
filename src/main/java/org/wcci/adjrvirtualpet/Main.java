@@ -1,6 +1,8 @@
 package org.wcci.adjrvirtualpet;
 
 import java.util.Scanner;
+import org.wcci.adjrvirtualpet.entities.OrganicCat;
+import org.wcci.adjrvirtualpet.entities.OrganicDog;
 
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
