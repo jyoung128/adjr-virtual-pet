@@ -1,9 +1,9 @@
-package org.wcci.virtualpet;
+package org.wcci.adjrvirtualpet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.wcci.adjrvirtualpet.OrganicShelter;
+// import org.wcci.adjrvirtualpet.OrganicShelter;
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
 

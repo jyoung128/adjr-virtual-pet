@@ -1,10 +1,10 @@
-package org.wcci.virtualpet;
+package org.wcci.adjrvirtualpet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.wcci.adjrvirtualpet.RoboticCat;
-import org.wcci.adjrvirtualpet.RoboticDog;
+// import org.wcci.adjrvirtualpet.RoboticCat;
+// import org.wcci.adjrvirtualpet.RoboticDog;
 
 public class RoboticPetTest {
     
