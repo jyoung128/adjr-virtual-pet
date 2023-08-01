@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,6 +52,16 @@ public abstract class Pet {
     protected int mood;
     private TEMPERAMENT temperament;
     private Map<String, Integer> skills = new HashMap<>();
+
+    public Map<String, Integer> getSkills() {
+        //new ObjectMapper().readValue(skills, Pet.class);
+        return skills;
+    }
+
+    public void setSkills(Map<String, Integer> skills) {
+        this.skills = skills;
+    }
+
     private List<Integer> feedingSchedule = new ArrayList<>();
 
     public Pet(String name) {
