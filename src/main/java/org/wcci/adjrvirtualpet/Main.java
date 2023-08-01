@@ -2,6 +2,9 @@ package org.wcci.adjrvirtualpet;
 
 import java.util.Scanner;
 
+import org.wcci.adjrvirtualpet.entities.OrganicCat;
+import org.wcci.adjrvirtualpet.entities.OrganicDog;
+
 public class Main {
     
     public static void main(String[] args) {

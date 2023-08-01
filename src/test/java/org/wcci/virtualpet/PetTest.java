@@ -3,8 +3,8 @@ package org.wcci.virtualpet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.wcci.adjrvirtualpet.OrganicDog;
-import org.wcci.adjrvirtualpet.Pet.TEMPERAMENT;
+import org.wcci.adjrvirtualpet.entities.OrganicDog;
+import org.wcci.adjrvirtualpet.entities.Pet.TEMPERAMENT;
 
 public class PetTest {
     @Test
