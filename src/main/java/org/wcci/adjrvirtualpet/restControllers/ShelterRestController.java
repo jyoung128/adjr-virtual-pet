@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import org.wcci.adjrvirtualpet.entities.Cat;
-import org.wcci.adjrvirtualpet.entities.Dog;
+import org.wcci.adjrvirtualpet.entities.OrganicCat;
+import org.wcci.adjrvirtualpet.entities.OrganicDog;
 import org.wcci.adjrvirtualpet.services.ShelterService;
 
 @RestController
 public class ShelterRestController {
-    public static final String LIST_ALL_DOGS = "listAllDogs";
-    public static final String LIST_ALL_CATS = "listAllCats";
+    public static final String LIST_ALL_ORGANIC_DOGS = "listAllOrganicDogs";
+    public static final String LIST_ALL_ORGANIC_CATS = "listAllOrganicCats";
 
     final private ShelterService shelterService;
 
@@ -34,93 +34,93 @@ public class ShelterRestController {
         this.shelterService = shelterService;
     }
 
-    @GetMapping("/api/dogs")
-    public CollectionModel<EntityModel<Dog>> getDogs() {
-        List<EntityModel<Dog>> dogs = this.shelterService.dogStream()
-                .map(dog -> EntityModel.of(dog))
+    @GetMapping("/api/organicOrganicDogs")
+    public CollectionModel<EntityModel<OrganicDog>> getOrganicDogs() {
+        List<EntityModel<OrganicDog>> organicOrganicDogs = this.shelterService.organicOrganicDogStream()
+                .map(organicOrganicDog -> EntityModel.of(organicOrganicDog))
                 .collect(Collectors.toList());
-        return CollectionModel.of(dogs);
+        return CollectionModel.of(organicOrganicDogs);
     }
 
-    @GetMapping("/api/cats")
-    public CollectionModel<EntityModel<Cat>> getCats() {
-        List<EntityModel<Cat>> cats = this.shelterService.catStream()
-                .map(cat -> EntityModel.of(cat))
+    @GetMapping("/api/organicOrganicCats")
+    public CollectionModel<EntityModel<OrganicCat>> getOrganicCats() {
+        List<EntityModel<OrganicCat>> organicOrganicCats = this.shelterService.organicOrganicCatStream()
+                .map(organicOrganicCat -> EntityModel.of(organicOrganicCat))
                 .collect(Collectors.toList());
-        return CollectionModel.of(cats);
+        return CollectionModel.of(organicOrganicCats);
     }
 
-    @GetMapping("/api/dogs/{dog_id}")
-    public EntityModel<Dog> getDog(@PathVariable final Long dog_id) {
-        final Dog dog = shelterService.findDog(dog_id);
-        return EntityModel.of(dog,
-                linkTo(methodOn(ShelterRestController.class).getDogs()).withRel(LIST_ALL_DOGS),
-                linkTo(methodOn(ShelterRestController.class).getDog(dog_id)).withSelfRel());
+    @GetMapping("/api/organicOrganicDogs/{organicOrganicDog_id}")
+    public EntityModel<OrganicDog> getOrganicDog(@PathVariable final Long organicOrganicDog_id) {
+        final OrganicDog organicOrganicDog = shelterService.findOrganicDog(organicOrganicDog_id);
+        return EntityModel.of(organicOrganicDog,
+                linkTo(methodOn(ShelterRestController.class).getOrganicDogs()).withRel(LIST_ALL_ORGANIC_DOGS),
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog_id)).withSelfRel());
     }
 
-    @GetMapping("/api/cats/{cat_id}")
-    public EntityModel<Cat> getCat(@PathVariable final Long cat_id) {
-        final Cat cat = shelterService.findCat(cat_id);
-        return EntityModel.of(cat,
-                linkTo(methodOn(ShelterRestController.class).getCats()).withRel(LIST_ALL_CATS),
-                linkTo(methodOn(ShelterRestController.class).getDog(cat_id)).withSelfRel());
+    @GetMapping("/api/organicOrganicCats/{organicOrganicCat_id}")
+    public EntityModel<OrganicCat> getOrganicCat(@PathVariable final Long organicOrganicCat_id) {
+        final OrganicCat organicOrganicCat = shelterService.findOrganicCat(organicOrganicCat_id);
+        return EntityModel.of(organicOrganicCat,
+                linkTo(methodOn(ShelterRestController.class).getOrganicCats()).withRel(LIST_ALL_ORGANIC_CATS),
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicCat_id)).withSelfRel());
     }
 
-    @PostMapping("/api/dogs")
-    public EntityModel<Dog> newDog(@RequestBody final Dog dog) {
-        return EntityModel.of(shelterService.writeToDatabase(dog),
-                linkTo(methodOn(ShelterRestController.class).getDog(dog.petID)).withSelfRel(),
-                linkTo(methodOn(ShelterRestController.class).getDogs()).withRel(LIST_ALL_DOGS));
+    @PostMapping("/api/organicOrganicDogs")
+    public EntityModel<OrganicDog> newOrganicDog(@RequestBody final OrganicDog organicOrganicDog) {
+        return EntityModel.of(shelterService.writeToDatabase(organicOrganicDog),
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.petID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getOrganicDogs()).withRel(LIST_ALL_ORGANIC_DOGS));
     }
 
-    @PostMapping("/api/cats")
-    public EntityModel<Cat> newCat(@RequestBody final Cat cat) {
-        return EntityModel.of(shelterService.writeToDatabase(cat),
-                linkTo(methodOn(ShelterRestController.class).getCat(cat.petID)).withSelfRel(),
-                linkTo(methodOn(ShelterRestController.class).getCats()).withRel(LIST_ALL_CATS));
+    @PostMapping("/api/organicOrganicCats")
+    public EntityModel<OrganicCat> newOrganicCat(@RequestBody final OrganicCat organicOrganicCat) {
+        return EntityModel.of(shelterService.writeToDatabase(organicOrganicCat),
+                linkTo(methodOn(ShelterRestController.class).getOrganicCat(organicOrganicCat.petID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getOrganicCats()).withRel(LIST_ALL_ORGANIC_CATS));
     }
 
-    @DeleteMapping("/api/dogs/{dog_id}")
-    public void deleteDog(@PathVariable long dog_id) {
-        shelterService.deleteDogById(dog_id);
+    @DeleteMapping("/api/organicOrganicDogs/{organicOrganicDog_id}")
+    public void deleteOrganicDog(@PathVariable long organicOrganicDog_id) {
+        shelterService.deleteOrganicDogById(organicOrganicDog_id);
     }
 
-    @DeleteMapping("/api/cats/{cat_id}")
-    public void deleteCat(@PathVariable long cat_id) {
-        shelterService.deleteCatById(cat_id);
+    @DeleteMapping("/api/organicOrganicCats/{organicOrganicCat_id}")
+    public void deleteOrganicCat(@PathVariable long organicOrganicCat_id) {
+        shelterService.deleteOrganicCatById(organicOrganicCat_id);
     }
 
     // Talk to the Product Owner before changing this
-    @DeleteMapping("/api/dogs")
-    public void deleteAllDogs() {
+    @DeleteMapping("/api/organicOrganicDogs")
+    public void deleteAllOrganicDogs() {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
-    @DeleteMapping("/api/cats")
-    public void deleteAllCats() {
+    @DeleteMapping("/api/organicOrganicCats")
+    public void deleteAllOrganicCats() {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
-    @PutMapping("/api/dogs/{dog_id}")
-    public EntityModel<Dog> updateDog(
-            @PathVariable final long dog_id, // the name of the parameter (dog_id) must match "{dog_id}" in
+    @PutMapping("/api/organicOrganicDogs/{organicOrganicDog_id}")
+    public EntityModel<OrganicDog> updateOrganicDog(
+            @PathVariable final long organicOrganicDog_id, // the name of the parameter (organicOrganicDog_id) must match "{organicOrganicDog_id}" in
                                                  // the line above
-            @RequestBody final Dog dog) {
-        // Update the dog if that is the right thing to do
-        final Dog databaseDog = shelterService.updateDog(dog, dog_id);
+            @RequestBody final OrganicDog organicOrganicDog) {
+        // Update the organicOrganicDog if that is the right thing to do
+        final OrganicDog databaseOrganicDog = shelterService.updateOrganicDog(organicOrganicDog, organicOrganicDog_id);
 
-        // Return the modified database dog
-        return EntityModel.of(databaseDog,
-                linkTo(methodOn(ShelterRestController.class).getDog(dog.petID)).withSelfRel());
+        // Return the modified database organicOrganicDog
+        return EntityModel.of(databaseOrganicDog,
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.petID)).withSelfRel());
     }
 
-    @PutMapping("/api/cats/{cat_id}")
-    public EntityModel<Cat> updateCat(
-            @PathVariable final long cat_id,
-            @RequestBody final Cat cat) {
-        final Cat databaseCat = shelterService.updateCat(cat, cat_id);
+    @PutMapping("/api/organicOrganicCats/{organicOrganicCat_id}")
+    public EntityModel<OrganicCat> updateOrganicCat(
+            @PathVariable final long organicOrganicCat_id,
+            @RequestBody final OrganicCat organicOrganicCat) {
+        final OrganicCat databaseOrganicCat = shelterService.updateOrganicCat(organicOrganicCat, organicOrganicCat_id);
 
-        return EntityModel.of(databaseCat,
-                linkTo(methodOn(ShelterRestController.class).getDog(cat.petID)).withSelfRel());
+        return EntityModel.of(databaseOrganicCat,
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicCat.petID)).withSelfRel());
     }
 }
