@@ -97,7 +97,7 @@ public class ShelterService {
     public Dog updateDog(Dog dog, long dog_id) {
         final Dog databaseDog = findDog(dog_id);
 
-        if (dog_id != databaseDog.dogID)
+        if (dog_id != databaseDog.petID)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Sorry, you may not change the dog_id");
 
@@ -113,7 +113,7 @@ public class ShelterService {
     public Cat updateCat(Cat cat, long cat_id) {
         final Cat databaseCat = findCat(cat_id);
 
-        if (cat_id != databaseCat.catID)
+        if (cat_id != databaseCat.petID)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Sorry, you may not change the cat_id");
 
