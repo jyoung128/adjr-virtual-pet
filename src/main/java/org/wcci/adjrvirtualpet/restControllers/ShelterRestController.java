@@ -69,14 +69,14 @@ public class ShelterRestController {
     @PostMapping("/api/organicOrganicDogs")
     public EntityModel<OrganicDog> newOrganicDog(@RequestBody final OrganicDog organicOrganicDog) {
         return EntityModel.of(shelterService.writeToDatabase(organicOrganicDog),
-                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.petID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.getPetID())).withSelfRel(),
                 linkTo(methodOn(ShelterRestController.class).getOrganicDogs()).withRel(LIST_ALL_ORGANIC_DOGS));
     }
 
     @PostMapping("/api/organicOrganicCats")
     public EntityModel<OrganicCat> newOrganicCat(@RequestBody final OrganicCat organicOrganicCat) {
         return EntityModel.of(shelterService.writeToDatabase(organicOrganicCat),
-                linkTo(methodOn(ShelterRestController.class).getOrganicCat(organicOrganicCat.petID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getOrganicCat(organicOrganicCat.getPetID())).withSelfRel(),
                 linkTo(methodOn(ShelterRestController.class).getOrganicCats()).withRel(LIST_ALL_ORGANIC_CATS));
     }
 
@@ -111,7 +111,7 @@ public class ShelterRestController {
 
         // Return the modified database organicOrganicDog
         return EntityModel.of(databaseOrganicDog,
-                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.petID)).withSelfRel());
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicDog.getPetID())).withSelfRel());
     }
 
     @PutMapping("/api/organicOrganicCats/{organicOrganicCat_id}")
@@ -121,6 +121,6 @@ public class ShelterRestController {
         final OrganicCat databaseOrganicCat = shelterService.updateOrganicCat(organicOrganicCat, organicOrganicCat_id);
 
         return EntityModel.of(databaseOrganicCat,
-                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicCat.petID)).withSelfRel());
+                linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicOrganicCat.getPetID())).withSelfRel());
     }
 }

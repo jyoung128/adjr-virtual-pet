@@ -97,7 +97,7 @@ public class ShelterService {
     public OrganicDog updateOrganicDog(OrganicDog organicOrganicDog, long organicOrganicDog_id) {
         final OrganicDog databaseOrganicDog = findOrganicDog(organicOrganicDog_id);
 
-        if (organicOrganicDog_id != databaseOrganicDog.petID)
+        if (organicOrganicDog_id != databaseOrganicDog.getPetID())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Sorry, you may not change the organicOrganicDog_id");
 
@@ -113,7 +113,7 @@ public class ShelterService {
     public OrganicCat updateOrganicCat(OrganicCat organicOrganicCat, long organicOrganicCat_id) {
         final OrganicCat databaseOrganicCat = findOrganicCat(organicOrganicCat_id);
 
-        if (organicOrganicCat_id != databaseOrganicCat.petID)
+        if (organicOrganicCat_id != databaseOrganicCat.getPetID())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Sorry, you may not change the organicOrganicCat_id");
 
