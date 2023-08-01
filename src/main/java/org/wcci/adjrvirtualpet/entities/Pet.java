@@ -50,7 +50,8 @@ public abstract class Pet {
     private int energy;
     protected int mood;
     private TEMPERAMENT temperament;
-    private Map<String, Integer> skills = new HashMap<>();
+    //private Map<String, Integer> skills = new HashMap<>();
+    //private List<String> skills;
     private List<Integer> feedingSchedule = new ArrayList<>();
 
     public Pet(String name) {
@@ -95,6 +96,14 @@ public abstract class Pet {
     public long getPetID() {
         return petId;
     }
+
+    /*public String getSkillName(String skill) {
+        return skill.substring(0, skill.indexOf(":"));
+    }
+
+    public int getSkillLevel(String skill) {
+        return Integer.parseInt(skill.substring(skill.indexOf(":") + 1));
+    }*/
 
     /** Hunger is on a scale from 0 to 100 */ // This is a "javadoc"
     public Integer getHunger() {
@@ -240,7 +249,7 @@ public abstract class Pet {
 
     /** Trains the pet with a specified skill as a String */
     public void train(String skill) {
-        if (this.hunger <= HUNGRY_LEVEL) {
+        /*if (this.hunger <= HUNGRY_LEVEL) {
             if (this.skills.containsKey(skill)) {
                 skills.put(skill, (skills.get(skill) + 1));
             } else {
@@ -249,17 +258,18 @@ public abstract class Pet {
         }
 
         this.energy -= 10;
-        this.thirst += 10;
+        this.thirst += 10;*/
+        return;
     }
 
     /** Returns the pet's chance of sitting */
-    public double chanceOfSitting() {
+    /*public double chanceOfSitting() {
         if (skills.containsKey("sitting") && skills.get("sitting") >= 1) {
             return 0.85;
         } else {
             return 0.5;
         }
-    }
+    }*/
 
     /** Sets the pet's age in months */
     public void setAgeMonths(int months) {
