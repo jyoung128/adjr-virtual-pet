@@ -4,5 +4,6 @@
         "adjrvirtualpet",
         "OVERWATERED",
         "wcci"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
