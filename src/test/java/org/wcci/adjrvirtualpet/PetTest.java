@@ -1,4 +1,4 @@
-package org.wcci.virtualpet;
+package org.wcci.adjrvirtualpet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
