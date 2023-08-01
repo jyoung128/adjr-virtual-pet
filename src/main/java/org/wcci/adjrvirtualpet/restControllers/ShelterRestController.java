@@ -114,19 +114,13 @@ public class ShelterRestController {
                 linkTo(methodOn(ShelterRestController.class).getDog(dog.dogID)).withSelfRel());
     }
 
-    @GetMapping("/api/dogs/{dog_id}/courses")
-    public CollectionModel<EntityModel<Course>> getDogCourses(@PathVariable final Long dog_id) {
-        List<EntityModel<Course>> courses = this.shelterService.courseStreamForDog(dog_id)
-                .map(course -> EntityModel.of(course))
-                .collect(Collectors.toList());
-        return CollectionModel.of(courses);
-    }
+    @PutMapping("/api/cats/{cat_id}")
+    public EntityModel<Cat> updateCat(
+            @PathVariable final long cat_id,
+            @RequestBody final Cat cat) {
+        final Cat databaseCat = shelterService.updateCat(cat, cat_id);
 
-    @PostMapping("/api/dogs/{dog_id}/courses")
-    public EntityModel<Course> newCourseForDog(
-            @PathVariable final Long dog_id,
-            @RequestBody final Course course) {
-        shelterService.addCourseToDog(dog_id, course);
-        return EntityModel.of(course);
+        return EntityModel.of(databaseCat,
+                linkTo(methodOn(ShelterRestController.class).getDog(cat.catID)).withSelfRel());
     }
 }
