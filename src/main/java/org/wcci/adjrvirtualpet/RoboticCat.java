@@ -1,5 +1,8 @@
 package org.wcci.adjrvirtualpet;
 
+import org.wcci.adjrvirtualpet.entities.Cat;
+import org.wcci.adjrvirtualpet.interfaces.Robotic;
+
 public class RoboticCat extends Cat implements Robotic{
 
     private static final int INITIAL_CHARGE = 70;

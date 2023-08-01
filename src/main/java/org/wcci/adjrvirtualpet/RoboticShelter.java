@@ -3,6 +3,8 @@ package org.wcci.adjrvirtualpet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.wcci.adjrvirtualpet.interfaces.Robotic;
+
 public class RoboticShelter<P extends Robotic>{
     
     private Map<String, P>allPets = new HashMap<>();
