@@ -1,5 +1,12 @@
-package org.wcci.adjrvirtualpet;
+package org.wcci.adjrvirtualpet.entities;
 
+import org.wcci.adjrvirtualpet.interfaces.Organic;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+
+@Entity
+@PrimaryKeyJoinColumn(name = "petId")
 public class OrganicDog extends Dog implements Organic{
 
     private final int INITIAL_CAGE_CLEANLINESS = 100;

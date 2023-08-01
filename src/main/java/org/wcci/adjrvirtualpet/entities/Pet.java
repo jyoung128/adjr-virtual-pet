@@ -8,7 +8,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pet {
     private static final int INITIAL_MOOD = 45;
     private static final int INITIAL_ENERGY = 70;
@@ -28,6 +38,10 @@ public abstract class Pet {
     public enum TEMPERAMENT {DOCILE, DOMINANT, AVOIDANT, SOCIAL};
 
     final private static Logger logger = LoggerFactory.getLogger(Pet.class);
+
+    @Id
+    @GeneratedValue
+    private long petId;
 
     private String name;
     private int ageInDays;

@@ -3,6 +3,8 @@ package org.wcci.adjrvirtualpet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.wcci.adjrvirtualpet.interfaces.Organic;
+
 public class OrganicShelter<P extends Organic>{
 
     private Map<String, P>allPets = new HashMap<>();
