@@ -76,7 +76,7 @@ public class ShelterService {
         if (cat.getName().contains("bad word"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
 
-        return dogRepo.save(cat);
+        return catRepo.save(cat);
     }
 
 
