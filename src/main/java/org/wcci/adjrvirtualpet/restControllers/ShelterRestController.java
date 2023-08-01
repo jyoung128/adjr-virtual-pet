@@ -69,14 +69,14 @@ public class ShelterRestController {
     @PostMapping("/api/dogs")
     public EntityModel<Dog> newDog(@RequestBody final Dog dog) {
         return EntityModel.of(shelterService.writeToDatabase(dog),
-                linkTo(methodOn(ShelterRestController.class).getDog(dog.dogID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getDog(dog.petID)).withSelfRel(),
                 linkTo(methodOn(ShelterRestController.class).getDogs()).withRel(LIST_ALL_DOGS));
     }
 
     @PostMapping("/api/cats")
     public EntityModel<Cat> newCat(@RequestBody final Cat cat) {
         return EntityModel.of(shelterService.writeToDatabase(cat),
-                linkTo(methodOn(ShelterRestController.class).getCat(cat.catID)).withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getCat(cat.petID)).withSelfRel(),
                 linkTo(methodOn(ShelterRestController.class).getCats()).withRel(LIST_ALL_CATS));
     }
 
@@ -111,7 +111,7 @@ public class ShelterRestController {
 
         // Return the modified database dog
         return EntityModel.of(databaseDog,
-                linkTo(methodOn(ShelterRestController.class).getDog(dog.dogID)).withSelfRel());
+                linkTo(methodOn(ShelterRestController.class).getDog(dog.petID)).withSelfRel());
     }
 
     @PutMapping("/api/cats/{cat_id}")
@@ -121,6 +121,6 @@ public class ShelterRestController {
         final Cat databaseCat = shelterService.updateCat(cat, cat_id);
 
         return EntityModel.of(databaseCat,
-                linkTo(methodOn(ShelterRestController.class).getDog(cat.catID)).withSelfRel());
+                linkTo(methodOn(ShelterRestController.class).getDog(cat.petID)).withSelfRel());
     }
 }
