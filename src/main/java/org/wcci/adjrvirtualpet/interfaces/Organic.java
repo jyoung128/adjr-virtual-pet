@@ -1,4 +1,4 @@
-package org.wcci.adjrvirtualpet;
+package org.wcci.adjrvirtualpet.interfaces;
 
 public interface Organic {
     public void feed(int amountOfFood);

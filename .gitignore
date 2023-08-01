@@ -3,6 +3,7 @@
 */build
 **/npm_modules/
 npm_modules
+bin/
 
 .DS_Store
 
