@@ -4,6 +4,9 @@ import java.util.Scanner;
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
 
+import org.wcci.adjrvirtualpet.entities.OrganicCat;
+import org.wcci.adjrvirtualpet.entities.OrganicDog;
+
 public class Main {
     
     public static void main(String[] args) {

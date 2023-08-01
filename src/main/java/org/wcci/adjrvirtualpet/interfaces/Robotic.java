@@ -1,4 +1,4 @@
-package org.wcci.adjrvirtualpet;
+package org.wcci.adjrvirtualpet.interfaces;
 
 public interface Robotic {
     public void oil(int amountOfOil);
