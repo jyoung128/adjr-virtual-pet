@@ -23,86 +23,86 @@ import org.wcci.adjrvirtualpet.repositories.OrganicCatRepo;
  */
 public class ShelterService {
     final private static Logger logger = LoggerFactory.getLogger(ShelterService.class);
-    final private OrganicDogRepo organicOrganicDogRepo;
-    final private OrganicCatRepo organicOrganicCatRepo;
+    final private OrganicDogRepo organicDogRepo;
+    final private OrganicCatRepo organicCatRepo;
 
     public ShelterService(
-            @Autowired final OrganicDogRepo organicOrganicDogRepo,
-            @Autowired final OrganicCatRepo organicOrganicCatRepo) {
-        this.organicOrganicDogRepo = organicOrganicDogRepo;
-        this.organicOrganicCatRepo = organicOrganicCatRepo;
+            @Autowired final OrganicDogRepo organicDogRepo,
+            @Autowired final OrganicCatRepo organicCatRepo) {
+        this.organicDogRepo = organicDogRepo;
+        this.organicCatRepo = organicCatRepo;
     }
 
-    public Stream<OrganicDog> organicOrganicDogStream() {
-        final Iterable<OrganicDog> organicOrganicDogs = this.organicOrganicDogRepo.findAll();
+    public Stream<OrganicDog> organicDogStream() {
+        final Iterable<OrganicDog> organicDogs = this.organicDogRepo.findAll();
 
         // Standard conversion from iterator to stream.
-        return StreamSupport.stream(organicOrganicDogs.spliterator(), false);
+        return StreamSupport.stream(organicDogs.spliterator(), false);
     }
 
-    public Stream<OrganicCat> organicOrganicCatStream() {
-        final Iterable<OrganicCat> organicOrganicCats = this.organicOrganicCatRepo.findAll();
+    public Stream<OrganicCat> organicCatStream() {
+        final Iterable<OrganicCat> organicCats = this.organicCatRepo.findAll();
 
         // Standard conversion from iterator to stream.
-        return StreamSupport.stream(organicOrganicCats.spliterator(), false);
+        return StreamSupport.stream(organicCats.spliterator(), false);
     }
 
-    public OrganicDog findOrganicDog(final long organicOrganicDog_id) {
-        final Optional<OrganicDog> possiblyAOrganicDog = organicOrganicDogRepo.findById(organicOrganicDog_id);
+    public OrganicDog findOrganicDog(final long organicDog_id) {
+        final Optional<OrganicDog> possiblyAOrganicDog = organicDogRepo.findById(organicDog_id);
         if (!possiblyAOrganicDog.isPresent()) {
-            logger.info("OrganicDog not found: " + organicOrganicDog_id);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicDog not found " + organicOrganicDog_id);
+            logger.info("OrganicDog not found: " + organicDog_id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicDog not found " + organicDog_id);
         }
         return possiblyAOrganicDog.get();
     }
 
-    public OrganicCat findOrganicCat(final long organicOrganicCat_id) {
-        final Optional<OrganicCat> possiblyAOrganicCat = organicOrganicCatRepo.findById(organicOrganicCat_id);
+    public OrganicCat findOrganicCat(final long organicCat_id) {
+        final Optional<OrganicCat> possiblyAOrganicCat = organicCatRepo.findById(organicCat_id);
         if (!possiblyAOrganicCat.isPresent()) {
-            logger.info("OrganicCat not found: " + organicOrganicCat_id);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicCat not found " + organicOrganicCat_id);
+            logger.info("OrganicCat not found: " + organicCat_id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicCat not found " + organicCat_id);
         }
         return possiblyAOrganicCat.get();
     }
 
-    public OrganicDog writeToDatabase(final OrganicDog organicOrganicDog) {
-        if (organicOrganicDog.getName().contains("bad word"))
+    public OrganicDog writeToDatabase(final OrganicDog organicDog) {
+        if (organicDog.getName().contains("bad word"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
 
-        return organicOrganicDogRepo.save(organicOrganicDog);
+        return organicDogRepo.save(organicDog);
     }
 
-    public OrganicCat writeToDatabase(final OrganicCat organicOrganicCat) {
-        if (organicOrganicCat.getName().contains("bad word"))
+    public OrganicCat writeToDatabase(final OrganicCat organicCat) {
+        if (organicCat.getName().contains("bad word"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
 
-        return organicOrganicCatRepo.save(organicOrganicCat);
+        return organicCatRepo.save(organicCat);
     }
 
 
-    public void deleteOrganicDogById(final long organicOrganicDog_id) {
-        if (!organicOrganicDogRepo.findById(organicOrganicDog_id).isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicDog not found " + organicOrganicDog_id);
+    public void deleteOrganicDogById(final long organicDog_id) {
+        if (!organicDogRepo.findById(organicDog_id).isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicDog not found " + organicDog_id);
 
-        organicOrganicDogRepo.deleteById(organicOrganicDog_id);
+        organicDogRepo.deleteById(organicDog_id);
     }
 
-    public void deleteOrganicCatById(final long organicOrganicCat_id) {
-        if (!organicOrganicCatRepo.findById(organicOrganicCat_id).isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicCat not found " + organicOrganicCat_id);
+    public void deleteOrganicCatById(final long organicCat_id) {
+        if (!organicCatRepo.findById(organicCat_id).isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicCat not found " + organicCat_id);
 
-        organicOrganicCatRepo.deleteById(organicOrganicCat_id);
+        organicCatRepo.deleteById(organicCat_id);
     }
 
-    public OrganicDog updateOrganicDog(OrganicDog organicOrganicDog, long organicOrganicDog_id) {
-        final OrganicDog databaseOrganicDog = findOrganicDog(organicOrganicDog_id);
+    public OrganicDog updateOrganicDog(OrganicDog organicDog, long organicDog_id) {
+        final OrganicDog databaseOrganicDog = findOrganicDog(organicDog_id);
 
-        if (organicOrganicDog_id != databaseOrganicDog.getPetID())
+        if (organicDog_id != databaseOrganicDog.getPetID())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Sorry, you may not change the organicOrganicDog_id");
+                    "Sorry, you may not change the organicDog_id");
 
         // Copy the non-ID info from the requestbody to the database object
-        databaseOrganicDog.setName(organicOrganicDog.getName());
+        databaseOrganicDog.setName(organicDog.getName());
 
         // Ask the repo to write the modified student to MySQL (or whatever)
         writeToDatabase(databaseOrganicDog);
@@ -110,15 +110,15 @@ public class ShelterService {
         return databaseOrganicDog;
     }
 
-    public OrganicCat updateOrganicCat(OrganicCat organicOrganicCat, long organicOrganicCat_id) {
-        final OrganicCat databaseOrganicCat = findOrganicCat(organicOrganicCat_id);
+    public OrganicCat updateOrganicCat(OrganicCat organicCat, long organicCat_id) {
+        final OrganicCat databaseOrganicCat = findOrganicCat(organicCat_id);
 
-        if (organicOrganicCat_id != databaseOrganicCat.getPetID())
+        if (organicCat_id != databaseOrganicCat.getPetID())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Sorry, you may not change the organicOrganicCat_id");
+                    "Sorry, you may not change the organicCat_id");
 
         // Copy the non-ID info from the requestbody to the database object
-        databaseOrganicCat.setName(organicOrganicCat.getName());
+        databaseOrganicCat.setName(organicCat.getName());
 
         // Ask the repo to write the modified student to MySQL (or whatever)
         writeToDatabase(databaseOrganicCat);
