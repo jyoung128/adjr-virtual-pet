@@ -28,6 +28,14 @@ public class OrganicShelter{
         this.name = name;
     }
 
+    public long getShelterID() {
+        return shelterId;
+    }
+
+    public void setShelterID(long shelterId) {
+        this.shelterId = shelterId;
+    }
+
     public Map<String, OrganicDog> getAllDogs() {
         return allDogs;
     }
