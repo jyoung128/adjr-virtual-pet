@@ -11,5 +11,8 @@ public abstract class Cat extends Pet{
         super(name);
         
     }
+
+    public Cat(){
+    }
     
 }

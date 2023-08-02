@@ -54,6 +54,9 @@ public abstract class Pet {
     //private List<String> skills;
     private List<Integer> feedingSchedule = new ArrayList<>();
 
+    public Pet(){
+    }
+
     public Pet(String name) {
         this.name = name;
         this.ageInDays = 0;
@@ -95,6 +98,10 @@ public abstract class Pet {
 
     public long getPetID() {
         return petId;
+    }
+
+    public void setPetID(long petId) {
+        this.petId = petId;
     }
 
     /*public String getSkillName(String skill) {
