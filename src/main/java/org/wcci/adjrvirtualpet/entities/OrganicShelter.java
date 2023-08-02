@@ -9,22 +9,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-@Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class OrganicShelter{
+//@Entity
+//@JsonIgnoreProperties(ignoreUnknown = true)
+public class OrganicShelter {
 
-    @Id
-    @GeneratedValue
+    // @Id
+    // @GeneratedValue
     private long shelterId;
 
     private String name;
-    private Map<String, OrganicDog>allDogs = new HashMap<>();
-    private Map<String, OrganicCat>allCats = new HashMap<>();
+    private Map<String, OrganicDog> allDogs = new HashMap<>();
+    private Map<String, OrganicCat> allCats = new HashMap<>();
 
-    public void organicShelter(){
+    public void organicShelter() {
     }
 
-    public void organicShelter(String name){
+    public void organicShelter(String name) {
         this.name = name;
     }
 
@@ -61,19 +61,19 @@ public class OrganicShelter{
     }
 
     // public void summarizeShelter(){
-    //     System.out.println();
-    //     for(P pet : allPets.values())
-    //     {
-    //         System.out.println("Name: "+pet.getName());
-    //         System.out.println("Age: "+pet.ageInYears()+" years");
-    //         System.out.println("Hunger: "+pet.hungerStatus());
-    //         System.out.println("Thirst: "+pet.thirstStatus());
-    //         System.out.println("Energy: "+pet.energyStatus());
-    //         System.out.println("Mood: "+pet.moodStatus());
-    //         System.out.println();
-    //         System.out.println("------------------------------------");
-    //         System.out.println();
-    //     }
+    // System.out.println();
+    // for(P pet : allPets.values())
+    // {
+    // System.out.println("Name: "+pet.getName());
+    // System.out.println("Age: "+pet.ageInYears()+" years");
+    // System.out.println("Hunger: "+pet.hungerStatus());
+    // System.out.println("Thirst: "+pet.thirstStatus());
+    // System.out.println("Energy: "+pet.energyStatus());
+    // System.out.println("Mood: "+pet.moodStatus());
+    // System.out.println();
+    // System.out.println("------------------------------------");
+    // System.out.println();
+    // }
     // }
 
     public void addDog(OrganicDog dog) {
@@ -101,71 +101,61 @@ public class OrganicShelter{
     }
 
     public void feedAllDogs(int amountOfFood) {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.feed(amountOfFood);
         }
     }
 
     public void feedAllCats(int amountOfFood) {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.feed(amountOfFood);
         }
     }
 
     public void waterAllDogs(int amountOfWater) {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.water(amountOfWater);
         }
     }
 
     public void waterAllCats(int amountOfWater) {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.water(amountOfWater);
         }
     }
 
     public void playWithAllDogs() {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.play();
         }
     }
 
     public void playWithAllCats() {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.play();
         }
     }
 
     public void setFeedingScheduleAllDogs(String feedingSchedule) {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.setFeedingSchedule(feedingSchedule);
         }
     }
 
     public void setFeedingScheduleAllCats(String feedingSchedule) {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.setFeedingSchedule(feedingSchedule);
         }
     }
 
     public void removeFeedingScheduleAllDogs() {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.removeFeedingSchedule();
         }
     }
 
     public void removeFeedingScheduleAllCats() {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.removeFeedingSchedule();
         }
     }
@@ -179,29 +169,25 @@ public class OrganicShelter{
     }
 
     public void trainAllDogs(String skill) {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.train(skill);
         }
     }
 
     public void timePassedAllDogs(int hours) {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.timePassed(hours);
         }
     }
 
     public void timePassedAllCats(int hours) {
-        for(OrganicCat cat : allCats.values())
-        {
+        for (OrganicCat cat : allCats.values()) {
             cat.timePassed(hours);
         }
     }
 
     public void walkAllDogs() {
-        for(OrganicDog dog : allDogs.values())
-        {
+        for (OrganicDog dog : allDogs.values()) {
             dog.walk();
         }
     }
