@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
+import org.wcci.adjrvirtualpet.entities.OrganicShelter;
 import org.wcci.adjrvirtualpet.services.ShelterService;
 
 @RestController
