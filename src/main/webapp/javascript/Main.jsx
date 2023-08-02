@@ -12,7 +12,6 @@ function Layout() {
       <nav>
         <Link to="/">Main</Link>
         <Link to="/Test">Test</Link>
-        <Link to="/CreatePet">Test</Link>
       </nav>
       <Outlet />
     </>
@@ -28,8 +27,8 @@ function Main() {
             path="/app4?/src?/main?/resources?/static?/index.html?"
             element={<Layout />}
           >
+            <Route index element={<CreatePet />} />
             <Route path="Test" element={<Test />} />
-            <Route path="CreatePet" element={<CreatePet />} />
           </Route>
         </Routes>
       </BrowserRouter>
