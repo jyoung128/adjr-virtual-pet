@@ -26,22 +26,38 @@ export default function CreatePet() {
   };
 
   const postDog = () => {
-      fetch("api/organicDogs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(petName),
+    fetch("api/organicDogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(petName),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Activity saved successfully!");
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          console.log("Activity saved successfully!");
-        })
-        .catch((error) => {
-          console.error("Error saving activity:", error);
-        });
-    };
-  
+      .catch((error) => {
+        console.error("Error saving activity:", error);
+      });
+  };
+
+  const postCat = () => {
+    fetch("api/organicCats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(petName),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Activity saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving activity:", error);
+      });
+  };
 
   return (
     <div>
@@ -86,6 +102,7 @@ export default function CreatePet() {
         <div>{temperament}</div>
         <div>{shelterName}</div>
         <button onClick={postDog}>Create Dog</button>
+        <button onClick={postCat}>Create Cat</button>
       </div>
     </div>
   );
