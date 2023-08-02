@@ -5,7 +5,7 @@ export default function Test() {
   const getDog = () => {
     const ID = document.getElementById('text').value;
     console.log(ID);
-    fetch(`api/organicDogs/{ID}`, { method: "GET", cache: "default" })
+    fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => {
         console.log(responseBody);
