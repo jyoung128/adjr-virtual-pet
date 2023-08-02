@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +38,8 @@ public class OrganicShelter {
     }
 
     public Map<String, OrganicDog> getAllDogs() {
+
+        String mapAsString = new ObjectMapper().writeValueAsString(allDogs);
         return allDogs;
     }
 
@@ -45,6 +48,8 @@ public class OrganicShelter {
     }
 
     public Map<String, OrganicCat> getAllCats() {
+        String mapAsString = new ObjectMapper().writeValueAsString(allCats);
+        
         return allCats;
     }
 
