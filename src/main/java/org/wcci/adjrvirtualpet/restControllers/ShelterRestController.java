@@ -51,6 +51,14 @@ public class ShelterRestController {
         return CollectionModel.of(organicCats);
     }
 
+    // @GetMapping("/api/organicShelters")
+    // public CollectionModel<EntityModel<OrganicShelter>> getOrganicShelters() {
+    //     List<EntityModel<OrganicShelter>> organicShelters = this.shelterService.organicShelterStream()
+    //             .map(organicShelter -> EntityModel.of(organicShelter))
+    //             .collect(Collectors.toList());
+    //     return CollectionModel.of(organicShelters);
+    // }
+
     @GetMapping("/api/organicDogs/{organicDog_id}")
     public EntityModel<OrganicDog> getOrganicDog(@PathVariable final Long organicDog_id) {
         final OrganicDog organicDog = shelterService.findOrganicDog(organicDog_id);
