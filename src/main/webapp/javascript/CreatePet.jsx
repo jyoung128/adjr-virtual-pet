@@ -25,16 +25,11 @@ export default function CreatePet() {
     setShelterName(target.value);
   };
 
-  function CreateDog() {
-    const newDog = () => {
-      const dogData = {
-        name: petName,
-      };
-
+  const postDog = () => {
       fetch("api/organicDogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dogData),
+        body: JSON.stringify(petName),
       })
         .then((response) => {
           if (!response.ok) {
@@ -46,7 +41,7 @@ export default function CreatePet() {
           console.error("Error saving activity:", error);
         });
     };
-  }
+  
 
   return (
     <div>
@@ -90,7 +85,7 @@ export default function CreatePet() {
         <div>{species}</div>
         <div>{temperament}</div>
         <div>{shelterName}</div>
-        <button onClick={CreateDog}>Create Dog</button>
+        <button onClick={postDog}>Create Dog</button>
       </div>
     </div>
   );
