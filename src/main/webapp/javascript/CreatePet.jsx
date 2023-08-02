@@ -25,6 +25,29 @@ export default function CreatePet() {
     setShelterName(target.value);
   };
 
+  function CreateDog() {
+    const newDog = () => {
+      const dogData = {
+        name: petName,
+      };
+
+      fetch("api/organicDogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dogData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          console.log("Activity saved successfully!");
+        })
+        .catch((error) => {
+          console.error("Error saving activity:", error);
+        });
+    };
+  }
+
   return (
     <div>
       <div>
@@ -67,6 +90,7 @@ export default function CreatePet() {
         <div>{species}</div>
         <div>{temperament}</div>
         <div>{shelterName}</div>
+        <button onClick={CreateDog}>Create Dog</button>
       </div>
     </div>
   );
