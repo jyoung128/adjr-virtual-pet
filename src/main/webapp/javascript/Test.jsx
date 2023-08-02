@@ -83,12 +83,20 @@ export default function Test() {
       .then((responseBody) => {
         setNewName(responseBody.name);
         setNewAge(responseBody.ageInDays);
-        setNewHunger(responseBody.Hunger);
-        setNewThirst(responseBody.Thirst);
+        setNewHunger(responseBody.hunger);
+        setNewThirst(responseBody.thirst);
         setNewEnergy(responseBody.Energy);
         setNewMood(responseBody.Mood);
         setNewCleanliness(responseBody.Cleanliness);
         setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
+        console.log(responseBody.name);
+        console.log(responseBody.ageInDays);
+        console.log(responseBody.Hunger);
+        console.log(responseBody.Thirst);
+        console.log(responseBody.Energy);
+        console.log(responseBody.Mood);
+        console.log(responseBody.Cleanliness);
+        console.log(responseBody.hasBeenRecentlyWalked);
         });
   }
 
@@ -133,7 +141,8 @@ export default function Test() {
     updateDog(ID);
   }
 
-  const adoptDog = (ID) => {
+  const adoptDog = () => {
+    const ID = document.getElementById('text').value;
     fetch(`api/organicDogs/${ID}`, {
         method: "DELETE",
     })
@@ -155,6 +164,7 @@ export default function Test() {
       <input type="text" id='text'/>
       <button onClick={getDog}>Get Dog</button>
       <button onClick={feedDog}>Feed Dog</button>
+      <button onClick={adoptDog}>Adopt Dog</button>
     </div>
   );
 }
