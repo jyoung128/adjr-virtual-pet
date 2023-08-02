@@ -17,7 +17,11 @@ export default function Display() {
           <OrganicDog key={oneDog.petId} organicDog={oneDog} />
         ))}
       </ul>
-      
+      <ul>
+        {organicShelters.map((oneShelter) => (
+            <OrganicShelter key={oneShelter.name} organicShelter={oneShelter} />
+        ))}
+      </ul>
     </div>
   );
 
@@ -53,7 +57,7 @@ export default function Display() {
     return (
         <ul>
             <li key={organicShelter.name}></li>
-            <li>Organic Cats:{organicShelter.allPets}</li>
+            <li>Organic Pets:{organicShelter.allPets}</li>
         </ul>
     )
   }
