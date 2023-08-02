@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
 import '../css/style.css';
 
 import Test from './Test';
+import Display from "./Display";
 
 function Layout() {
     return (
@@ -11,6 +12,8 @@ function Layout() {
             <nav>
                 <Link to="/">Main</Link>
                 <Link to="/Test">Test</Link>
+                <Link to="/Display">Display</Link>
+                
             </nav>
             <Outlet />
         </>
@@ -24,6 +27,7 @@ function Main(){
                 <Routes>
                     <Route path="/app4?/src?/main?/resources?/static?/index.html?" element={<Layout />}>
                         <Route path="Test" element={<Test />} />
+                        <Route path="Display" element={<Display />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
