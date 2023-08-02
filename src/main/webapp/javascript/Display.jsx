@@ -22,7 +22,7 @@ export default function Display() {
 //   const getShelters = () => {
 //     fetch("/api/organicDogs/{organicDog_id}", { method: "GET", cache: "default" })
 //       .then((response) => response.json())
-//       .then((responseBody) => setAllOrganicDogs(responseBody.results));
+//       .then((responseBody) => setAllOrganicShelters(responseBody.results));
 //     return () => {};
 //   };
 
