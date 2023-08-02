@@ -6,14 +6,14 @@ export default function Display() {
   let [organicShelters, setOrganicShelters] = useState([])
 
   const getCats = () => {
-    fetch(`/api/organicDogs/{organicDog_id}`, { method: "GET", cache: "default" })
+    fetch(`/api/organicCats`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicDogs(responseBody.results));
     return () => {};
   };
 
   const getDogs = () => {
-    fetch(`/api/organicCats/{organicCat_id}`, { method: "GET", cache: "default" })
+    fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicCats(responseBody.results));
     return () => {};
