@@ -5,23 +5,54 @@ export default function Display() {
   let [allOrganicCats, setAllOrganicCats] = useState([]);
   let [organicShelters, setOrganicShelters] = useState([])
 
+  const getCats = () => {
+    fetch(`/api/organicDogs/{organicDog_id}`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => setAllOrganicDogs(responseBody.results));
+    return () => {};
+  };
+
+  const getDogs = () => {
+    fetch(`/api/organicCats/{organicCat_id}`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => setAllOrganicCats(responseBody.results));
+    return () => {};
+  };
+
+//   const getShelters = () => {
+//     fetch("/api/organicDogs/{organicDog_id}", { method: "GET", cache: "default" })
+//       .then((response) => response.json())
+//       .then((responseBody) => setAllOrganicDogs(responseBody.results));
+//     return () => {};
+//   };
+
+
   return (
     <div>
+        <div id="cats">
+        <button onClick={getCats}>Show All Cats</button>
       <ul>
         {allOrganicCats.map((oneCat) => (
           <OrganicCat key={oneCat.petId} organicCat={oneCat} />
         ))}
       </ul>
+      </div>
+      <div id="dogs">
+      <button onClick={getDogs}> Show All dogs</button>
       <ul>
         {allOrganicDogs.map((oneDog) => (
           <OrganicDog key={oneDog.petId} organicDog={oneDog} />
         ))}
       </ul>
+      </div>
+      <div id="shelter">
+      {/* <button onClick={getShelters}>All Shelters</button> */}
       <ul>
         {organicShelters.map((oneShelter) => (
-            <OrganicShelter key={oneShelter.name} organicShelter={oneShelter} />
+            <OrganicShelter key={oneShelter.shelterId} organicShelter={oneShelter} />
         ))}
       </ul>
+      </div>
     </div>
   );
 
@@ -56,7 +87,7 @@ export default function Display() {
   function OrganicShelter({organicShelter}){
     return (
         <ul>
-            <li key={organicShelter.name}></li>
+            <li key={organicShelter.shelterId}></li>
             <li>Organic Pets:{organicShelter.allPets}</li>
         </ul>
     )
