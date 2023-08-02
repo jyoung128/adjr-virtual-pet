@@ -18,6 +18,9 @@ public class OrganicCat extends Cat implements Organic{
         this.litterBoxCleanliness = INITIAL_LITTER_BOX_CLEANLINESS;
     }
 
+    public OrganicCat(){
+    }
+
     /** Allow any number of hours to pass */
     public void timePassed(int hours) {
         super.timePassed(hours);

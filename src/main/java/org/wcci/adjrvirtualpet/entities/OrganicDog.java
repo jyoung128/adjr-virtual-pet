@@ -23,6 +23,9 @@ public class OrganicDog extends Dog implements Organic{
         super(name, temperament);
     }
 
+    public OrganicDog(){
+    }
+
     /** Allow any number of hours to pass */
     public void timePassed(int hours) {
         super.timePassed(hours);

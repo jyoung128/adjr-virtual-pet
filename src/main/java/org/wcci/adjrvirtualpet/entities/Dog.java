@@ -11,6 +11,9 @@ public abstract class Dog extends Pet{
         super(name);
         
     }
+    
+    public Dog(){
+    }
 
     public Dog(String name, TEMPERAMENT temperament) {
         super(name, temperament);
