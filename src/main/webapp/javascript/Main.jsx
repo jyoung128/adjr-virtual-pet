@@ -32,6 +32,7 @@ function Main() {
           >
             <Route path="Test" element={<Test />} />
             <Route path="CreatePet" element={<CreatePet />} />
+            <Route path="Display" element={<Display />} />
           </Route>
         </Routes>
       </BrowserRouter>
