@@ -12,10 +12,12 @@ export default function Test() {
         });
   };
 
-  const newDog = () => {
+
+
+  /*const newDog = () => {
 
     const dogData = {
-      name: "kjvndf",
+      name: document.getElementById({NAME INPUT ID HERE}).value,
       ageInDays: 69,
       Hunger: 0,
       thirst: 0,
@@ -23,6 +25,33 @@ export default function Test() {
       mood: 7,
       cageCleanliness: 100,
       hasBeenRecentlyWalked: false,
+    };
+
+    fetch('api/organicDogs', { method: "POST", headers: {
+        "Content-Type": "application/json",
+      }, body: JSON.stringify(dogData), })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Activity saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving activity:", error);
+      });
+  };*/
+
+  const newDog = () => {
+
+    const dogData = {
+      name: document.getElementById("name-input").value,
+      ageInDays: document.getElementById("age-input").value,
+      Hunger: document.getElementById("hunger-input").value,
+      thirst: document.getElementById("thirst-input").value,
+      energy: document.getElementById("energy-input").value,
+      mood: document.getElementById("mood-input").value,
+      cageCleanliness: document.getElementById("cage-input").value,
+      hasBeenRecentlyWalked: document.getElementById("been-walked-input").value,
     };
 
     fetch('api/organicDogs', { method: "POST", headers: {
