@@ -23,12 +23,12 @@ export default function Test() {
 
 
 
-  /*const newDog = () => {
+  const newDog = () => {
 
     const dogData = {
-      name: document.getElementById({NAME INPUT ID HERE}).value,
+      name: "Spot",
       ageInDays: 69,
-      Hunger: 0,
+      Hunger: 20,
       thirst: 0,
       energy: 10,
       mood: 7,
@@ -48,9 +48,9 @@ export default function Test() {
       .catch((error) => {
         console.error("Error saving activity:", error);
       });
-  };*/
+  };
 
-  const newDog = () => {
+  /*const newDog = () => {
 
     const dogData = {
       name: document.getElementById("name-input").value,
@@ -75,7 +75,7 @@ export default function Test() {
       .catch((error) => {
         console.error("Error saving activity:", error);
       });
-  };
+  };*/
 
   const setValuesForUpdate = (ID) => {
     fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
@@ -124,6 +124,15 @@ export default function Test() {
 
   }
 
+  const feedDog = () => {
+    const ID = document.getElementById('text').value;
+    setValuesForUpdate(ID);
+    console.log(newHunger);
+    setNewHunger(newHunger - 1);
+    console.log(newHunger);
+    updateDog(ID);
+  }
+
   const adoptDog = (ID) => {
     fetch(`api/organicDogs/${ID}`, {
         method: "DELETE",
@@ -145,6 +154,7 @@ export default function Test() {
       <button onClick={newDog}>New Dog</button>
       <input type="text" id='text'/>
       <button onClick={getDog}>Get Dog</button>
+      <button onClick={feedDog}>Feed Dog</button>
     </div>
   );
 }
