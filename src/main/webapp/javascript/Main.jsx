@@ -21,21 +21,22 @@ function Layout() {
   );
 }
 
-function Main(){
-    return(
-        <React.StrictMode>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/app4?/src?/main?/resources?/static?/index.html?" element={<Layout />}>
-                        <Route path="Test" element={<Test />} />
-                        <Route path="CreatePet" element={<CreatePet />} />
-                        <Route path="Display" element={<Display />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </React.StrictMode>
-    );
-
-    }
+function Main() {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/app4?/src?/main?/resources?/static?/index.html?"
+            element={<Layout />}
+          >
+            <Route path="Test" element={<Test />} />
+            <Route path="CreatePet" element={<CreatePet />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+}
 
 createRoot(document.getElementById("react-mountpoint")).render(<Main />);
