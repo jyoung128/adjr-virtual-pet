@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 
 export default function Test() {
 
+  const [newName, setNewName] = useState("");
+  const [newAge, setNewAge] = useState();
+  const [newHunger, setNewHunger] = useState();
+  const [newThirst, setNewThirst] = useState();
+  const [newEnergy, setNewEnergy] = useState();
+  const [newMood, setNewMood] = useState();
+  const [newCleanliness, setNewCleanliness] = useState();
+  const [newHasBeenWalked, setNewHasBeenWalked] = useState();
+
   const getDog = () => {
     const ID = document.getElementById('text').value;
     console.log(ID);
@@ -66,6 +75,68 @@ export default function Test() {
       .catch((error) => {
         console.error("Error saving activity:", error);
       });
+  };
+
+  const setValuesForUpdate = (ID) => {
+    fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => {
+        setNewName(responseBody.name);
+        setNewAge(responseBody.ageInDays);
+        setNewHunger(responseBody.Hunger);
+        setNewThirst(responseBody.Thirst);
+        setNewEnergy(responseBody.Energy);
+        setNewMood(responseBody.Mood);
+        setNewCleanliness(responseBody.Cleanliness);
+        setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
+        });
+  }
+
+  const updateDog = (ID) => {
+    const activityInfo = document.getElementById(`activity-number-${ID}`);
+    const data = {
+      name: newName,
+      ageInDays: newAge,
+      Hunger: newHunger,
+      Thirst: newThirst,
+      energy: newEnergy,
+      mood: newMood,
+      cageCleanliness: newCleanliness,
+      hasBeenRecentlyWalked: newHasBeenWalked,
+    }
+
+    fetch(`api/organicDogs/${ID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog updated successfully!");
+    })
+    .catch((error) => {
+        console.error("Error updating dog:", error);
+    });
+
+  }
+
+  const adoptDog = (ID) => {
+    fetch(`api/organicDogs/${ID}`, {
+        method: "DELETE",
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        console.log("Dog adopted successfully!");
+    })
+    .catch((error) => {
+        console.error("Error adopting dog:", error);
+    });
   };
 
   return (
