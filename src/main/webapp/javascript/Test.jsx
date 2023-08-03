@@ -78,6 +78,7 @@ export default function Test() {
   };*/
 
   const setValuesForUpdate = (ID) => {
+    console.log("3");
     fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => {
@@ -85,30 +86,22 @@ export default function Test() {
         setNewAge(responseBody.ageInDays);
         setNewHunger(responseBody.hunger);
         setNewThirst(responseBody.thirst);
-        setNewEnergy(responseBody.Energy);
-        setNewMood(responseBody.Mood);
+        setNewEnergy(responseBody.energy);
+        setNewMood(responseBody.mood);
         setNewCleanliness(responseBody.Cleanliness);
         setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
-        console.log(responseBody.name);
-        console.log(responseBody.ageInDays);
-        console.log(responseBody.Hunger);
-        console.log(responseBody.Thirst);
-        console.log(responseBody.Energy);
-        console.log(responseBody.Mood);
-        console.log(responseBody.Cleanliness);
-        console.log(responseBody.hasBeenRecentlyWalked);
         });
   }
 
   const updateDog = (ID) => {
-    const activityInfo = document.getElementById(`activity-number-${ID}`);
+    console.log("7");
     const data = {
-      name: "Spot",
-      ageInDays: 420,
-      hunger: 0,
-      thirst: 69,
-      energy: 69,
-      mood: 69,
+      name: newName,
+      ageInDays: newAge,
+      hunger: newHunger,
+      thirst: newThirst,
+      energy: newEnergy,
+      mood: newMood,
       cageCleanliness: newCleanliness,
       hasBeenRecentlyWalked: newHasBeenWalked,
     }
@@ -133,12 +126,16 @@ export default function Test() {
   }
 
   const feedDog = () => {
+    console.log("1");
     const ID = document.getElementById('text').value;
+    console.log("2");
     setValuesForUpdate(ID);
-    console.log(newHunger);
-    setNewHunger(newHunger - 1);
-    console.log(newHunger);
+    console.log("4");
+    console.log("5: " + newHunger);
+    setNewHunger(newHunger - 15);
+    console.log("6: " + newHunger);
     updateDog(ID);
+    console.log("8");
   }
 
   const adoptDog = () => {
