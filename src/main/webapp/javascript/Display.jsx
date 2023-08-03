@@ -68,11 +68,11 @@ function OrganicDogs(){
     return (
       <div>
         <button onClick={getDogs}>Show All Dogs</button>
-        <ul>
+        <div id='list-of-dogs'>
           {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
             <OrganicDog key={oneDog.petId} organicDog={oneDog} />
           ))}
-        </ul>
+        </div>
       </div>
     );
   } else {
@@ -205,15 +205,54 @@ function OrganicCat({ organicCat }) {
 
 function OrganicDog({ organicDog }) {
   return (
-    <>
-      <li key={organicDog.petID}></li>
+    <ul id={`dog-number-${organicDog.petID}`}>
       <li>Name:{organicDog.name}</li>
       <li>Hunger:{organicDog.hunger}</li>
       <li>Thirst:{organicDog.thirst}</li>
       <li>mood:{organicDog.mood}</li>
-    </>
+
+      <div id={`dog-number-${organicDog.id}-buttons`}>
+        <a>Edit</a>
+        <a>Delete</a>
+      </div>
+    </ul>
   );
 }
+
+//THIS IS JUST HERE FOR DAWSON'S REFERENCE, WILL BE DELETED:
+/*
+function displaySearchResult(activity) {
+        const searchResults = document.getElementById('search-results');
+        const activityData = document.createElement('ul');
+
+        for (const key in activity) {
+            const item = document.createElement('li');
+            item.textContent = `${key}: ${activity[key]}`;
+            activityData.appendChild(item);
+        }
+
+        const buttons = document.createElement('div');
+
+        const editLink = document.createElement('a');
+        editLink.onclick = () => makeActivityEditable(activity.activityID);
+        editLink.textContent = 'Edit';
+        buttons.appendChild(editLink);
+
+        const deleteLink = document.createElement('a');
+        deleteLink.onclick = () => promptDelete(activity.activityID);
+        deleteLink.textContent = 'Delete';
+        buttons.appendChild(deleteLink);
+    
+        buttons.id = `activity-number-${activity.activityID}-buttons`;
+        activityData.appendChild(buttons);
+
+        activityData.onmouseover = () => mouseOverSearchResult(activity.activityID);
+        activityData.onmouseout = () => mouseLeavesSearchResult(activity.activityID);
+        activityData.id = `activity-number-${activity.activityID}`;
+        searchResults.appendChild(activityData);
+    }
+*/
+//END OF REFERENCE
 
 // function OrganicShelter({ organicShelter }) {
 //   return (

@@ -35,3 +35,9 @@ input[type=text]{
 body{
     font-family: 'Rubik Mono One', sans-serif;
 }
+
+#list-of-dogs ul a {
+    margin-left: 5px;
+    color: blue;
+    cursor: pointer;
+}
