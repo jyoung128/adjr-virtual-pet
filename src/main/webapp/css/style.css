@@ -40,6 +40,7 @@ body{
     animation: animateBackground 60s linear infinite alternate;
 }
 
+
 @keyframes animateBackground{
     from {
         background-position: 0 0;
@@ -62,4 +63,16 @@ nav a{
     margin-left: 1em;
     margin-right: 1em;
     
+}
+
+#list-of-dogs ul a {
+    margin-left: 5px;
+    color: blue;
+    cursor: pointer;
+}
+
+#list-of-dogs ul a {
+    margin-left: 5px;
+    color: blue;
+    cursor: pointer;
 }

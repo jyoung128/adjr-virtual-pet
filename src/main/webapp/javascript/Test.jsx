@@ -120,7 +120,7 @@ export default function Test() {
 
   }
 
-  const feedWaterDog = async (fieldToEdit) => {
+  const changeDogState = async (fieldToEdit) => {
     const ID = document.getElementById('text').value;
     const data = await setValuesForUpdate(ID);
     
@@ -153,8 +153,8 @@ export default function Test() {
       <button onClick={newDog}>New Dog</button>
       <input type="text" id='text'/>
       <button onClick={getDog}>Get Dog</button>
-      <button onClick={() => feedWaterDog("hunger")}>Feed Dog</button>
-      <button onClick={() => feedWaterDog("thirst")}>Water Dog</button>
+      <button onClick={() => changeDogState("hunger")}>Feed Dog</button>
+      <button onClick={() => changeDogState("thirst")}>Water Dog</button>
       <button onClick={adoptDog}>Adopt Dog</button>
     </div>
   );
