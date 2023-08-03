@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 // import org.wcci.adjrvirtualpet.OrganicShelter;
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
+import org.wcci.adjrvirtualpet.entities.OrganicShelter;
 
 public class OrganicShelterTest {
     @Test
