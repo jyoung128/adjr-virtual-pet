@@ -77,41 +77,29 @@ export default function Test() {
       });
   };*/
 
-  const setValuesForUpdate = (ID) => {
-    fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
-      .then((response) => response.json())
-      .then((responseBody) => {
-        setNewName(responseBody.name);
-        setNewAge(responseBody.ageInDays);
-        setNewHunger(responseBody.hunger);
-        setNewThirst(responseBody.thirst);
-        setNewEnergy(responseBody.Energy);
-        setNewMood(responseBody.Mood);
-        setNewCleanliness(responseBody.Cleanliness);
-        setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
-        console.log(responseBody.name);
-        console.log(responseBody.ageInDays);
-        console.log(responseBody.Hunger);
-        console.log(responseBody.Thirst);
-        console.log(responseBody.Energy);
-        console.log(responseBody.Mood);
-        console.log(responseBody.Cleanliness);
-        console.log(responseBody.hasBeenRecentlyWalked);
-        });
+  const setValuesForUpdate = async (ID) => {
+    const response = await fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" });
+    const responseBody = await response.json();
+        return responseBody;
   }
 
-  const updateDog = (ID) => {
-    const activityInfo = document.getElementById(`activity-number-${ID}`);
-    const data = {
-      name: "Spot",
-      ageInDays: 420,
-      hunger: 0,
-      thirst: 69,
-      energy: 69,
-      mood: 69,
-      cageCleanliness: newCleanliness,
-      hasBeenRecentlyWalked: newHasBeenWalked,
+  /*const setValuesForUpdate = async (ID) => {
+    try {
+      const response = await fetch(`api/organicDogs/${ID}`, {
+        method: "GET",
+        cache: "default",
+      });
+      const responseBody = await response.json();
+      setNewName(responseBody.name);
+      setNewHunger(responseBody.hunger);
+      // ... set other state variables ...
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  };*/
+
+  const updateDog = (ID, data) => {
+    console.log("7");
 
     fetch(`api/organicDogs/${ID}`, {
       method: "PUT",
@@ -132,13 +120,15 @@ export default function Test() {
 
   }
 
-  const feedDog = () => {
+  const feedWaterDog = async (fieldToEdit) => {
     const ID = document.getElementById('text').value;
-    setValuesForUpdate(ID);
-    console.log(newHunger);
-    setNewHunger(newHunger - 1);
-    console.log(newHunger);
-    updateDog(ID);
+    const data = await setValuesForUpdate(ID);
+    
+    console.log(fieldToEdit + " before was " + data[fieldToEdit]);
+    data[fieldToEdit] = data[fieldToEdit] - 15;
+    console.log(fieldToEdit + " now is " + data[fieldToEdit]);
+    
+    updateDog(ID, data);
   }
 
   const adoptDog = () => {
@@ -163,7 +153,8 @@ export default function Test() {
       <button onClick={newDog}>New Dog</button>
       <input type="text" id='text'/>
       <button onClick={getDog}>Get Dog</button>
-      <button onClick={feedDog}>Feed Dog</button>
+      <button onClick={() => feedWaterDog("hunger")}>Feed Dog</button>
+      <button onClick={() => feedWaterDog("thirst")}>Water Dog</button>
       <button onClick={adoptDog}>Adopt Dog</button>
     </div>
   );
