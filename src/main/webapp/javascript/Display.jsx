@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function Display() {
-  let [organicShelters, setOrganicShelters] = useState([]);
+  
 
   return (
     <div>
@@ -12,21 +12,13 @@ export default function Display() {
         <OrganicDogs />
       </div>
       <div id="shelter">
-        {/* <button onClick={getShelters}>All Shelters</button> */}
-        <ul>
-          {organicShelters.map((oneShelter) => (
-            <OrganicShelter
-              key={oneShelter.shelterId}
-              organicShelter={oneShelter}
-            />
-          ))}
-        </ul>
+        <OrganicShelter />
       </div>
     </div>
   );
 }
 
-function OrganicCats(){
+function OrganicCats() {
   let [allOrganicCats, setAllOrganicCats] = useState([]);
 
   function getCats() {
@@ -48,13 +40,11 @@ function OrganicCats(){
       </div>
     );
   } else {
-    return (
-      <button onClick={getCats}>Show All Cats</button>
-    )
+    return <button onClick={getCats}>Show All Cats</button>;
   }
 }
 
-function OrganicDogs(){
+function OrganicDogs() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
 
   function getDogs() {
@@ -76,15 +66,35 @@ function OrganicDogs(){
       </div>
     );
   } else {
-    return (
-      <button onClick={getDogs}>Show All Dogs</button>
-    )
+    return <button onClick={getDogs}>Show All Dogs</button>;
   }
 }
 
+function OrganicShelter() {
+  let [organicShelters, setOrganicShelters] = useState([]);
 
+  function getShelters() {
+    fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => setOrganicShelters(responseBody.results));
+    return () => {};
+  }
 
-
+  if (organicShelters && organicShelters._embedded) {
+  return (
+    <div>
+      <button onClick={getShelters}>Show All Shelters</button>
+      <ul>
+        {organicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+          <ListOrganicShelter key={oneShelter.shelterIdId} organicShelters={oneShelter} />
+        ))}
+      </ul>
+    </div>
+  );
+} else {
+  return <button onClick={getShelters}>Show All Shelters</button>;
+}
+}
 
 // function getDogs() {
 //   fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
@@ -105,13 +115,7 @@ function OrganicDogs(){
 //     );
 //   }
 // }
-// //   const getShelters = () => {
-// //     fetch("/api/organicDogs/{organicDog_id}", { method: "GET", cache: "default" })
-// //       .then((response) => response.json())
-// //       .then((responseBody) => setAllOrganicShelters(responseBody.results));
-// //     return () => {};
-// //   };
-
+  
 function OrganicCat({ organicCat }) {
   return (
     <>
@@ -136,11 +140,12 @@ function OrganicDog({ organicDog }) {
   );
 }
 
-// function OrganicShelter({ organicShelter }) {
-//   return (
-//     <ul>
-//       <li key={organicShelter.shelterId}></li>
-//       <li>Organic Pets:{organicShelter.allPets}</li>
-//     </ul>
-//   );
-// }
+function ListOrganicShelter({ organicShelter }) {
+  return (
+    <ul>
+      <li key={organicShelter.shelterId}></li>
+      <li>Organic Pets:{organicShelter.allPets}</li>
+    </ul>
+  );
+}
+
