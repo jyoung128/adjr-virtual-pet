@@ -112,10 +112,10 @@ export default function CreatePet() {
             value={shelterName}
             onChange={handleShelterNameChange}
           ></input>
-        </form>
         <button onClick={postDog}>Create Dog</button>
         <button onClick={postCat}>Create Cat</button>
         <button onClick={postShelter}>Create Shelter</button>
+        </form>
       </div>
       <div>
         <div>{petName}</div>
