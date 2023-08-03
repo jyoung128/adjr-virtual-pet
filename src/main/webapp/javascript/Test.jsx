@@ -82,6 +82,7 @@ export default function Test() {
     fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => {
+        console.log("3.25");
         setNewName(responseBody.name);
         setNewAge(responseBody.ageInDays);
         setNewHunger(responseBody.hunger);
