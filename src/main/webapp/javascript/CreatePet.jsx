@@ -60,10 +60,10 @@ export default function CreatePet() {
   };
 
   const postShelter = () => {
-    fetch("/api/organicShelters", {
+    fetch("api/organicShelters", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(shelterName),
+      body: JSON.stringify({ name: shelterName }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -112,10 +112,10 @@ export default function CreatePet() {
             value={shelterName}
             onChange={handleShelterNameChange}
           ></input>
-          <button onClick={postDog}>Create Dog</button>
-          <button onClick={postCat}>Create Cat</button>
-          <button onClick={postShelter}>Create Shelter</button>
         </form>
+        <button onClick={postDog}>Create Dog</button>
+        <button onClick={postCat}>Create Cat</button>
+        <button onClick={postShelter}>Create Shelter</button>
       </div>
       <div>
         <div>{petName}</div>
