@@ -4,35 +4,100 @@ export default function Display() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
   let [allOrganicCats, setAllOrganicCats] = useState([]);
   let [organicShelters, setOrganicShelters] = useState([]);
+  const [organicCatID, setOrganicCatID] = useState([]);
+  const [organicCatIDIndex, setOrganicCatIDIndex] = useState(0);
+  const [organicCat, setOrganicCat] = useState({
+    name: "",
+    hunger: "",
+    thirst: "",
+    energy: "",
+  });
+
+  function getCats() {
+    fetch(`/api/organicCats`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) =>
+        setOrganicCatID(responseBody._embedded.organicCatList.petID)
+      );
+    return () => {};
+  }
+
+  const getCat = () => {
+    fetch(`api/organicCats/` + organicCatID[organicCatIDIndex], {
+      method: "GET",
+      cache: "default",
+    })
+      .then((response) => response.json())
+      .then((responseBody) =>
+        setOrganicCat({
+          name: responseBody.name,
+          hunger: responseBody.hunger,
+          thirst: responseBody.thirst,
+          energy: responseBody.energy,
+        })
+      );
+  };
+
+  // useEffect(() => {
+  //   if (organicCatID) {
+  //     fetch(`api/organicCats/${organicCatID[organicCatIDIndex]}`, {
+  //       method: "GET",
+  //       cache: "default",
+  //     })
+  //       .then((response) => response.json())
+  //       .then((responseBody) =>
+  //         setOrganicCat({
+  //           name: responseBody.name,
+  //           hunger: responseBody.hunger,
+  //           thirst: responseBody.thirst,
+  //           energy: responseBody.energy,
+  //         })
+  //       );
+  //   }
+
+  //   return () => {};
+  // }, [organicCatID, organicCatIDIndex]);
+
+  function DisplayCats() {
+    function OrganicCat({ organicCat }) {
+      return (
+        <>
+          <li key={organicCat.petID}></li>
+          <li>Name:{organicCat.name}</li>
+          <li>Hunger:{organicCat.hunger}</li>
+          <li>Thirst:{organicCat.thirst}</li>
+          <li>mood:{organicCat.mood}</li>
+        </>
+      );
+    }
+
+    return (
+      <div>
+        <div>
+          <ul>
+            {allOrganicCats["_embedded"]["organicCatList"].map((oneCat) => (
+              <OrganicCat key={oneCat.petID} organicCat={oneCat} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div id="cats">
-        <button onClick={getCats}>Show All Cats</button>
-      </div>
-      <div id="dogs">
-        <button onClick={getDogs}> Show All dogs</button>
-      </div>
-      <div id="shelter">
-        {/* <button onClick={getShelters}>All Shelters</button> */}
-        <ul>
-          {organicShelters.map((oneShelter) => (
-            <OrganicShelter
-              key={oneShelter.shelterId}
-              organicShelter={oneShelter}
-            />
-          ))}
-        </ul>
+      <div>
+        <button onClick={getCats}>Get list of all cats</button>
+        <button onClick={getCat}>Get first cat</button>
+        <div>{JSON.stringify(organicCatID)}</div>
+        <div>{organicCat.name}</div>
+        <div>{organicCat.energy}</div>
+        <div>{organicCat.hunger}</div>
+        <div>{organicCat.thirst}</div>
       </div>
     </div>
   );
 }
-//   function getCats() {
-//     fetch(`/api/organicCats`, { method: "GET", cache: "default" })
-//       .then((response) => response.json())
-//       .then((responseBody) => setAllOrganicCats(responseBody));
-//     return () => {};
-//   }
 
 //   if (allOrganicCats && allOrganicCats._embedded) {
 //     return (
@@ -74,18 +139,6 @@ export default function Display() {
 // //       .then((responseBody) => setAllOrganicShelters(responseBody.results));
 // //     return () => {};
 // //   };
-
-// function OrganicCat({ organicCat }) {
-//   return (
-//     <>
-//       <li key={organicCat.petID}></li>
-//       <li>Name:{organicCat.name}</li>
-//       <li>Hunger:{organicCat.hunger}</li>
-//       <li>Thirst:{organicCat.thirst}</li>
-//       <li>mood:{organicCat.mood}</li>
-//     </>
-//   );
-// }
 
 // function OrganicDog({ organicDog }) {
 //   return (
