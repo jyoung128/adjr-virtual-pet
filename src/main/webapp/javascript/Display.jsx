@@ -141,7 +141,7 @@ const makeDogEditable = (ID) => {
 
         const cancelButton = buttons.querySelector('a:nth-child(2)');
         cancelButton.textContent = 'Delete';
-        //cancelButton.onclick = () => promptDelete(ID);
+        cancelButton.onclick = () => adoptDog(ID);
     }
 
     const updateDogName = (ID) => {
@@ -169,6 +169,24 @@ const makeDogEditable = (ID) => {
 
       makeDogUneditable(ID);
   }
+
+  const adoptDog = (ID) => {
+    fetch(`api/organicDogs/${ID}`, {
+        method: "DELETE",
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        console.log("Dog adopted successfully!");
+    })
+    .catch((error) => {
+        console.error("Error adopting dog:", error);
+    });
+
+    const dog = document.getElementById(`dog-number-${ID}`);
+    dog.parentNode.removeChild(dog);
+  };
 
 
 
@@ -222,7 +240,7 @@ function OrganicDog({ organicDog }) {
 
       <div id={`dog-number-${organicDog.id}-buttons`}>
         <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-        <a>Delete</a>
+        <a onClick={() => adoptDog(organicDog.petID)}>Delete</a>
       </div>
     </ul>
   );
