@@ -181,4 +181,42 @@ public class ShelterService {
 
         return databaseOrganicShelter;
     }
+
+    public void addOrganicDogToShelter(final Long shelter_id, final OrganicDog dog) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.addDog(dog);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void addOrganicCatToShelter(final Long shelter_id, final OrganicCat cat) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.addCat(cat);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void removeOrganicDogFromShelter(final Long shelter_id, final OrganicDog dog) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.removeDog(dog);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void removeOrganicCatFromShelter(final Long shelter_id, final OrganicCat cat) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.removeCat(cat);
+        organicShelterRepo.save(shelter);
+    }
+
+    public Stream<OrganicDog> organicDogStreamForShelter(final long shelter_id) {
+        final Iterable<OrganicDog> dogs = this.findOrganicShelter(shelter_id).getDogs();
+
+        // Standard conversion from iterator to stream.
+        return StreamSupport.stream(dogs.spliterator(), false);
+    }
+
+    public Stream<OrganicCat> organicCatStreamForShelter(final long shelter_id) {
+        final Iterable<OrganicCat> cats = this.findOrganicShelter(shelter_id).getCats();
+
+        // Standard conversion from iterator to stream.
+        return StreamSupport.stream(cats.spliterator(), false);
+    }
 }
