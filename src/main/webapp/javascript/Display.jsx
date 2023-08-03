@@ -87,7 +87,7 @@ function OrganicShelter() {
       <button onClick={getShelters}>Show All Shelters</button>
       <ul>
         {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-          <ListOrganicShelter key={oneShelter.shelterIdId} allOrganicShelters={oneShelter} />
+          <ListOrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
         ))}
       </ul>
       {console.log(JSON.stringify(allOrganicShelters))}
@@ -245,8 +245,9 @@ function OrganicDog({ organicDog }) {
 function ListOrganicShelter({ organicShelter }) {
   return (
     <ul>
-      <li key={organicShelter.shelterId}></li>
-      <li>Organic Pets:{organicShelter.allPets}</li>
+      <li key={organicShelter.shelterID}></li>
+      <li>Organic Dogs:{organicShelter.getDogs}</li>
+      <li>Organic Cats:{organicShelter.getCats}</li>
       <li>Shelter Name:{organicShelter.name}</li>
     </ul>
   );
