@@ -13,7 +13,7 @@
 }
 
 input[type=text]{
-    width: 22em;
+    width: 25em;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -24,7 +24,7 @@ input[type=text]{
 
 .create-pet-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     margin-left: 20%;
     margin-right: 20%;
     background-color: #c6e2e9;
