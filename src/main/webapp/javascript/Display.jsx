@@ -82,6 +82,85 @@ function OrganicDogs(){
   }
 }
 
+//CODE FOR LIST TO TEXTBOX (COPIED DIRECTLY):
+const makeActivityEditable = (ID) => {
+        setSelectedID(ID);
+        console.log(ID);
+        console.log(selectedID);
+        const activityToEdit = document.getElementById(`activity-number-${ID}`)
+
+        const activityInfo = activityToEdit.querySelectorAll('li');
+        activityInfo.forEach(category => {
+            const colonPosition = category.textContent.indexOf(':');
+        
+            const labelText = category.textContent.substring(0, colonPosition).trim();
+            const originalValue = category.textContent.substring(colonPosition + 1).trim();
+            if (labelText === "activityID") {
+                return;
+            }
+
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.value = originalValue;
+
+            category.textContent = '';
+            category.appendChild(document.createTextNode(`${labelText}: `));
+            category.appendChild(inputElement);
+        });
+
+        const buttons = activityToEdit.querySelector('div');
+
+        const editButton = buttons.querySelector('a:first-child');
+        editButton.textContent = 'Save';
+        editButton.onclick = () => promptSave();
+
+        const deleteButton = buttons.querySelector('a:nth-child(2)');
+        deleteButton.textContent = 'Cancel';
+        deleteButton.onclick = () => makeActivityUneditable(ID);
+    }
+
+    const makeActivityUneditable = (ID) => {
+        console.log("Got to the function");
+
+        console.log(ID);
+        fetch(`api/activities/${ID}`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((currentActivity) => {
+            const activityData = {
+                ...currentActivity,
+            };
+
+            const activityToMakeText = document.getElementById(`activity-number-${ID}`)
+
+            const categories = activityToMakeText.querySelectorAll('li');
+            categories.forEach(category => {
+                const colonPosition = category.textContent.indexOf(':');
+                const labelText = category.textContent.substring(0, colonPosition).trim();
+
+                if (labelText === 'activityID') {
+                    return;
+                }
+
+                const inputElement = category.querySelector('input');
+                const originalValue = activityData[labelText];
+                category.removeChild(inputElement);
+                category.textContent = `${labelText}: ${originalValue}`;
+            });
+        });
+
+
+        const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
+
+        const saveButton = buttons.querySelector('a:first-child');
+        saveButton.textContent = 'Edit';
+        saveButton.onclick = () => makeActivityEditable(ID);
+
+        const cancelButton = buttons.querySelector('a:nth-child(2)');
+        cancelButton.textContent = 'Delete';
+        cancelButton.onclick = () => promptDelete(ID);
+    }
+//END OF CODE FOR LIST TO TEXTBOX
+
 
 
 
