@@ -77,36 +77,29 @@ export default function Test() {
       });
   };*/
 
-  const setValuesForUpdate = (ID) => {
-    console.log("3");
-    fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
-      .then((response) => response.json())
-      .then((responseBody) => {
-        console.log("3.25");
-        setNewName(responseBody.name);
-        setNewAge(responseBody.ageInDays);
-        setNewHunger(responseBody.hunger);
-        setNewThirst(responseBody.thirst);
-        setNewEnergy(responseBody.energy);
-        setNewMood(responseBody.mood);
-        setNewCleanliness(responseBody.Cleanliness);
-        setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
-        console.log("3.5: New name is " + newName);
-        });
+  const setValuesForUpdate = async (ID) => {
+    const response = await fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" });
+    const responseBody = await response.json();
+        return responseBody;
   }
 
-  const updateDog = (ID) => {
-    console.log("7");
-    const data = {
-      name: newName,
-      ageInDays: newAge,
-      hunger: newHunger,
-      thirst: newThirst,
-      energy: newEnergy,
-      mood: newMood,
-      cageCleanliness: newCleanliness,
-      hasBeenRecentlyWalked: newHasBeenWalked,
+  /*const setValuesForUpdate = async (ID) => {
+    try {
+      const response = await fetch(`api/organicDogs/${ID}`, {
+        method: "GET",
+        cache: "default",
+      });
+      const responseBody = await response.json();
+      setNewName(responseBody.name);
+      setNewHunger(responseBody.hunger);
+      // ... set other state variables ...
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  };*/
+
+  const updateDog = (ID, data) => {
+    console.log("7");
 
     fetch(`api/organicDogs/${ID}`, {
       method: "PUT",
@@ -127,17 +120,15 @@ export default function Test() {
 
   }
 
-  const feedDog = () => {
-    console.log("1");
+  const feedWaterDog = async (fieldToEdit) => {
     const ID = document.getElementById('text').value;
-    console.log("2: " + ID);
-    setValuesForUpdate(ID);
-    console.log("4");
-    console.log("5: hunger before was " + newHunger);
-    setNewHunger(newHunger - 15);
-    console.log("6: hunger now is " + newHunger);
-    updateDog(ID);
-    console.log("8");
+    const data = await setValuesForUpdate(ID);
+    
+    console.log(fieldToEdit + " before was " + data[fieldToEdit]);
+    data[fieldToEdit] = data[fieldToEdit] - 15;
+    console.log(fieldToEdit + " now is " + data[fieldToEdit]);
+    
+    updateDog(ID, data);
   }
 
   const adoptDog = () => {
@@ -162,7 +153,8 @@ export default function Test() {
       <button onClick={newDog}>New Dog</button>
       <input type="text" id='text'/>
       <button onClick={getDog}>Get Dog</button>
-      <button onClick={feedDog}>Feed Dog</button>
+      <button onClick={() => feedWaterDog("hunger")}>Feed Dog</button>
+      <button onClick={() => feedWaterDog("thirst")}>Water Dog</button>
       <button onClick={adoptDog}>Adopt Dog</button>
     </div>
   );
