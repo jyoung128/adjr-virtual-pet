@@ -345,7 +345,7 @@ public class ShelterRestControllerTest extends HateoasHelper {
 
                 final MvcResult secondGetResult = this.mvc
                                 .perform(MockMvcRequestBuilders
-                                                .get("/api/organicShelters" + createdShelter.getShelterID())
+                                                .get("/api/organicShelters/" + createdShelter.getShelterID())
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .accept(MediaTypes.HAL_JSON))
                                 .andExpect(status().isOk())
