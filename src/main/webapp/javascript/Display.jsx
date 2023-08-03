@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 export default function Display() {
-  let [organicShelters, setOrganicShelters] = useState([]);
-
   const [selectedID, setSelectedID] = useState(0);
 
   return (
@@ -14,21 +12,13 @@ export default function Display() {
         <OrganicDogs />
       </div>
       <div id="shelter">
-        {/* <button onClick={getShelters}>All Shelters</button> */}
-        <ul>
-          {organicShelters.map((oneShelter) => (
-            <OrganicShelter
-              key={oneShelter.shelterId}
-              organicShelter={oneShelter}
-            />
-          ))}
-        </ul>
+        <OrganicShelter />
       </div>
     </div>
   );
 }
 
-function OrganicCats(){
+function OrganicCats() {
   let [allOrganicCats, setAllOrganicCats] = useState([]);
 
   function getCats() {
@@ -50,13 +40,11 @@ function OrganicCats(){
       </div>
     );
   } else {
-    return (
-      <button onClick={getCats}>Show All Cats</button>
-    )
+    return <button onClick={getCats}>Show All Cats</button>;
   }
 }
 
-function OrganicDogs(){
+function OrganicDogs() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
 
   function getDogs() {
@@ -78,10 +66,36 @@ function OrganicDogs(){
       </div>
     );
   } else {
-    return (
-      <button onClick={getDogs}>Show All Dogs</button>
-    )
+    return <button onClick={getDogs}>Show All Dogs</button>;
   }
+}
+
+function OrganicShelter() {
+  let [allOrganicShelters, setAllOrganicShelters] = useState([]);
+
+  function getShelters() {
+    fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => setAllOrganicShelters(responseBody));
+      console.log(allOrganicShelters);
+    return () => {};
+  }
+
+  if (allOrganicShelters && allOrganicShelters._embedded) {
+  return (
+    <div>
+      <button onClick={getShelters}>Show All Shelters</button>
+      <ul>
+        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+          <ListOrganicShelter key={oneShelter.shelterIdId} allOrganicShelters={oneShelter} />
+        ))}
+      </ul>
+      {console.log(JSON.stringify(allOrganicShelters))}
+    </div>
+  );
+} else {
+  return <button onClick={getShelters}>Show All Shelters</button>;
+}
 }
 
 const makeDogEditable = (ID) => {
@@ -95,9 +109,9 @@ const makeDogEditable = (ID) => {
         const labelText = dogNameInfo.textContent.substring(0, colonPosition).trim();
         const originalValue = dogNameInfo.textContent.substring(colonPosition + 1).trim();
 
-        const inputElement = document.createElement('input');
-        inputElement.type = 'text';
-        inputElement.value = originalValue;
+//         const inputElement = document.createElement('input');
+//         inputElement.type = 'text';
+//         inputElement.value = originalValue;
         inputElement.id = `pet-${ID}-name-textbox`;
 
         dogNameInfo.textContent = '';
@@ -106,14 +120,14 @@ const makeDogEditable = (ID) => {
 
         const buttons = dogToEdit.querySelector('div');
 
-        const editButton = buttons.querySelector('a:first-child');
-        editButton.textContent = 'Save';
-        editButton.onclick = () => updateDogName(ID);
+//         const editButton = buttons.querySelector('a:first-child');
+//         editButton.textContent = 'Save';
+//         editButton.onclick = () => updateDogName(ID);
 
-        const deleteButton = buttons.querySelector('a:nth-child(2)');
-        deleteButton.textContent = 'Cancel';
-        deleteButton.onclick = () => makeDogUneditable(ID);
-    }
+//         const deleteButton = buttons.querySelector('a:nth-child(2)');
+//         deleteButton.textContent = 'Cancel';
+//         deleteButton.onclick = () => makeDogUneditable(ID);
+//     }
 
     const makeDogUneditable = (ID) => {
         console.log(ID);
@@ -189,35 +203,17 @@ const makeDogEditable = (ID) => {
   };
 
 
+        const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
 
+        const saveButton = buttons.querySelector('a:first-child');
+        saveButton.textContent = 'Edit';
+        saveButton.onclick = () => makeActivityEditable(ID);
 
-
-// function getDogs() {
-//   fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
-//     .then((response) => response.json())
-//     .then((responseBody) => setAllOrganicDogs(responseBody));
-//   return () => {};
-//   if (allOrganicDogs && allOrganicDogs._embedded) {
-//     return (
-//       <div>
-//         <button onClick={getDogs}> Show All dogs</button>
-//         <button onClick={getCats}>Show All Cats</button>
-//         <ul>
-//           {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
-//             <OrganicDog key={oneDog.petID} organicDog={oneDog} />
-//           ))}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
-// //   const getShelters = () => {
-// //     fetch("/api/organicDogs/{organicDog_id}", { method: "GET", cache: "default" })
-// //       .then((response) => response.json())
-// //       .then((responseBody) => setAllOrganicShelters(responseBody.results));
-// //     return () => {};
-// //   };
-
+        const cancelButton = buttons.querySelector('a:nth-child(2)');
+        cancelButton.textContent = 'Delete';
+        cancelButton.onclick = () => promptDelete(ID);
+//END OF CODE FOR LIST TO TEXTBOX
+  
 function OrganicCat({ organicCat }) {
   return (
     <>
@@ -240,52 +236,18 @@ function OrganicDog({ organicDog }) {
 
       <div id={`dog-number-${organicDog.id}-buttons`}>
         <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-        <a onClick={() => adoptDog(organicDog.petID)}>Delete</a>
+        <a>Delete</a>
       </div>
     </ul>
   );
 }
 
-//THIS IS JUST HERE FOR DAWSON'S REFERENCE, WILL BE DELETED:
-/*
-function displaySearchResult(activity) {
-        const searchResults = document.getElementById('search-results');
-        const activityData = document.createElement('ul');
-
-        for (const key in activity) {
-            const item = document.createElement('li');
-            item.textContent = `${key}: ${activity[key]}`;
-            activityData.appendChild(item);
-        }
-
-        const buttons = document.createElement('div');
-
-        const editLink = document.createElement('a');
-        editLink.onclick = () => makeActivityEditable(activity.activityID);
-        editLink.textContent = 'Edit';
-        buttons.appendChild(editLink);
-
-        const deleteLink = document.createElement('a');
-        deleteLink.onclick = () => promptDelete(activity.activityID);
-        deleteLink.textContent = 'Delete';
-        buttons.appendChild(deleteLink);
-    
-        buttons.id = `activity-number-${activity.activityID}-buttons`;
-        activityData.appendChild(buttons);
-
-        activityData.onmouseover = () => mouseOverSearchResult(activity.activityID);
-        activityData.onmouseout = () => mouseLeavesSearchResult(activity.activityID);
-        activityData.id = `activity-number-${activity.activityID}`;
-        searchResults.appendChild(activityData);
-    }
-*/
-//END OF REFERENCE
-
-// function OrganicShelter({ organicShelter }) {
-//   return (
-//     <ul>
-//       <li key={organicShelter.shelterId}></li>
-//       <li>Organic Pets:{organicShelter.allPets}</li>
-//     </ul>
-//   );
-// }
+function ListOrganicShelter({ organicShelter }) {
+  return (
+    <ul>
+      <li key={organicShelter.shelterId}></li>
+      <li>Organic Pets:{organicShelter.allPets}</li>
+      <li>Shelter Name:{organicShelter.name}</li>
+    </ul>
+  );
+  }
