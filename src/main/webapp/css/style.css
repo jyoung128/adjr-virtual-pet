@@ -34,4 +34,32 @@ input[type=text]{
 
 body{
     font-family: 'Rubik Mono One', sans-serif;
+    background-image: url(images/background.jpg);
+    background-position: 0px 0px;
+    background-repeat: repeat-x;
+    animation: animateBackground 60s linear infinite alternate;
+}
+
+@keyframes animateBackground{
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 0;
+    }
+}
+
+nav{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    background-color: #fde6ba;
+    width: 100%;
+}
+
+nav a{
+    text-decoration: none;
+    margin-left: 1em;
+    margin-right: 1em;
+    
 }
