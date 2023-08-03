@@ -103,12 +103,12 @@ export default function Test() {
   const updateDog = (ID) => {
     const activityInfo = document.getElementById(`activity-number-${ID}`);
     const data = {
-      name: newName,
-      ageInDays: newAge,
-      Hunger: newHunger,
-      Thirst: newThirst,
-      energy: newEnergy,
-      mood: newMood,
+      name: "Spot",
+      ageInDays: 420,
+      hunger: 0,
+      thirst: 69,
+      energy: 69,
+      mood: 69,
       cageCleanliness: newCleanliness,
       hasBeenRecentlyWalked: newHasBeenWalked,
     }
