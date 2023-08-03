@@ -63,19 +63,28 @@ public class OrganicShelter {
         return cats;
     }
 
-    public void addDog(final OrganicDog dog){
+    public OrganicDog getDog(String name) {
+        for (OrganicDog dog : dogs) {
+            if (dog.getName().equals(name)) {
+                return dog;
+            }
+        }
+        return null;
+    }
+
+    public void addDog(final OrganicDog dog) {
         this.dogs.add(dog);
     }
 
-    public void addCat(final OrganicCat cat){
+    public void addCat(final OrganicCat cat) {
         this.cats.add(cat);
     }
 
-    public void removeDog(final OrganicDog dog){
+    public void removeDog(final OrganicDog dog) {
         this.dogs.remove(dog);
     }
 
-    public void removeCat(final OrganicCat cat){
+    public void removeCat(final OrganicCat cat) {
         this.cats.remove(cat);
     }
 

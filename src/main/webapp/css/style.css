@@ -8,11 +8,12 @@
 .create-pet-form button{
     border-radius: 20px;
     padding: 0.75em;
-    margin-right: 2%;
+    margin-right: 5%;
+    font-family: 'Rubik Mono One', sans-serif;
 }
 
 input[type=text]{
-    width: 20em;
+    width: 22em;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -33,7 +34,37 @@ input[type=text]{
 }
 
 body{
+    margin: 0px;
     font-family: 'Rubik Mono One', sans-serif;
+    background-image: url(images/background.jpg);
+    background-position: 0px 0px;
+    background-repeat: repeat-x;
+    animation: animateBackground 60s linear infinite alternate;
+}
+
+
+@keyframes animateBackground{
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 0;
+    }
+}
+
+nav{
+    display: inline-block;
+    margin-bottom: 2%;
+    padding: 0.75em;
+    background-color: #fde6ba;
+    width: 100%;
+}
+
+nav a{
+    text-decoration: none;
+    margin-left: 1em;
+    margin-right: 1em;
+    
 }
 
 #list-of-dogs ul a {

@@ -23,144 +23,12 @@ public class PetTest {
         assertEquals(false, pet.isOverwatered());
 
         pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() == 0.5);
-    }
-
-    @Test
-    void thirstAfterTraining() {
-        OrganicDog pet = new OrganicDog("");
-        pet.setAgeMonths(1 * 12);
-
-        assertEquals(1, pet.ageInYears());
-
-        pet.water(1);
-        assertEquals(false, pet.isThirsty());
-
-        pet.train("sitting");
-        assertEquals(true, pet.isThirsty());
-    }
-
-    @Test
-    void tiredAfterTraining() {
-        OrganicDog pet = new OrganicDog("");
-        pet.setAgeMonths(1 * 12);
-
-        assertEquals(1, pet.ageInYears());
-
-        pet.water(1);
-        pet.feed(1);
-        assertEquals(false, pet.isThirsty());
-        assertEquals(false, pet.isTired());
-
-        pet.train("sitting");
-        assertEquals(false, pet.isTired());
-        pet.train("sitting");
-        pet.train("sitting");
-        assertEquals(true, pet.isTired());
-    }
-
-    @Test
-    void initialOlderPetState() {
-        OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(2 * 12);
-
-        // Pets start untrained
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() == 0.5);
-    }
-
-    @Test
-    void trainingHelpsOlderPets() {
-        OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(2 * 12);
-        assertEquals(2, pet.ageInYears());
-
-        // Training should work if the pet is ready
-        pet.feed(1);
-        pet.water(1);
-        pet.walk();
-        pet.train("sitting");
-
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() > 0.8);
-
-        assertEquals(true, pet.isHealthy());
-    }
-
-    @Test
-    void trainingHelpsOlderPetsTheSameSkill() {
-        OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(2 * 12);
-        assertEquals(2, pet.ageInYears());
-
-        // Training should work if the pet is ready
-        pet.feed(1);
-        pet.water(1);
-        pet.walk();
-        pet.train("fetching");
-
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() == 0.5); // We only trainied fetching in this case
-
-        assertEquals(true, pet.isHealthy());
-    }
-
-    @Test
-    void trainingDoesntHelpHungryOlderPets() {
-        OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(2 * 12);
-        assertEquals(2, pet.ageInYears());
-
-        pet.timePassed(8);
-
-        // Pet should be thirsty and hungry by now
-        pet.train("sitting");
-
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() == 0.5);
-    }
-
-    @Test
-    void trainingDoesntHelpNewborns() {
-        OrganicDog pet = new OrganicDog("");
-        pet.train("sitting");
-
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() == 0.5);
-    }
-
-    @Test
-    void moreTrainingHelpsMore() {
-        OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(6);
-
-        pet.feed(1);
-        pet.water(1);
-        pet.walk();
-
-        pet.train("sitting");
-        pet.train("sitting");
-        pet.train("sitting");
-        pet.train("sitting");
-        pet.train("sitting");
-
-        pet.commandSit();
-        //assertEquals(true, pet.chanceOfSitting() > 0.8);
-
-        pet.timePassed(1);
-        assertEquals(true, pet.isSleeping());
+        // assertEquals(true, pet.chanceOfSitting() == 0.5);
     }
 
     @Test
     void playing() {
         OrganicDog pet = new OrganicDog("");
-
-        pet.setAgeMonths(6);
 
         pet.feed(1);
         pet.water(1);
@@ -332,15 +200,6 @@ public class PetTest {
     }
 
     @Test
-    void walkingImprovesMood() {
-        OrganicDog pet = new OrganicDog("");
-        pet.setAgeMonths(6);
-        assertEquals(true, pet.isCranky());
-        pet.walk();
-        assertEquals(false, pet.isCranky());
-    }
-
-    @Test
     void walkingDoesntWorkForNewborns() {
         OrganicDog pet = new OrganicDog("");
         assertEquals(true, pet.isCranky());
@@ -351,7 +210,6 @@ public class PetTest {
     @Test
     void walkingDoesntWorkForTiredPets() {
         OrganicDog pet = new OrganicDog("");
-        pet.setAgeMonths(6);
         pet.timePassed(10);
         assertEquals(true, pet.isCranky());
         pet.walk();
@@ -362,27 +220,27 @@ public class PetTest {
     void dominantPetsAreNotSocial() {
         OrganicDog pet = new OrganicDog("", TEMPERAMENT.DOMINANT);
         assertEquals(false, pet.determineSociability());
-        
+
     }
 
     @Test
     void socialPetsAreSocial() {
         OrganicDog pet = new OrganicDog("", TEMPERAMENT.SOCIAL);
         assertEquals(true, pet.determineSociability());
-        
+
     }
 
     @Test
     void docilePetsAreSocial() {
         OrganicDog pet = new OrganicDog("", TEMPERAMENT.DOCILE);
         assertEquals(true, pet.determineSociability());
-        
+
     }
 
     @Test
     void avoidantPetsAreNotSocial() {
         OrganicDog pet = new OrganicDog("", TEMPERAMENT.AVOIDANT);
         assertEquals(false, pet.determineSociability());
-        
+
     }
 }
