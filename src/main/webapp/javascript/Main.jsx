@@ -5,6 +5,7 @@ import "../css/style.css";
 
 import Test from './Test';
 import CreatePet from "./CreatePet";
+import Adopt from "./Adopt";
 import Display from "./Display";
 
 function Layout() {
@@ -15,6 +16,7 @@ function Layout() {
         <Link to="/Test">Test</Link>
         <Link to="/CreatePet">Test</Link>
         <Link to="/Display">Display</Link>
+        <Link to="/Adopt">Adopt out a Pet</Link>
       </nav>
       <Outlet />
     </>
@@ -33,6 +35,7 @@ function Main() {
             <Route path="Test" element={<Test />} />
             <Route path="CreatePet" element={<CreatePet />} />
             <Route path="Display" element={<Display />} />
+            <Route path="Adopt" element={<Adopt />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -13,7 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import org.wcci.adjrvirtualpet.entities.OrganicCat;
 import org.wcci.adjrvirtualpet.entities.OrganicDog;
+import org.wcci.adjrvirtualpet.entities.OrganicShelter;
 import org.wcci.adjrvirtualpet.repositories.OrganicDogRepo;
+import org.wcci.adjrvirtualpet.repositories.OrganicShelterRepo;
 import org.wcci.adjrvirtualpet.repositories.OrganicCatRepo;
 
 @Service
@@ -25,12 +27,15 @@ public class ShelterService {
     final private static Logger logger = LoggerFactory.getLogger(ShelterService.class);
     final private OrganicDogRepo organicDogRepo;
     final private OrganicCatRepo organicCatRepo;
+    final private OrganicShelterRepo organicShelterRepo;
 
     public ShelterService(
             @Autowired final OrganicDogRepo organicDogRepo,
-            @Autowired final OrganicCatRepo organicCatRepo) {
+            @Autowired final OrganicCatRepo organicCatRepo,
+            @Autowired final OrganicShelterRepo organicShelterRepo) {
         this.organicDogRepo = organicDogRepo;
         this.organicCatRepo = organicCatRepo;
+        this.organicShelterRepo = organicShelterRepo;
     }
 
     public Stream<OrganicDog> organicDogStream() {
@@ -45,6 +50,13 @@ public class ShelterService {
 
         // Standard conversion from iterator to stream.
         return StreamSupport.stream(organicCats.spliterator(), false);
+    }
+
+    public Stream<OrganicShelter> organicShelterStream() {
+        final Iterable<OrganicShelter> organicShelters = this.organicShelterRepo.findAll();
+
+        // Standard conversion from iterator to stream.
+        return StreamSupport.stream(organicShelters.spliterator(), false);
     }
 
     public OrganicDog findOrganicDog(final long organicDog_id) {
@@ -65,6 +77,15 @@ public class ShelterService {
         return possiblyAOrganicCat.get();
     }
 
+    public OrganicShelter findOrganicShelter(final long organicShelter_id) {
+        final Optional<OrganicShelter> possiblyAOrganicShelter = organicShelterRepo.findById(organicShelter_id);
+        if (!possiblyAOrganicShelter.isPresent()) {
+            logger.info("OrganicShelter not found: " + organicShelter_id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicShelter not found " + organicShelter_id);
+        }
+        return possiblyAOrganicShelter.get();
+    }
+
     public OrganicDog writeToDatabase(final OrganicDog organicDog) {
         if (organicDog.getName().contains("bad word"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
@@ -77,6 +98,13 @@ public class ShelterService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
 
         return organicCatRepo.save(organicCat);
+    }
+
+    public OrganicShelter writeToDatabase(final OrganicShelter organicShelter) {
+        if (organicShelter.getName().contains("bad word"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, cursing not allowed");
+
+        return organicShelterRepo.save(organicShelter);
     }
 
 
@@ -94,6 +122,13 @@ public class ShelterService {
         organicCatRepo.deleteById(organicCat_id);
     }
 
+    public void deleteOrganicShelterById(final long organicShelter_id) {
+        if (!organicShelterRepo.findById(organicShelter_id).isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OrganicShelter not found " + organicShelter_id);
+
+        organicShelterRepo.deleteById(organicShelter_id);
+    }
+
     public OrganicDog updateOrganicDog(OrganicDog organicDog, long organicDog_id) {
         final OrganicDog databaseOrganicDog = findOrganicDog(organicDog_id);
 
@@ -103,6 +138,11 @@ public class ShelterService {
 
         // Copy the non-ID info from the requestbody to the database object
         databaseOrganicDog.setName(organicDog.getName());
+        databaseOrganicDog.setAge(organicDog.getAgeInDays());
+        databaseOrganicDog.setHunger(organicDog.getHunger());
+        databaseOrganicDog.setThirst(organicDog.getThirst());
+        databaseOrganicDog.setEnergy(organicDog.getEnergy());
+        databaseOrganicDog.setMood(organicDog.getMood());
 
         // Ask the repo to write the modified student to MySQL (or whatever)
         writeToDatabase(databaseOrganicDog);
@@ -124,5 +164,59 @@ public class ShelterService {
         writeToDatabase(databaseOrganicCat);
 
         return databaseOrganicCat;
+    }
+
+    public OrganicShelter updateOrganicShelter(OrganicShelter organicShelter, long organicShelter_id) {
+        final OrganicShelter databaseOrganicShelter = findOrganicShelter(organicShelter_id);
+
+        if (organicShelter_id != databaseOrganicShelter.getShelterID())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Sorry, you may not change the organicShelter_id");
+
+        // Copy the non-ID info from the requestbody to the database object
+        databaseOrganicShelter.setName(organicShelter.getName());
+
+        // Ask the repo to write the modified student to MySQL (or whatever)
+        writeToDatabase(databaseOrganicShelter);
+
+        return databaseOrganicShelter;
+    }
+
+    public void addOrganicDogToShelter(final Long shelter_id, final OrganicDog dog) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.addDog(dog);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void addOrganicCatToShelter(final Long shelter_id, final OrganicCat cat) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.addCat(cat);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void removeOrganicDogFromShelter(final Long shelter_id, final OrganicDog dog) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.removeDog(dog);
+        organicShelterRepo.save(shelter);
+    }
+
+    public void removeOrganicCatFromShelter(final Long shelter_id, final OrganicCat cat) {
+        final OrganicShelter shelter = findOrganicShelter(shelter_id);
+        shelter.removeCat(cat);
+        organicShelterRepo.save(shelter);
+    }
+
+    public Stream<OrganicDog> organicDogStreamForShelter(final long shelter_id) {
+        final Iterable<OrganicDog> dogs = this.findOrganicShelter(shelter_id).getDogs();
+
+        // Standard conversion from iterator to stream.
+        return StreamSupport.stream(dogs.spliterator(), false);
+    }
+
+    public Stream<OrganicCat> organicCatStreamForShelter(final long shelter_id) {
+        final Iterable<OrganicCat> cats = this.findOrganicShelter(shelter_id).getCats();
+
+        // Standard conversion from iterator to stream.
+        return StreamSupport.stream(cats.spliterator(), false);
     }
 }

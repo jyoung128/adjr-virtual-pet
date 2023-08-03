@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,7 +55,7 @@ public abstract class Pet {
     private TEMPERAMENT temperament;
     //private Map<String, Integer> skills = new HashMap<>();
     //private List<String> skills;
-    private List<Integer> feedingSchedule = new ArrayList<>();
+    private String feedingScheduleString;
 
     public Pet(){
     }
@@ -100,8 +103,60 @@ public abstract class Pet {
         return petId;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public Integer getAgeInDays(){
+        return this.ageInDays;
+    }
+
+    /** Hunger is on a scale from 0 to 100 */ // This is a "javadoc"
+    public Integer getHunger() {
+        return this.hunger;
+    }
+
+    /** Thirst is on a scale from 0 to 100 */
+    public Integer getThirst() {
+        return this.thirst;
+    }
+
+    public Integer getEnergy(){
+        return this.energy;
+    }
+
+    public Integer getMood() {
+        return this.mood;
+    }
+
     public void setPetID(long petId) {
         this.petId = petId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /** Sets the pet's age in months */
+    public void setAge(int age) {
+        this.ageInDays = age;
+    }
+
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    public void setThirst(int thirst) {
+        this.thirst = thirst;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    /** Sets the pet's mood */
+    public void setMood(int mood) {
+        this.mood = mood;
     }
 
     /*public String getSkillName(String skill) {
@@ -111,11 +166,6 @@ public abstract class Pet {
     public int getSkillLevel(String skill) {
         return Integer.parseInt(skill.substring(skill.indexOf(":") + 1));
     }*/
-
-    /** Hunger is on a scale from 0 to 100 */ // This is a "javadoc"
-    public Integer getHunger() {
-        return this.hunger;
-    }
 
     public String hungerStatus()
     {
@@ -140,6 +190,8 @@ public abstract class Pet {
 
     /** Allow any number of hours to pass */
     public void timePassed(int hours) {
+        final List<Integer> feedingSchedule = parseFeedingSchedule();
+
         if (!feedingSchedule.isEmpty()) {
             this.feed(feedingSchedule.size());
         }
@@ -151,11 +203,6 @@ public abstract class Pet {
     /** Makes a single hour pass */
     public void hourPassed() {
         this.energy -= 5;
-    }
-
-    /** Thirst is on a scale from 0 to 100 */
-    public Integer getThirst() {
-        return this.thirst;
     }
 
     public String thirstStatus(){
@@ -204,8 +251,27 @@ public abstract class Pet {
         this.hunger -= 10;
     }
 
+    private List<Integer> parseFeedingSchedule() {
+        if(this.feedingScheduleString == null) return new ArrayList<>();
+        try{
+            return new ObjectMapper().readValue(this.feedingScheduleString, new TypeReference<List<Integer>>(){});
+        } catch (Exception e) {
+            logger.warn("Unable to parse schedule: " + this.feedingScheduleString);
+            return new ArrayList<Integer>();
+        }
+    }
+
+    private void saveFeedingSchedule(List<Integer> feedingSchedule){
+        try{
+            this.feedingScheduleString = new ObjectMapper().writeValueAsString(feedingSchedule);
+        } catch (JsonProcessingException e) {
+            logger.warn("Unable to serialize schedule: " + feedingSchedule.toString());
+        }
+    }
+
     /** Sets a routine feeding schedule for the pet */
     public void setFeedingSchedule(String string) {
+        final List<Integer> feedingSchedule = parseFeedingSchedule();
 
         int start = 0;
         String state = "blanks";
@@ -225,7 +291,7 @@ public abstract class Pet {
             }
 
         }
-        logger.info(feedingSchedule.toString());
+        saveFeedingSchedule(feedingSchedule);
 
     }
 
@@ -278,16 +344,6 @@ public abstract class Pet {
         }
     }*/
 
-    /** Sets the pet's age in months */
-    public void setAgeMonths(int months) {
-        this.ageInDays = months * 30;
-    }
-
-    /** Sets the pet's mood */
-    public void setMood(int mood){
-        this.mood = mood;
-    }
-
     public void feed(int amountOfFood) {
         this.hunger -= (amountOfFood * 15);
     }
@@ -325,14 +381,6 @@ public abstract class Pet {
         this.thirst -= (amountOfWater * 5);
     }
 
-    public Integer getAgeInDays(){
-        return this.ageInDays;
-    }
-
-    public Integer getEnergy(){
-        return this.energy;
-    }
-
     public Integer ageInYears() {
         if (this.ageInDays < 360) {
             return 0;
@@ -347,6 +395,8 @@ public abstract class Pet {
 
     /** Verifies if the pet is being fed at a specified hour */
     public boolean isFedAt(int hour) {
+        final List<Integer> feedingSchedule = parseFeedingSchedule();
+
         if (feedingSchedule.contains(hour)) {
             return true;
         } else {
@@ -359,17 +409,11 @@ public abstract class Pet {
     public void removeWalkingSchedule() {
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /** Removes the previously set feeding schedule */
     public void removeFeedingSchedule() {
-        this.feedingSchedule.clear();
+        final List<Integer> feedingSchedule = parseFeedingSchedule();
+        feedingSchedule.clear();
+        saveFeedingSchedule(feedingSchedule);
     }
 
     /** Checks if the pet is healthy */
