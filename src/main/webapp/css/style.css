@@ -70,9 +70,3 @@ nav a{
     color: blue;
     cursor: pointer;
 }
-
-#list-of-dogs ul a {
-    margin-left: 5px;
-    color: blue;
-    cursor: pointer;
-}
