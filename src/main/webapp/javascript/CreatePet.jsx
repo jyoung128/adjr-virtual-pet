@@ -60,50 +60,54 @@ export default function CreatePet() {
   };
 
   return (
-    <div>
-      <div>
-        <form>
-          <label htmlFor="petName">PetName</label>
-          <input
-            type="text"
-            name="petName"
-            value={petName}
-            onChange={handlePetNameChange}
-          ></input>
+    
+      <div className="create-pet-container">
+  
+        <div className="create-pet-form">
+          <form>
+          <h2>Add a Pet</h2>
+            <label htmlFor="petName">PetName: </label>
+            <input
+              type="text"
+              name="petName"
+              value={petName}
+              onChange={handlePetNameChange}
+            ></input>
 
-          <label htmlFor="species">Species</label>
-          <input
-            type="text"
-            name="species"
-            value={species}
-            onChange={handleSpeciesChange}
-          ></input>
+            <label htmlFor="species">Species: </label>
+            <input
+              type="text"
+              name="species"
+              value={species}
+              onChange={handleSpeciesChange}
+            ></input>
 
-          <label htmlFor="temperament">Temperament</label>
-          <input
-            type="text"
-            name="temperament"
-            value={temperament}
-            onChange={handleTemperamentChange}
-          ></input>
+            <label htmlFor="temperament">Temperament: </label>
+            <input
+              type="text"
+              name="temperament"
+              value={temperament}
+              onChange={handleTemperamentChange}
+            ></input>
 
-          <label htmlFor="shelterName">ShelterName</label>
-          <input
-            type="text"
-            name="shelterName"
-            value={shelterName}
-            onChange={handleShelterNameChange}
-          ></input>
-        </form>
+            <label htmlFor="shelterName">Shelter Name: </label>
+            <input
+              type="text"
+              name="shelterName"
+              value={shelterName}
+              onChange={handleShelterNameChange}
+            ></input>
+            <button onClick={postDog}>Create Dog</button>
+            <button onClick={postCat}>Create Cat</button>
+          </form>
+        </div>
+        <div>
+          <div>{petName}</div>
+          <div>{species}</div>
+          <div>{temperament}</div>
+          <div>{shelterName}</div>
+        </div>
       </div>
-      <div>
-        <div>{petName}</div>
-        <div>{species}</div>
-        <div>{temperament}</div>
-        <div>{shelterName}</div>
-        <button onClick={postDog}>Create Dog</button>
-        <button onClick={postCat}>Create Cat</button>
-      </div>
-    </div>
+    
   );
 }

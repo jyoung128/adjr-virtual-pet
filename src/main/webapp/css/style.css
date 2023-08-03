@@ -1,0 +1,37 @@
+.create-pet-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5%;
+}
+
+.create-pet-form button{
+    border-radius: 20px;
+    padding: 0.75em;
+    margin-right: 2%;
+}
+
+input[type=text]{
+    width: 20em;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.create-pet-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #c6e2e9;
+    border-radius: 20px;
+    padding: 2em;
+
+}
+
+body{
+    font-family: 'Rubik Mono One', sans-serif;
+}
