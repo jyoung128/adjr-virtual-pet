@@ -71,24 +71,26 @@ function OrganicDogs() {
 }
 
 function OrganicShelter() {
-  let [organicShelters, setOrganicShelters] = useState([]);
+  let [allOrganicShelters, setAllOrganicShelters] = useState([]);
 
   function getShelters() {
     fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
       .then((response) => response.json())
-      .then((responseBody) => setOrganicShelters(responseBody.results));
+      .then((responseBody) => setAllOrganicShelters(responseBody));
+      console.log(allOrganicShelters);
     return () => {};
   }
 
-  if (organicShelters && organicShelters._embedded) {
+  if (allOrganicShelters && allOrganicShelters._embedded) {
   return (
     <div>
       <button onClick={getShelters}>Show All Shelters</button>
       <ul>
-        {organicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-          <ListOrganicShelter key={oneShelter.shelterIdId} organicShelters={oneShelter} />
+        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+          <ListOrganicShelter key={oneShelter.shelterIdId} allOrganicShelters={oneShelter} />
         ))}
       </ul>
+      {console.log(JSON.stringify(allOrganicShelters))}
     </div>
   );
 } else {
@@ -145,6 +147,7 @@ function ListOrganicShelter({ organicShelter }) {
     <ul>
       <li key={organicShelter.shelterId}></li>
       <li>Organic Pets:{organicShelter.allPets}</li>
+      <li>Shelter Name:{organicShelter.name}</li>
     </ul>
   );
 }
