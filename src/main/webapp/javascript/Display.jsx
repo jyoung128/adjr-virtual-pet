@@ -82,25 +82,20 @@ function OrganicShelter() {
   }
 
   if (allOrganicShelters && allOrganicShelters._embedded) {
-    return (
-      <div>
-        <button onClick={getShelters}>Show All Shelters</button>
-        <ul>
-          {allOrganicShelters["_embedded"]["organicShelterList"].map(
-            (oneShelter) => (
-              <ListOrganicShelter
-                key={oneShelter.shelterIdId}
-                allOrganicShelters={oneShelter}
-              />
-            )
-          )}
-        </ul>
-        {console.log(JSON.stringify(allOrganicShelters))}
-      </div>
-    );
-  } else {
-    return <button onClick={getShelters}>Show All Shelters</button>;
-  }
+  return (
+    <div>
+      <button onClick={getShelters}>Show All Shelters</button>
+      <ul>
+        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+          <ListOrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
+        ))}
+      </ul>
+      {console.log(JSON.stringify(allOrganicShelters))}
+    </div>
+  );
+} else {
+  return <button onClick={getShelters}>Show All Shelters</button>;
+}
 }
 
 const makeDogEditable = (ID) => {
@@ -241,8 +236,9 @@ function OrganicDog({ organicDog }) {
 function ListOrganicShelter({ organicShelter }) {
   return (
     <ul>
-      <li key={organicShelter.shelterId}></li>
-      <li>Organic Pets:{organicShelter.allPets}</li>
+      <li key={organicShelter.shelterID}></li>
+      <li>Organic Dogs:{organicShelter.getDogs}</li>
+      <li>Organic Cats:{organicShelter.getCats}</li>
       <li>Shelter Name:{organicShelter.name}</li>
     </ul>
   );
