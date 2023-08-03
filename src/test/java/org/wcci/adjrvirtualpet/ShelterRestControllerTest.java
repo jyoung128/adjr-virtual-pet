@@ -295,6 +295,7 @@ public class ShelterRestControllerTest extends HateoasHelper {
         @Test
         public void testCreateNewOrganicShelter() throws Exception {
                 OrganicShelter pound = new OrganicShelter();
+                pound.setName("Ye olde dog pound");
 
                 final MvcResult postResult = this.mvc
                                 .perform(MockMvcRequestBuilders.post("/api/organicShelters")
