@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 export default function Display() {
   let [organicShelters, setOrganicShelters] = useState([]);
 
+  const [selectedID, setSelectedID] = useState(0);
+
   return (
     <div>
       <div id="cats">
@@ -83,40 +85,34 @@ function OrganicDogs(){
 }
 
 //CODE FOR LIST TO TEXTBOX (COPIED DIRECTLY):
-const makeActivityEditable = (ID) => {
-        setSelectedID(ID);
+const makeDogEditable = (ID) => {
+        //setSelectedID(ID);
         console.log(ID);
-        console.log(selectedID);
-        const activityToEdit = document.getElementById(`activity-number-${ID}`)
+        //console.log(selectedID);
+        const dogToEdit = document.getElementById(`dog-number-${ID}`)
 
-        const activityInfo = activityToEdit.querySelectorAll('li');
-        activityInfo.forEach(category => {
-            const colonPosition = category.textContent.indexOf(':');
-        
-            const labelText = category.textContent.substring(0, colonPosition).trim();
-            const originalValue = category.textContent.substring(colonPosition + 1).trim();
-            if (labelText === "activityID") {
-                return;
-            }
+        const dogNameInfo = dogToEdit.querySelector('li');
+        const colonPosition = dogNameInfo.textContent.indexOf(':');
+        const labelText = dogNameInfo.textContent.substring(0, colonPosition).trim();
+        const originalValue = dogNameInfo.textContent.substring(colonPosition + 1).trim();
 
-            const inputElement = document.createElement('input');
-            inputElement.type = 'text';
-            inputElement.value = originalValue;
+        const inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.value = originalValue;
 
-            category.textContent = '';
-            category.appendChild(document.createTextNode(`${labelText}: `));
-            category.appendChild(inputElement);
-        });
+        dogNameInfo.textContent = '';
+        dogNameInfo.appendChild(document.createTextNode(`${labelText}: `));
+        dogNameInfo.appendChild(inputElement);
 
-        const buttons = activityToEdit.querySelector('div');
+        const buttons = dogToEdit.querySelector('div');
 
         const editButton = buttons.querySelector('a:first-child');
         editButton.textContent = 'Save';
-        editButton.onclick = () => promptSave();
+        //editButton.onclick = () => promptSave();
 
         const deleteButton = buttons.querySelector('a:nth-child(2)');
         deleteButton.textContent = 'Cancel';
-        deleteButton.onclick = () => makeActivityUneditable(ID);
+        //deleteButton.onclick = () => makeActivityUneditable(ID);
     }
 
     const makeActivityUneditable = (ID) => {
@@ -212,7 +208,7 @@ function OrganicDog({ organicDog }) {
       <li>mood:{organicDog.mood}</li>
 
       <div id={`dog-number-${organicDog.id}-buttons`}>
-        <a>Edit</a>
+        <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
         <a>Delete</a>
       </div>
     </ul>
