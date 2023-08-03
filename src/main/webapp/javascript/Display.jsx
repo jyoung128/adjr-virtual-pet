@@ -127,7 +127,7 @@ const makeDogEditable = (ID) => {
 //         const deleteButton = buttons.querySelector('a:nth-child(2)');
 //         deleteButton.textContent = 'Cancel';
 //         deleteButton.onclick = () => makeDogUneditable(ID);
-//     }
+}
 
     const makeDogUneditable = (ID) => {
         console.log(ID);
