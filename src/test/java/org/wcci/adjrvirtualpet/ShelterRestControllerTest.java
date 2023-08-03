@@ -291,4 +291,66 @@ public class ShelterRestControllerTest extends HateoasHelper {
 
                 logger.info("You got a shelter, big shelter!");
         }
+
+        @Test
+        public void testCreateNewOrganicShelter() throws Exception {
+                OrganicShelter pound = new OrganicShelter();
+
+                final MvcResult postResult = this.mvc
+                                .perform(MockMvcRequestBuilders.post("/api/organicShelters")
+                                                .accept(MediaTypes.HAL_JSON)
+                                                .contentType(MediaType.APPLICATION_JSON) // I'm a program and sending
+                                                                                         // you JSON-encoded data
+                                                .content(new ObjectMapper().writeValueAsString(pound)))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                                .andExpect(jsonPath("$._links", hasKey("self")))
+                                .andExpect(jsonPath("$._links",
+                                                hasKey(ShelterRestController.LIST_ALL_ORGANIC_SHELTERS)))
+                                .andReturn();
+
+                final MvcResult getAllResult = this.mvc.perform(
+                                MockMvcRequestBuilders
+                                                .get(extractLink(postResult,
+                                                                ShelterRestController.LIST_ALL_ORGANIC_SHELTERS))
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                final List<OrganicShelter> resultObject = extractEmbeddedList(getAllResult, ORGANIC_SHELTER_LIST,
+                                OrganicShelter.class);
+
+                assertEquals(1, resultObject.size());
+
+                final OrganicShelter createdShelter = new ObjectMapper().readValue(
+                                postResult.getResponse().getContentAsString(),
+                                OrganicShelter.class);
+
+                createdShelter.setName("ModifiedName");
+                final MvcResult updateResult = this.mvc
+                                .perform(MockMvcRequestBuilders
+                                                .put("/api/organicShelters/" + createdShelter.getShelterID())
+                                                .contentType(MediaType.APPLICATION_JSON) // I'm a program and sending
+                                                                                         // you JSON-encoded data
+                                                .content(new ObjectMapper().writeValueAsString(createdShelter))
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+                assertEquals(createdShelter.getName(),
+                                new ObjectMapper().readValue(
+                                                updateResult.getResponse().getContentAsString(),
+                                                OrganicShelter.class)
+                                                .getName());
+
+                final MvcResult secondGetResult = this.mvc
+                                .perform(MockMvcRequestBuilders
+                                                .get("/api/organicShelters" + createdShelter.getShelterID())
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+                assertEquals("ModifiedName",
+                                new ObjectMapper().readValue(secondGetResult.getResponse().getContentAsString(),
+                                                OrganicShelter.class).getName());
+        }
 }

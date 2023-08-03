@@ -28,6 +28,7 @@ import org.wcci.adjrvirtualpet.services.ShelterService;
 public class ShelterRestController {
     public static final String LIST_ALL_ORGANIC_DOGS = "listAllOrganicDogs";
     public static final String LIST_ALL_ORGANIC_CATS = "listAllOrganicCats";
+    public static final String LIST_ALL_ORGANIC_SHELTERS = "listAllOrganicShelters";
 
     final private ShelterService shelterService;
 
@@ -75,6 +76,14 @@ public class ShelterRestController {
                 linkTo(methodOn(ShelterRestController.class).getOrganicDog(organicCat_id)).withSelfRel());
     }
 
+    @GetMapping("/api/organicShelters/{organicShelter_id}")
+    public EntityModel<OrganicShelter> getOrganicShelter(@PathVariable final Long organicShelter_id) {
+        final OrganicShelter organicShelter = shelterService.findOrganicShelter(organicShelter_id);
+        return EntityModel.of(organicShelter,
+                linkTo(methodOn(ShelterRestController.class).getOrganicShelters()).withRel(LIST_ALL_ORGANIC_SHELTERS),
+                linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter_id)).withSelfRel());
+    }
+
     @PostMapping("/api/organicDogs")
     public EntityModel<OrganicDog> newOrganicDog(@RequestBody final OrganicDog organicDog) {
         return EntityModel.of(shelterService.writeToDatabase(organicDog),
@@ -87,6 +96,14 @@ public class ShelterRestController {
         return EntityModel.of(shelterService.writeToDatabase(organicCat),
                 linkTo(methodOn(ShelterRestController.class).getOrganicCat(organicCat.getPetID())).withSelfRel(),
                 linkTo(methodOn(ShelterRestController.class).getOrganicCats()).withRel(LIST_ALL_ORGANIC_CATS));
+    }
+
+    @PostMapping("/api/organicShelters")
+    public EntityModel<OrganicShelter> newOrganicShelter(@RequestBody final OrganicShelter organicShelter) {
+        return EntityModel.of(shelterService.writeToDatabase(organicShelter),
+                linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
+                        .withSelfRel(),
+                linkTo(methodOn(ShelterRestController.class).getOrganicShelters()).withRel(LIST_ALL_ORGANIC_SHELTERS));
     }
 
     @DeleteMapping("/api/organicDogs/{organicDog_id}")
@@ -112,8 +129,9 @@ public class ShelterRestController {
 
     @PutMapping("/api/organicDogs/{organicDog_id}")
     public EntityModel<OrganicDog> updateOrganicDog(
-            @PathVariable final long organicDog_id, // the name of the parameter (organicDog_id) must match "{organicDog_id}" in
-                                                 // the line above
+            @PathVariable final long organicDog_id, // the name of the parameter (organicDog_id) must match
+                                                    // "{organicDog_id}" in
+                                                    // the line above
             @RequestBody final OrganicDog organicDog) {
         // Update the organicDog if that is the right thing to do
         final OrganicDog databaseOrganicDog = shelterService.updateOrganicDog(organicDog, organicDog_id);
