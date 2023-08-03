@@ -83,21 +83,6 @@ export default function Test() {
         return responseBody;
   }
 
-  /*const setValuesForUpdate = async (ID) => {
-    try {
-      const response = await fetch(`api/organicDogs/${ID}`, {
-        method: "GET",
-        cache: "default",
-      });
-      const responseBody = await response.json();
-      setNewName(responseBody.name);
-      setNewHunger(responseBody.hunger);
-      // ... set other state variables ...
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };*/
-
   const updateDog = (ID, data) => {
     console.log("7");
 

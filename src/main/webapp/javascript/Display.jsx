@@ -84,7 +84,6 @@ function OrganicDogs(){
   }
 }
 
-//CODE FOR LIST TO TEXTBOX (COPIED DIRECTLY):
 const makeDogEditable = (ID) => {
         //setSelectedID(ID);
         console.log(ID);
@@ -99,6 +98,7 @@ const makeDogEditable = (ID) => {
         const inputElement = document.createElement('input');
         inputElement.type = 'text';
         inputElement.value = originalValue;
+        inputElement.id = `pet-${ID}-name-textbox`;
 
         dogNameInfo.textContent = '';
         dogNameInfo.appendChild(document.createTextNode(`${labelText}: `));
@@ -108,44 +108,32 @@ const makeDogEditable = (ID) => {
 
         const editButton = buttons.querySelector('a:first-child');
         editButton.textContent = 'Save';
-        //editButton.onclick = () => promptSave();
+        editButton.onclick = () => updateDogName(ID);
 
         const deleteButton = buttons.querySelector('a:nth-child(2)');
         deleteButton.textContent = 'Cancel';
-        //deleteButton.onclick = () => makeActivityUneditable(ID);
+        deleteButton.onclick = () => makeDogUneditable(ID);
     }
 
-    const makeActivityUneditable = (ID) => {
-        console.log("Got to the function");
-
+    const makeDogUneditable = (ID) => {
         console.log(ID);
-        fetch(`api/activities/${ID}`, { method: "GET", cache: "default" })
+        fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
-        .then((currentActivity) => {
-            const activityData = {
-                ...currentActivity,
-            };
+        .then((currentDog) => {
+            console.log(ID);
+            console.log(currentDog.name);
 
-            const activityToMakeText = document.getElementById(`activity-number-${ID}`)
+            const dogToMakeText = document.getElementById(`dog-number-${ID}`);
 
-            const categories = activityToMakeText.querySelectorAll('li');
-            categories.forEach(category => {
-                const colonPosition = category.textContent.indexOf(':');
-                const labelText = category.textContent.substring(0, colonPosition).trim();
+            const dogNameInfo = dogToMakeText.querySelector('li');
 
-                if (labelText === 'activityID') {
-                    return;
-                }
-
-                const inputElement = category.querySelector('input');
-                const originalValue = activityData[labelText];
-                category.removeChild(inputElement);
-                category.textContent = `${labelText}: ${originalValue}`;
-            });
+            const inputElement = dogNameInfo.querySelector('input');
+            dogNameInfo.removeChild(inputElement);
+            dogNameInfo.textContent = `Name: ${currentDog.name}`;
         });
 
 
-        const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
+        const buttons = document.getElementById(`dog-number-${ID}`).querySelector('div');
 
         const saveButton = buttons.querySelector('a:first-child');
         saveButton.textContent = 'Edit';
@@ -153,9 +141,52 @@ const makeDogEditable = (ID) => {
 
         const cancelButton = buttons.querySelector('a:nth-child(2)');
         cancelButton.textContent = 'Delete';
-        cancelButton.onclick = () => promptDelete(ID);
+        cancelButton.onclick = () => adoptDog(ID);
     }
-//END OF CODE FOR LIST TO TEXTBOX
+
+    const updateDogName = (ID) => {
+      const newDogName = document.getElementById(`pet-${ID}-name-textbox`).value;
+      const data = {
+          name: newDogName,
+      }
+
+      fetch(`api/organicDogs/${ID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          console.log("Dog name updated successfully!");
+      })
+      .catch((error) => {
+          console.error("Error updating dog name:", error);
+      });
+
+      makeDogUneditable(ID);
+  }
+
+  const adoptDog = (ID) => {
+    fetch(`api/organicDogs/${ID}`, {
+        method: "DELETE",
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        console.log("Dog adopted successfully!");
+    })
+    .catch((error) => {
+        console.error("Error adopting dog:", error);
+    });
+
+    const dog = document.getElementById(`dog-number-${ID}`);
+    dog.parentNode.removeChild(dog);
+  };
 
 
 
@@ -209,7 +240,7 @@ function OrganicDog({ organicDog }) {
 
       <div id={`dog-number-${organicDog.id}-buttons`}>
         <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-        <a>Delete</a>
+        <a onClick={() => adoptDog(organicDog.petID)}>Delete</a>
       </div>
     </ul>
   );
