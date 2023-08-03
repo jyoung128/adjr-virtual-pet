@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 export default function Display() {
-  
-
   const [selectedID, setSelectedID] = useState(0);
 
   return (
@@ -72,100 +70,6 @@ function OrganicDogs() {
   }
 }
 
-//CODE FOR LIST TO TEXTBOX (COPIED DIRECTLY):
-const makeDogEditable = (ID) => {
-        //setSelectedID(ID);
-        console.log(ID);
-        //console.log(selectedID);
-        const dogToEdit = document.getElementById(`dog-number-${ID}`)
-
-        const dogNameInfo = dogToEdit.querySelector('li');
-        const colonPosition = dogNameInfo.textContent.indexOf(':');
-        const labelText = dogNameInfo.textContent.substring(0, colonPosition).trim();
-        const originalValue = dogNameInfo.textContent.substring(colonPosition + 1).trim();
-
-        const inputElement = document.createElement('input');
-        inputElement.type = 'text';
-        inputElement.value = originalValue;
-
-        dogNameInfo.textContent = '';
-        dogNameInfo.appendChild(document.createTextNode(`${labelText}: `));
-        dogNameInfo.appendChild(inputElement);
-
-        const buttons = dogToEdit.querySelector('div');
-
-        const editButton = buttons.querySelector('a:first-child');
-        editButton.textContent = 'Save';
-        //editButton.onclick = () => promptSave();
-
-        const deleteButton = buttons.querySelector('a:nth-child(2)');
-        deleteButton.textContent = 'Cancel';
-        //deleteButton.onclick = () => makeActivityUneditable(ID);
-    }
-
-    const makeActivityUneditable = (ID) => {
-        console.log("Got to the function");
-
-        console.log(ID);
-        fetch(`api/activities/${ID}`, { method: "GET", cache: "default" })
-        .then((response) => response.json())
-        .then((currentActivity) => {
-            const activityData = {
-                ...currentActivity,
-            };
-
-            const activityToMakeText = document.getElementById(`activity-number-${ID}`)
-
-            const categories = activityToMakeText.querySelectorAll('li');
-            categories.forEach(category => {
-                const colonPosition = category.textContent.indexOf(':');
-                const labelText = category.textContent.substring(0, colonPosition).trim();
-
-                if (labelText === 'activityID') {
-                    return;
-                }
-
-                const inputElement = category.querySelector('input');
-                const originalValue = activityData[labelText];
-                category.removeChild(inputElement);
-                category.textContent = `${labelText}: ${originalValue}`;
-            });
-        });
-
-
-        const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
-
-        const saveButton = buttons.querySelector('a:first-child');
-        saveButton.textContent = 'Edit';
-        saveButton.onclick = () => makeActivityEditable(ID);
-
-        const cancelButton = buttons.querySelector('a:nth-child(2)');
-        cancelButton.textContent = 'Delete';
-        cancelButton.onclick = () => promptDelete(ID);
-    }
-//END OF CODE FOR LIST TO TEXTBOX
-
-  function getShelters() {
-    fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
-      .then((response) => response.json())
-      .then((responseBody) => setAllOrganicShelters(responseBody));
-      console.log(allOrganicShelters);
-    return () => {};
-  }
-
-
-        const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
-
-        const saveButton = buttons.querySelector('a:first-child');
-        saveButton.textContent = 'Edit';
-        saveButton.onclick = () => makeActivityEditable(ID);
-
-        const cancelButton = buttons.querySelector('a:nth-child(2)');
-        cancelButton.textContent = 'Delete';
-        cancelButton.onclick = () => promptDelete(ID);
-    }
-//END OF CODE FOR LIST TO TEXTBOX
-
 function OrganicShelter() {
   let [allOrganicShelters, setAllOrganicShelters] = useState([]);
 
@@ -194,25 +98,90 @@ function OrganicShelter() {
 }
 }
 
-// function getDogs() {
-//   fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
-//     .then((response) => response.json())
-//     .then((responseBody) => setAllOrganicDogs(responseBody));
-//   return () => {};
-//   if (allOrganicDogs && allOrganicDogs._embedded) {
-//     return (
-//       <div>
-//         <button onClick={getDogs}> Show All dogs</button>
-//         <button onClick={getCats}>Show All Cats</button>
-//         <ul>
-//           {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
-//             <OrganicDog key={oneDog.petID} organicDog={oneDog} />
-//           ))}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
+//CODE FOR LIST TO TEXTBOX (COPIED DIRECTLY):
+// const makeDogEditable = (ID) => {
+//         //setSelectedID(ID);
+//         console.log(ID);
+//         //console.log(selectedID);
+//         const dogToEdit = document.getElementById(`dog-number-${ID}`)
+
+//         const dogNameInfo = dogToEdit.querySelector('li');
+//         const colonPosition = dogNameInfo.textContent.indexOf(':');
+//         const labelText = dogNameInfo.textContent.substring(0, colonPosition).trim();
+//         const originalValue = dogNameInfo.textContent.substring(colonPosition + 1).trim();
+
+//         const inputElement = document.createElement('input');
+//         inputElement.type = 'text';
+//         inputElement.value = originalValue;
+
+//         dogNameInfo.textContent = '';
+//         dogNameInfo.appendChild(document.createTextNode(`${labelText}: `));
+//         dogNameInfo.appendChild(inputElement);
+
+//         const buttons = dogToEdit.querySelector('div');
+
+//         const editButton = buttons.querySelector('a:first-child');
+//         editButton.textContent = 'Save';
+//         //editButton.onclick = () => promptSave();
+
+//         const deleteButton = buttons.querySelector('a:nth-child(2)');
+//         deleteButton.textContent = 'Cancel';
+//         //deleteButton.onclick = () => makeActivityUneditable(ID);
+//     }
+
+//     const makeActivityUneditable = (ID) => {
+//         console.log("Got to the function");
+
+//         console.log(ID);
+//         fetch(`api/activities/${ID}`, { method: "GET", cache: "default" })
+//         .then((response) => response.json())
+//         .then((currentActivity) => {
+//             const activityData = {
+//                 ...currentActivity,
+//             };
+
+//             const activityToMakeText = document.getElementById(`activity-number-${ID}`)
+
+//             const categories = activityToMakeText.querySelectorAll('li');
+//             categories.forEach(category => {
+//                 const colonPosition = category.textContent.indexOf(':');
+//                 const labelText = category.textContent.substring(0, colonPosition).trim();
+
+//                 if (labelText === 'activityID') {
+//                     return;
+//                 }
+
+//                 const inputElement = category.querySelector('input');
+//                 const originalValue = activityData[labelText];
+//                 category.removeChild(inputElement);
+//                 category.textContent = `${labelText}: ${originalValue}`;
+//             });
+//         });
+
+
+//         const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
+
+//         const saveButton = buttons.querySelector('a:first-child');
+//         saveButton.textContent = 'Edit';
+//         saveButton.onclick = () => makeActivityEditable(ID);
+
+//         const cancelButton = buttons.querySelector('a:nth-child(2)');
+//         cancelButton.textContent = 'Delete';
+//         cancelButton.onclick = () => promptDelete(ID);
+//     }
+// //END OF CODE FOR LIST TO TEXTBOX
+
+
+//         const buttons = document.getElementById(`activity-number-${ID}`).querySelector('div');
+
+//         const saveButton = buttons.querySelector('a:first-child');
+//         saveButton.textContent = 'Edit';
+//         saveButton.onclick = () => makeActivityEditable(ID);
+
+//         const cancelButton = buttons.querySelector('a:nth-child(2)');
+//         cancelButton.textContent = 'Delete';
+//         cancelButton.onclick = () => promptDelete(ID);
+// //END OF CODE FOR LIST TO TEXTBOX
   
 function OrganicCat({ organicCat }) {
   return (
@@ -242,11 +211,12 @@ function OrganicDog({ organicDog }) {
   );
 }
 
-// function OrganicShelter({ organicShelter }) {
-//   return (
-//     <ul>
-//       <li key={organicShelter.shelterId}></li>
-//       <li>Organic Pets:{organicShelter.allPets}</li>
-//     </ul>
-//   );
-// }
+function ListOrganicShelter({ organicShelter }) {
+  return (
+    <ul>
+      <li key={organicShelter.shelterId}></li>
+      <li>Organic Pets:{organicShelter.allPets}</li>
+      <li>Shelter Name:{organicShelter.name}</li>
+    </ul>
+  );
+}
