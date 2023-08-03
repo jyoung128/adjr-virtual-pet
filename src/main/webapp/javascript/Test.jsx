@@ -90,6 +90,7 @@ export default function Test() {
         setNewMood(responseBody.mood);
         setNewCleanliness(responseBody.Cleanliness);
         setNewHasBeenWalked(responseBody.hasBeenRecentlyWalked);
+        console.log("3.5: New name is " + newName);
         });
   }
 
@@ -128,12 +129,12 @@ export default function Test() {
   const feedDog = () => {
     console.log("1");
     const ID = document.getElementById('text').value;
-    console.log("2");
+    console.log("2: " + ID);
     setValuesForUpdate(ID);
     console.log("4");
-    console.log("5: " + newHunger);
+    console.log("5: hunger before was " + newHunger);
     setNewHunger(newHunger - 15);
-    console.log("6: " + newHunger);
+    console.log("6: hunger now is " + newHunger);
     updateDog(ID);
     console.log("8");
   }
