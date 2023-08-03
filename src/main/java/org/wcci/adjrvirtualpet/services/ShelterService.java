@@ -138,6 +138,11 @@ public class ShelterService {
 
         // Copy the non-ID info from the requestbody to the database object
         databaseOrganicDog.setName(organicDog.getName());
+        databaseOrganicDog.setAge(organicDog.getAgeInDays());
+        databaseOrganicDog.setHunger(organicDog.getHunger());
+        databaseOrganicDog.setThirst(organicDog.getThirst());
+        databaseOrganicDog.setEnergy(organicDog.getEnergy());
+        databaseOrganicDog.setMood(organicDog.getMood());
 
         // Ask the repo to write the modified student to MySQL (or whatever)
         writeToDatabase(databaseOrganicDog);
