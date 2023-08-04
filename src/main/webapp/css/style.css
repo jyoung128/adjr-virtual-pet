@@ -9,11 +9,17 @@
     border-radius: 20px;
     padding: 0.75em;
     margin-right: 5%;
-    font-family: 'Rubik Mono One', sans-serif;
+    font-family: 'Big Shoulders Inline Text', cursive;
+    font-size: 0.75em;
+    background-color: #a8d4d4;
 }
 
-input[type=text]{
-    width: 22em;
+.create-pet-form button:hover{
+    background-color: #7a9c9c;
+}
+
+input[type=text], select{
+    width: 25em;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -24,18 +30,44 @@ input[type=text]{
 
 .create-pet-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     margin-left: 20%;
     margin-right: 20%;
     background-color: #c6e2e9;
     border-radius: 20px;
     padding: 2em;
+    align-items: center;
 
+}
+
+.create-pet-image-container{
+    padding-top: 1em;
+}
+
+.create-pet-image-container img{
+    max-width: 6em;
+}
+
+.pet-list{
+    display: flex;
+}
+
+.pet-stats{
+    list-style-type: none;
+}
+
+.organic-pet-container{
+    display: flex;
+}
+
+.organic-pet-image-container img{
+    max-height: 6em;
 }
 
 body{
     margin: 0px;
-    font-family: 'Rubik Mono One', sans-serif;
+    font-family: 'Big Shoulders Inline Text', cursive;
+    font-size: 1.5em;
     background-image: url(images/background.jpg);
     background-position: 0px 0px;
     background-repeat: repeat-x;
@@ -64,7 +96,11 @@ nav a{
     text-decoration: none;
     margin-left: 1em;
     margin-right: 1em;
-    
+    color: black;
+}
+
+nav a:hover{
+    color: #848484;
 }
 
 #list-of-dogs ul a {

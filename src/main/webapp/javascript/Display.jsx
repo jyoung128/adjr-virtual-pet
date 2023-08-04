@@ -31,12 +31,12 @@ function OrganicCats() {
   if (allOrganicCats && allOrganicCats._embedded) {
     return (
       <div>
-        <button onClick={getOrganicCats}>Show All Cats</button>
-        <ul>
+        <ul className="pet-list">
           {allOrganicCats["_embedded"]["organicCatList"].map((oneCat) => (
             <OrganicCat key={oneCat.petId} organicCat={oneCat} />
           ))}
         </ul>
+        <button onClick={getCats}>Show All Cats</button>
       </div>
     );
   } else {
@@ -57,11 +57,13 @@ function OrganicDogs() {
   if (allOrganicDogs && allOrganicDogs._embedded) {
     return (
       <div>
-        <button onClick={getOrganicDogs}>Show All Dogs</button>
         <div id="list-of-dogs">
-          {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
-            <OrganicDog key={oneDog.petId} organicDog={oneDog} />
-          ))}
+          <ul className="pet-list">
+            {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
+              <OrganicDog key={oneDog.petId} organicDog={oneDog} />
+            ))}
+          </ul>
+          <button onClick={getDogs}>Show All Dogs</button>
         </div>
       </div>
     );
@@ -212,29 +214,43 @@ const adoptDog = (ID) => {
 
 function OrganicCat({ organicCat }) {
   return (
-    <>
-      <li key={organicCat.petID}></li>
-      <li>Name:{organicCat.name}</li>
-      <li>Hunger:{organicCat.hunger}</li>
-      <li>Thirst:{organicCat.thirst}</li>
-      <li>mood:{organicCat.mood}</li>
-    </>
+    <div className="organic-pet-container">
+      <div>
+        <ul className="pet-stats">
+          <li>Name: {organicCat.name}</li>
+          <li>Hunger: {organicCat.hunger}</li>
+          <li>Thirst: {organicCat.thirst}</li>
+          <li>Mood: {organicCat.mood}</li>
+        </ul>
+      </div>
+      <div className="organic-pet-image-container">
+        <img src="images/cat.png"></img>
+      </div>
+    </div>
   );
 }
 
 function OrganicDog({ organicDog }) {
   return (
-    <ul id={`dog-number-${organicDog.petID}`}>
-      <li>Name:{organicDog.name}</li>
-      <li>Hunger:{organicDog.hunger}</li>
-      <li>Thirst:{organicDog.thirst}</li>
-      <li>mood:{organicDog.mood}</li>
-
-      <div id={`dog-number-${organicDog.id}-buttons`}>
-        <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-        <a>Delete</a>
+    <div>
+      <div className="organic-pet-container">
+        <div>
+          <ul className="pet-stats" id={`dog-number-${organicDog.petID}`}>
+            <li>Name: {organicDog.name}</li>
+            <li>Hunger: {organicDog.hunger}</li>
+            <li>Thirst: {organicDog.thirst}</li>
+            <li>Mood: {organicDog.mood}</li>
+          </ul>
+        </div>
+        <div className="organic-pet-image-container">
+          <img src="images/dog.png"></img>
+        </div>
       </div>
-    </ul>
+      <div id={`dog-number-${organicDog.id}-buttons`}>
+          <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+          <a>Delete</a>
+      </div>
+    </div>
   );
 }
 

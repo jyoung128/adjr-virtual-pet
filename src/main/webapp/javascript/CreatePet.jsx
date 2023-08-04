@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
 
+const speciesOptions = [
+  {
+    label: "Organic Dog",
+    value: "Organic Dog",
+  },
+  {
+    label: "Organic Cat",
+    value: "Organic Cat",
+  }
+];
+
 export default function CreatePet() {
   const [petName, setPetName] = useState("");
 
@@ -8,6 +19,10 @@ export default function CreatePet() {
   const [species, setSpecies] = useState("");
 
   const [temperament, setTemperament] = useState("");
+
+  useEffect(() => {
+    setSpecies("Organic Dog");
+  }, [])
 
   const handlePetNameChange = ({ target }) => {
     setPetName(target.value);
@@ -25,6 +40,16 @@ export default function CreatePet() {
     setShelterName(target.value);
   };
 
+  function handleSpeciesPost(){
+    if(species == "Organic Dog"){
+      postDog();
+    }
+
+    if(species == "Organic Cat"){
+      postCat();
+    }
+  }
+
   const postDog = () => {
     fetch("api/organicDogs", {
       method: "POST",
@@ -35,7 +60,7 @@ export default function CreatePet() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("Activity saved successfully!");
+        console.log("Dog saved successfully!");
       })
       .catch((error) => {
         console.error("Error saving activity:", error);
@@ -52,7 +77,7 @@ export default function CreatePet() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("Activity saved successfully!");
+        console.log("Cat saved successfully!");
       })
       .catch((error) => {
         console.error("Error saving activity:", error);
@@ -69,7 +94,7 @@ export default function CreatePet() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("Activity saved successfully!");
+        console.log("Shelter saved successfully!");
       })
       .catch((error) => {
         console.error("Error saving activity:", error);
@@ -90,12 +115,11 @@ export default function CreatePet() {
           ></input>
 
           <label htmlFor="species">Species: </label>
-          <input
-            type="text"
-            name="species"
-            value={species}
-            onChange={handleSpeciesChange}
-          ></input>
+          <select name="species" id="species" onChange={handleSpeciesChange}>
+            {speciesOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
 
           <label htmlFor="temperament">Temperament: </label>
           <input
@@ -112,17 +136,33 @@ export default function CreatePet() {
             value={shelterName}
             onChange={handleShelterNameChange}
           ></input>
-        </form>
-        <button onClick={postDog}>Create Dog</button>
-        <button onClick={postCat}>Create Cat</button>
+        <button onClick={handleSpeciesPost}>Create Pet</button>
         <button onClick={postShelter}>Create Shelter</button>
+        </form>
       </div>
       <div>
         <div>{petName}</div>
         <div>{species}</div>
         <div>{temperament}</div>
         <div>{shelterName}</div>
+        <CreatePetImage species={species}/>
       </div>
     </div>
   );
+}
+
+function CreatePetImage({species}) {
+  if(species == "Organic Cat"){
+    return(
+      <div className="create-pet-image-container">
+        <img src="images/cat.png"></img>
+      </div>
+    );
+  } else {
+    return(
+      <div className="create-pet-image-container">
+        <img src="images/dog.png"></img>
+      </div>
+    );
+  }
 }

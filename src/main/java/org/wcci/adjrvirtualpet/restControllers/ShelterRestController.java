@@ -116,6 +116,11 @@ public class ShelterRestController {
         shelterService.deleteOrganicCatById(organicCat_id);
     }
 
+    @DeleteMapping("/api/organicShelters/{organicShelter_id}")
+    public void deleteOrganicShelter(@PathVariable long organicShelter_id) {
+        shelterService.deleteOrganicShelterById(organicShelter_id);
+    }
+
     // Talk to the Product Owner before changing this
     @DeleteMapping("/api/organicDogs")
     public void deleteAllOrganicDogs() {
