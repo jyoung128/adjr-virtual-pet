@@ -39,6 +39,22 @@ input[type=text]{
 
 }
 
+.pet-list{
+    display: flex;
+}
+
+.pet-stats{
+    list-style-type: none;
+}
+
+.organic-pet-container{
+    display: flex;
+}
+
+.organic-pet-image-container img{
+    max-height: 6em;
+}
+
 body{
     margin: 0px;
     font-family: 'Big Shoulders Inline Text', cursive;
