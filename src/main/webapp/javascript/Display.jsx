@@ -36,7 +36,7 @@ function OrganicCats() {
             <OrganicCat key={oneCat.petId} organicCat={oneCat} />
           ))}
         </ul>
-        <button onClick={getCats}>Show All Cats</button>
+        <button onClick={getOrganicCats}>Show All Cats</button>
       </div>
     );
   } else {
@@ -63,7 +63,7 @@ function OrganicDogs() {
               <OrganicDog key={oneDog.petId} organicDog={oneDog} />
             ))}
           </ul>
-          <button onClick={getDogs}>Show All Dogs</button>
+          <button onClick={getOrganicDogs}>Show All Dogs</button>
         </div>
       </div>
     );
@@ -86,8 +86,8 @@ function OrganicShelter() {
   if (allOrganicShelters && allOrganicShelters._embedded) {
     return (
       <div>
-        <button onClick={getShelters}>Show All Shelters</button>
-        <ul>
+        <div className="list-of-shelters">
+        <ul className="pet-list">
           {allOrganicShelters["_embedded"]["organicShelterList"].map(
             (oneShelter) => (
               <ListOrganicShelter
@@ -97,6 +97,8 @@ function OrganicShelter() {
             )
           )}
         </ul>
+        <button onClick={getShelters}>Show All Shelters</button>
+        </div>
         {console.log(JSON.stringify(allOrganicShelters))}
       </div>
     );
@@ -247,8 +249,8 @@ function OrganicDog({ organicDog }) {
         </div>
       </div>
       <div id={`dog-number-${organicDog.id}-buttons`}>
-          <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-          <a>Delete</a>
+        <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+        <a>Delete</a>
       </div>
     </div>
   );
@@ -256,11 +258,18 @@ function OrganicDog({ organicDog }) {
 
 function ListOrganicShelter({ organicShelter }) {
   return (
-    <ul>
-      <li key={organicShelter.shelterID}></li>
-      <li>Shelter Name:{organicShelter.name}</li>
-      <li>Organic Dogs:{organicShelter.getDog}</li>
-      <li>Organic Cats:{organicShelter.getCat}</li>
-    </ul>
+    <>
+    <div className="organic-shelter-container">
+      <ul>
+        <li key={organicShelter.shelterID}></li>
+        <li>Shelter Name:{organicShelter.name}</li>
+        <li>Organic Dogs:{organicShelter.getDog}</li>
+        <li>Organic Cats:{organicShelter.getCat}</li>
+      </ul>
+      <div className="organic-shelter-image-container">
+        <img src="images/Shelter.png"></img>
+      </div>
+      </div>
+    </>
   );
 }
