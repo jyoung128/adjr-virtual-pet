@@ -21,7 +21,7 @@ export default function Display() {
 function OrganicCats() {
   let [allOrganicCats, setAllOrganicCats] = useState([]);
 
-  function getCats() {
+  function getOrganicCats() {
     fetch(`/api/organicCats`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicCats(responseBody));
@@ -31,7 +31,7 @@ function OrganicCats() {
   if (allOrganicCats && allOrganicCats._embedded) {
     return (
       <div>
-        <button onClick={getCats}>Show All Cats</button>
+        <button onClick={getOrganicCats}>Show All Cats</button>
         <ul>
           {allOrganicCats["_embedded"]["organicCatList"].map((oneCat) => (
             <OrganicCat key={oneCat.petId} organicCat={oneCat} />
@@ -40,14 +40,14 @@ function OrganicCats() {
       </div>
     );
   } else {
-    return <button onClick={getCats}>Show All Cats</button>;
+    return <button onClick={getOrganicCats}>Show All Cats</button>;
   }
 }
 
 function OrganicDogs() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
 
-  function getDogs() {
+  function getOrganicDogs() {
     fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicDogs(responseBody));
@@ -57,7 +57,7 @@ function OrganicDogs() {
   if (allOrganicDogs && allOrganicDogs._embedded) {
     return (
       <div>
-        <button onClick={getDogs}>Show All Dogs</button>
+        <button onClick={getOrganicDogs}>Show All Dogs</button>
         <div id="list-of-dogs">
           {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
             <OrganicDog key={oneDog.petId} organicDog={oneDog} />
@@ -66,7 +66,7 @@ function OrganicDogs() {
       </div>
     );
   } else {
-    return <button onClick={getDogs}>Show All Dogs</button>;
+    return <button onClick={getOrganicDogs}>Show All Dogs</button>;
   }
 }
 
@@ -82,20 +82,25 @@ function OrganicShelter() {
   }
 
   if (allOrganicShelters && allOrganicShelters._embedded) {
-  return (
-    <div>
-      <button onClick={getShelters}>Show All Shelters</button>
-      <ul>
-        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-          <ListOrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
-        ))}
-      </ul>
-      {console.log(JSON.stringify(allOrganicShelters))}
-    </div>
-  );
-} else {
-  return <button onClick={getShelters}>Show All Shelters</button>;
-}
+    return (
+      <div>
+        <button onClick={getShelters}>Show All Shelters</button>
+        <ul>
+          {allOrganicShelters["_embedded"]["organicShelterList"].map(
+            (oneShelter) => (
+              <ListOrganicShelter
+                key={oneShelter.shelterID}
+                organicShelter={oneShelter}
+              />
+            )
+          )}
+        </ul>
+        {console.log(JSON.stringify(allOrganicShelters))}
+      </div>
+    );
+  } else {
+    return <button onClick={getShelters}>Show All Shelters</button>;
+  }
 }
 
 const makeDogEditable = (ID) => {
@@ -237,9 +242,9 @@ function ListOrganicShelter({ organicShelter }) {
   return (
     <ul>
       <li key={organicShelter.shelterID}></li>
-      <li>Organic Dogs:{organicShelter.getDogs}</li>
-      <li>Organic Cats:{organicShelter.getCats}</li>
       <li>Shelter Name:{organicShelter.name}</li>
+      <li>Organic Dogs:{organicShelter.getDog}</li>
+      <li>Organic Cats:{organicShelter.getCat}</li>
     </ul>
   );
 }
