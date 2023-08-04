@@ -11,6 +11,25 @@ const speciesOptions = [
   }
 ];
 
+const temperamentOptions = [
+  {
+    label: "Docile",
+    value: "Docile",
+  },
+  {
+    label: "Dominant",
+    value: "Dominant",
+  },
+  {
+    label: "Avoidant",
+    value: "Avoidant",
+  },
+  {
+    label: "Social",
+    value: "Social",
+  }
+];
+
 export default function CreatePet() {
   const [petName, setPetName] = useState("");
 
@@ -22,6 +41,10 @@ export default function CreatePet() {
 
   useEffect(() => {
     setSpecies("Organic Dog");
+  }, [])
+
+  useEffect(() => {
+    setTemperament("Docile");
   }, [])
 
   const handlePetNameChange = ({ target }) => {
@@ -63,7 +86,7 @@ export default function CreatePet() {
         console.log("Dog saved successfully!");
       })
       .catch((error) => {
-        console.error("Error saving activity:", error);
+        console.error("Error saving dog:", error);
       });
   };
 
@@ -80,7 +103,7 @@ export default function CreatePet() {
         console.log("Cat saved successfully!");
       })
       .catch((error) => {
-        console.error("Error saving activity:", error);
+        console.error("Error saving cat:", error);
       });
   };
 
@@ -97,7 +120,7 @@ export default function CreatePet() {
         console.log("Shelter saved successfully!");
       })
       .catch((error) => {
-        console.error("Error saving activity:", error);
+        console.error("Error saving shelter:", error);
       });
   };
 
@@ -106,7 +129,7 @@ export default function CreatePet() {
       <div className="create-pet-form">
         <form>
           <h2>Add a Pet</h2>
-          <label htmlFor="petName">PetName: </label>
+          <label htmlFor="petName">Pet Name: </label>
           <input
             type="text"
             name="petName"
@@ -122,12 +145,11 @@ export default function CreatePet() {
           </select>
 
           <label htmlFor="temperament">Temperament: </label>
-          <input
-            type="text"
-            name="temperament"
-            value={temperament}
-            onChange={handleTemperamentChange}
-          ></input>
+          <select id="temperament" name="temperament" onChange={handleTemperamentChange}>
+              {temperamentOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+          </select>
 
           <label htmlFor="shelterName">Shelter Name: </label>
           <input
