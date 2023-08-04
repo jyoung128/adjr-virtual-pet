@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function Display() {
+  const [selectedID, setSelectedID] = useState(0);
 
   return (
     <div>
@@ -12,6 +13,14 @@ export default function Display() {
       </div>
       <div id="shelter">
         <OrganicShelter />
+      </div>
+
+      <div className="menu" id="adopt-prompt">
+        <div className="popup">
+          <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
+          <button onClick={adoptDog(selectedID)}>I'm Sure</button>
+          <button onClick={closeAdoptPrompt}>Cancel</button>
+        </div>
       </div>
     </div>
   );
@@ -45,60 +54,6 @@ function OrganicCats() {
 
 function OrganicDogs() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
-  const [selectedID, setSelectedID] = useState(0);
-
-  const promptAdopt = (ID) => {
-    setSelectedID(ID);
-    document.getElementById('adopt-prompt').style.display = 'flex';
-  };
-  const closeAdoptPrompt = () => {
-    document.getElementById('adopt-prompt').style.display = 'none';
-  }
-  
-  const adoptDog = () => {
-    const ID = selectedID;
-  
-    fetch(`api/organicDogs/${ID}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log("Dog adopted successfully!");
-      })
-      .catch((error) => {
-        console.error("Error adopting dog:", error);
-      });
-  
-    const dog = document.getElementById(`dog-number-${ID}`);
-    dog.parentNode.removeChild(dog);
-    closeAdoptPrompt();
-  };
-
-  function OrganicDog({ organicDog }) {
-    return (
-      <div id={`dog-number-${organicDog.petID}`}>
-        <div className="organic-pet-container">
-          <div>
-            <ul className="pet-stats">
-              <li>Name: {organicDog.name}</li>
-              <li>Hunger: {organicDog.hunger}</li>
-              <li>Thirst: {organicDog.thirst}</li>
-              <li>Mood: {organicDog.mood}</li>
-            </ul>
-          </div>
-          <div className="organic-pet-image-container">
-            <img src="images/dog.png"></img>
-          </div>
-        </div>
-        <div id={`dog-number-${organicDog.id}-buttons`}>
-            <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-            <a onClick={() => promptAdopt(organicDog.petID)}>Adopt Out</a>
-        </div>
-      </div>
-    );
-  }
 
   function getDogs() {
     fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
@@ -118,14 +73,6 @@ function OrganicDogs() {
           </ul>
           <button onClick={getDogs}>Show All Dogs</button>
         </div>
-
-        <div className="menu" id="adopt-prompt">
-        <div className="popup">
-          <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
-          <button onClick={adoptDog}>I'm Sure</button>
-          <button onClick={closeAdoptPrompt}>Cancel</button>
-        </div>
-      </div>
       </div>
     );
   } else {
@@ -162,7 +109,9 @@ function OrganicShelter() {
 }
 
 const makeDogEditable = (ID) => {
+  //setSelectedID(ID);
   console.log(ID);
+  //console.log(selectedID);
   const dogToEdit = document.getElementById(`dog-number-${ID}`);
 
   const dogNameInfo = dogToEdit.querySelector("li");
@@ -248,6 +197,32 @@ const updateDogName = (ID) => {
   makeDogUneditable(ID);
 };
 
+const promptAdopt = (ID) => {
+  setSelectedID(ID);
+  document.getElementById('adopt-prompt').style.display = 'flex';
+};
+const closeAdoptPrompt = () => {
+  document.getElementById('adopt-prompt').style.display = 'none';
+}
+
+const adoptDog = (ID) => {
+  fetch(`api/organicDogs/${ID}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      console.log("Dog adopted successfully!");
+    })
+    .catch((error) => {
+      console.error("Error adopting dog:", error);
+    });
+
+  const dog = document.getElementById(`dog-number-${ID}`);
+  dog.parentNode.removeChild(dog);
+};
+
 function OrganicCat({ organicCat }) {
   return (
     <div className="organic-pet-container">
@@ -261,6 +236,30 @@ function OrganicCat({ organicCat }) {
       </div>
       <div className="organic-pet-image-container">
         <img src="images/cat.png"></img>
+      </div>
+    </div>
+  );
+}
+
+function OrganicDog({ organicDog }) {
+  return (
+    <div id={`dog-number-${organicDog.petID}`}>
+      <div className="organic-pet-container">
+        <div>
+          <ul className="pet-stats">
+            <li>Name: {organicDog.name}</li>
+            <li>Hunger: {organicDog.hunger}</li>
+            <li>Thirst: {organicDog.thirst}</li>
+            <li>Mood: {organicDog.mood}</li>
+          </ul>
+        </div>
+        <div className="organic-pet-image-container">
+          <img src="images/dog.png"></img>
+        </div>
+      </div>
+      <div id={`dog-number-${organicDog.id}-buttons`}>
+          <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+          <a onClick={() => adoptDog(organicDog.petID)}>Adopt Out</a>
       </div>
     </div>
   );
