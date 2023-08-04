@@ -14,6 +14,14 @@ export default function Display() {
       <div id="shelter">
         <OrganicShelter />
       </div>
+
+      <div className="menu" id="adopt-prompt">
+        <div className="popup">
+          <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
+          <button onClick={adoptDog(selectedID)}>I'm Sure</button>
+          <button onClick={closeAdoptPrompt}>Cancel</button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -196,6 +204,14 @@ const updateDogName = (ID) => {
   makeDogUneditable(ID);
 };
 
+const promptAdopt = (ID) => {
+  setSelectedID(ID);
+  document.getElementById('adopt-prompt').style.display = 'flex';
+};
+const closeAdoptPrompt = () => {
+  document.getElementById('adopt-prompt').style.display = 'none';
+}
+
 const adoptDog = (ID) => {
   fetch(`api/organicDogs/${ID}`, {
     method: "DELETE",
@@ -234,10 +250,10 @@ function OrganicCat({ organicCat }) {
 
 function OrganicDog({ organicDog }) {
   return (
-    <div>
+    <div id={`dog-number-${organicDog.petID}`}>
       <div className="organic-pet-container">
         <div>
-          <ul className="pet-stats" id={`dog-number-${organicDog.petID}`}>
+          <ul className="pet-stats">
             <li>Name: {organicDog.name}</li>
             <li>Hunger: {organicDog.hunger}</li>
             <li>Thirst: {organicDog.thirst}</li>
@@ -249,8 +265,8 @@ function OrganicDog({ organicDog }) {
         </div>
       </div>
       <div id={`dog-number-${organicDog.id}-buttons`}>
-        <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-        <a>Delete</a>
+          <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+          <a onClick={() => adoptDog(organicDog.petID)}>Adopt Out</a>
       </div>
     </div>
   );
