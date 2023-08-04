@@ -274,14 +274,12 @@ export default function Adopt() {
       <div>
         <form>
           <label htmlFor="id">ID of Pet you want to Adopt out</label>
-          <OrganicCats />
-          <OrganicDogs />
-          {/* <input
+          <input
             type="text"
             name="id"
             value={id}
             onChange={handleIdChange}
-          ></input> */}
+          ></input>
         </form>
       </div>
       <div>
