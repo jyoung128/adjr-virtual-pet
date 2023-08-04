@@ -17,7 +17,11 @@ export default function Display() {
 
       <div className="menu" id="adopt-prompt">
         <div className="popup">
-          <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
+          <p>
+            Are you sure you want to give this pet up for adoption? This action
+            can not be undone.
+          </p>
+          <br />
           <button onClick={adoptDog(selectedID)}>I'm Sure</button>
           <button onClick={closeAdoptPrompt}>Cancel</button>
         </div>
@@ -29,7 +33,7 @@ export default function Display() {
 function OrganicCats() {
   let [allOrganicCats, setAllOrganicCats] = useState([]);
 
-  function getCats() {
+  function getOrganicCats() {
     fetch(`/api/organicCats`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicCats(responseBody));
@@ -44,18 +48,18 @@ function OrganicCats() {
             <OrganicCat key={oneCat.petId} organicCat={oneCat} />
           ))}
         </ul>
-        <button onClick={getCats}>Show All Cats</button>
+        <button onClick={getOrganicCats}>Show All Cats</button>
       </div>
     );
   } else {
-    return <button onClick={getCats}>Show All Cats</button>;
+    return <button onClick={getOrganicCats}>Show All Cats</button>;
   }
 }
 
 function OrganicDogs() {
   let [allOrganicDogs, setAllOrganicDogs] = useState([]);
 
-  function getDogs() {
+  function getOrganicDogs() {
     fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
       .then((response) => response.json())
       .then((responseBody) => setAllOrganicDogs(responseBody));
@@ -71,12 +75,12 @@ function OrganicDogs() {
               <OrganicDog key={oneDog.petId} organicDog={oneDog} />
             ))}
           </ul>
-          <button onClick={getDogs}>Show All Dogs</button>
+          <button onClick={getOrganicDogs}>Show All Dogs</button>
         </div>
       </div>
     );
   } else {
-    return <button onClick={getDogs}>Show All Dogs</button>;
+    return <button onClick={getOrganicDogs}>Show All Dogs</button>;
   }
 }
 
@@ -92,20 +96,27 @@ function OrganicShelter() {
   }
 
   if (allOrganicShelters && allOrganicShelters._embedded) {
-  return (
-    <div>
-      <button onClick={getShelters}>Show All Shelters</button>
-      <ul>
-        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-          <ListOrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
-        ))}
-      </ul>
-      {console.log(JSON.stringify(allOrganicShelters))}
-    </div>
-  );
-} else {
-  return <button onClick={getShelters}>Show All Shelters</button>;
-}
+    return (
+      <div>
+        <div className="list-of-shelters">
+          <ul className="pet-list">
+            {allOrganicShelters["_embedded"]["organicShelterList"].map(
+              (oneShelter) => (
+                <ListOrganicShelter
+                  key={oneShelter.shelterID}
+                  organicShelter={oneShelter}
+                />
+              )
+            )}
+          </ul>
+          <button onClick={getShelters}>Show All Shelters</button>
+        </div>
+        {console.log(JSON.stringify(allOrganicShelters))}
+      </div>
+    );
+  } else {
+    return <button onClick={getShelters}>Show All Shelters</button>;
+  }
 }
 
 const makeDogEditable = (ID) => {
@@ -199,11 +210,11 @@ const updateDogName = (ID) => {
 
 const promptAdopt = (ID) => {
   setSelectedID(ID);
-  document.getElementById('adopt-prompt').style.display = 'flex';
+  document.getElementById("adopt-prompt").style.display = "flex";
 };
 const closeAdoptPrompt = () => {
-  document.getElementById('adopt-prompt').style.display = 'none';
-}
+  document.getElementById("adopt-prompt").style.display = "none";
+};
 
 const adoptDog = (ID) => {
   fetch(`api/organicDogs/${ID}`, {
@@ -258,8 +269,8 @@ function OrganicDog({ organicDog }) {
         </div>
       </div>
       <div id={`dog-number-${organicDog.id}-buttons`}>
-          <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
-          <a onClick={() => adoptDog(organicDog.petID)}>Adopt Out</a>
+        <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+        <a onClick={() => adoptDog(organicDog.petID)}>Adopt Out</a>
       </div>
     </div>
   );
@@ -267,11 +278,18 @@ function OrganicDog({ organicDog }) {
 
 function ListOrganicShelter({ organicShelter }) {
   return (
-    <ul>
-      <li key={organicShelter.shelterID}></li>
-      <li>Organic Dogs:{organicShelter.getDogs}</li>
-      <li>Organic Cats:{organicShelter.getCats}</li>
-      <li>Shelter Name:{organicShelter.name}</li>
-    </ul>
+    <>
+      <div className="organic-shelter-container">
+        <ul className="pet-stats">
+          <li key={organicShelter.shelterID}></li>
+          <li>Shelter Name:{organicShelter.name}</li>
+          <li>Organic Dogs:{organicShelter.getDog}</li>
+          <li>Organic Cats:{organicShelter.getCat}</li>
+        </ul>
+        <div className="organic-shelter-image-container">
+          <img src="images/Shelter.png"></img>
+        </div>
+      </div>
+    </>
   );
 }
