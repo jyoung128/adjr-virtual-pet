@@ -33,6 +33,7 @@ input[type=text], select{
     grid-template-columns: 2fr 1fr;
     margin-left: 20%;
     margin-right: 20%;
+    margin-bottom: 1.5em;
     background-color: #c6e2e9;
     border-radius: 20px;
     padding: 2em;
@@ -61,6 +62,14 @@ input[type=text], select{
 }
 
 .organic-pet-image-container img{
+    max-height: 6em;
+}
+
+.organic-shelter-container {
+    display: flex;
+}
+
+.organic-shelter-image-container img{
     max-height: 6em;
 }
 
@@ -104,6 +113,12 @@ nav a:hover{
 }
 
 #list-of-dogs ul a {
+    margin-left: 5px;
+    color: blue;
+    cursor: pointer;
+}
+
+.list-of-shelters ul a {
     margin-left: 5px;
     color: blue;
     cursor: pointer;
