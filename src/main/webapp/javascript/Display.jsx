@@ -287,7 +287,7 @@ function ListOrganicShelter({ organicShelter }) {
           <li>Organic Cats:{organicShelter.getCat}</li>
         </ul>
         <div className="organic-shelter-image-container">
-          <img src="images/Shelter.png"></img>
+          <img src="images/shelter.webp"></img>
         </div>
       </div>
     </>
