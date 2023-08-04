@@ -171,6 +171,56 @@ export default function Adopt() {
       });
   };
 
+  const updateDogMood = () => {
+    const data = {
+      ...organicDog,
+      mood: 69,
+      energy: 40,
+    };
+
+    fetch(`api/organicDogs/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog name updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  };
+
+  const updateCatMood = () => {
+    const data = {
+      ...organicCat,
+      mood: 70,
+      energy: 40,
+    };
+
+    fetch(`api/organicCats/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog name updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  };
+
   return (
     <div>
       <div>
@@ -197,6 +247,8 @@ export default function Adopt() {
         <button onClick={updateCatHunger}>Feed Cat</button>
         <button onClick={updateDogThirst}>Water Dog</button>
         <button onClick={updateCatThirst}>Water Cat</button>
+        <button onClick={updateDogMood}>Walk Dog</button>
+        <button onClick={updateCatMood}>Walk Cat</button>
       </div>
     </div>
   );
