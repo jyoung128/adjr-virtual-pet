@@ -123,6 +123,54 @@ export default function Adopt() {
       });
   };
 
+  const updateDogThirst = () => {
+    const data = {
+      ...organicDog,
+      thirst: 30,
+    };
+
+    fetch(`api/organicDogs/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog name updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  };
+
+  const updateCatThirst = () => {
+    const data = {
+      ...organicCat,
+      thirst: 30,
+    };
+
+    fetch(`api/organicCats/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog name updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  };
+
   return (
     <div>
       <div>
@@ -145,8 +193,10 @@ export default function Adopt() {
         <button onClick={deleteDog}>Delete Dog</button>
         <button onClick={deleteCat}>Delete Cat</button>
         <button onClick={deleteShelter}>Delete Shelter</button>
-        <button onClick={updateDogHunger}>Feed</button>
-        <button onClick={updateCatHunger}>Feed</button>
+        <button onClick={updateDogHunger}>Feed Dog</button>
+        <button onClick={updateCatHunger}>Feed Cat</button>
+        <button onClick={updateDogThirst}>Water Dog</button>
+        <button onClick={updateCatThirst}>Water Cat</button>
       </div>
     </div>
   );
