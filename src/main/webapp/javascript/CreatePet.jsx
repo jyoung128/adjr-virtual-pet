@@ -35,6 +35,8 @@ export default function CreatePet() {
 
   const [shelterName, setShelterName] = useState("");
 
+  const [newShelterName, setNewShelterName] = useState("");
+
   const [species, setSpecies] = useState("");
 
   const [temperament, setTemperament] = useState("");
@@ -61,6 +63,10 @@ export default function CreatePet() {
 
   const handleShelterNameChange = ({ target }) => {
     setShelterName(target.value);
+  };
+
+  const handleNewShelterNameChange = ({ target }) => {
+    setNewShelterName(target.value);
   };
 
   function handleSpeciesPost(){
@@ -111,7 +117,7 @@ export default function CreatePet() {
     fetch("api/organicShelters", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: shelterName }),
+      body: JSON.stringify({ name: newShelterName }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -125,49 +131,69 @@ export default function CreatePet() {
   };
 
   return (
-    <div className="create-pet-container">
-      <div className="create-pet-form">
-        <form>
-          <h2>Add a Pet</h2>
-          <label htmlFor="petName">Pet Name: </label>
-          <input
-            type="text"
-            name="petName"
-            value={petName}
-            onChange={handlePetNameChange}
-          ></input>
+    <div>
+      <div className="create-pet-container">
+        <div className="create-pet-form">
+          <form>
+            <h2>Add a Pet</h2>
+            <label htmlFor="petName">Pet Name: </label>
+            <input
+              type="text"
+              name="petName"
+              value={petName}
+              onChange={handlePetNameChange}
+            ></input>
 
-          <label htmlFor="species">Species: </label>
-          <select name="species" id="species" onChange={handleSpeciesChange}>
-            {speciesOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-
-          <label htmlFor="temperament">Temperament: </label>
-          <select id="temperament" name="temperament" onChange={handleTemperamentChange}>
-              {temperamentOptions.map((option) => (
+            <label htmlFor="species">Species: </label>
+            <select name="species" id="species" onChange={handleSpeciesChange}>
+              {speciesOptions.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
-          </select>
+            </select>
 
-          <label htmlFor="shelterName">Shelter Name: </label>
-          <input
-            type="text"
-            name="shelterName"
-            value={shelterName}
-            onChange={handleShelterNameChange}
-          ></input>
-        <button onClick={handleSpeciesPost}>Create Pet</button>
-        <button onClick={postShelter}>Create Shelter</button>
-        </form>
+            <label htmlFor="temperament">Temperament: </label>
+            <select id="temperament" name="temperament" onChange={handleTemperamentChange}>
+                {temperamentOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+            </select>
+
+            <label htmlFor="shelterName">Shelter Name: </label>
+            <input
+              type="text"
+              name="shelterName"
+              value={shelterName}
+              onChange={handleShelterNameChange}
+            ></input>
+          <button onClick={handleSpeciesPost}>Create Pet</button>
+          </form>
+        </div>
+        <div>
+          <div>{petName}</div>
+          <div>{species}</div>
+          <div>{temperament}</div>
+          <div>{shelterName}</div>
+          <CreatePetImage species={species}/>
+        </div>
       </div>
-      <div>
-        <div>{petName}</div>
-        <div>{species}</div>
-        <div>{temperament}</div>
-        <div>{shelterName}</div>
-        <CreatePetImage species={species}/>
+      <div className="create-pet-container">
+        <div className="create-pet-form">
+          <form>
+            <h2>Add a Shelter</h2>
+            <label htmlFor="newShelterName">Shelter Name: </label>
+            <input
+              type="text"
+              name="newShelterName"
+              value={newShelterName}
+              onChange={handleNewShelterNameChange}
+            ></input>
+            <button onClick={postShelter}>Create Shelter</button>
+          </form>
+        </div>
+        <div>
+            <div>{newShelterName}</div>
+            <CreateShelterImage />
+        </div>
       </div>
     </div>
   );
@@ -187,4 +213,12 @@ function CreatePetImage({species}) {
       </div>
     );
   }
+}
+
+function CreateShelterImage(){
+  return (
+    <div className="create-pet-image-container">
+      <img src="images/shelter.webp"></img>
+    </div>
+  );
 }
