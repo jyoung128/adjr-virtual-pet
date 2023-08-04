@@ -18,7 +18,7 @@
     background-color: #7a9c9c;
 }
 
-input[type=text]{
+input[type=text], select{
     width: 25em;
     padding: 12px 20px;
     margin: 8px 0;
@@ -36,7 +36,16 @@ input[type=text]{
     background-color: #c6e2e9;
     border-radius: 20px;
     padding: 2em;
+    align-items: center;
 
+}
+
+.create-pet-image-container{
+    padding-top: 1em;
+}
+
+.create-pet-image-container img{
+    max-width: 6em;
 }
 
 .pet-list{
