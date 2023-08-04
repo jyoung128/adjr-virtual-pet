@@ -65,6 +65,14 @@ input[type=text], select{
     max-height: 6em;
 }
 
+.organic-shelter-container {
+    display: flex;
+}
+
+.organic-shelter-image-container img{
+    max-height: 6em;
+}
+
 body{
     margin: 0px;
     font-family: 'Big Shoulders Inline Text', cursive;
@@ -105,6 +113,12 @@ nav a:hover{
 }
 
 #list-of-dogs ul a {
+    margin-left: 5px;
+    color: blue;
+    cursor: pointer;
+}
+
+.list-of-shelters ul a {
     margin-left: 5px;
     color: blue;
     cursor: pointer;
