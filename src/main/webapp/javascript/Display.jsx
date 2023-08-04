@@ -276,7 +276,7 @@ function ListOrganicShelter({ organicShelter }) {
   return (
     <>
     <div className="organic-shelter-container">
-      <ul>
+      <ul className="pet-stats">
         <li key={organicShelter.shelterID}></li>
         <li>Shelter Name:{organicShelter.name}</li>
         <li>Organic Dogs:{organicShelter.getDog}</li>
