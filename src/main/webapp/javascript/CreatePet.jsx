@@ -33,13 +33,15 @@ const temperamentOptions = [
 export default function CreatePet() {
   const [petName, setPetName] = useState("");
 
-  const [shelterName, setShelterName] = useState("");
-
-  const [newShelterName, setNewShelterName] = useState("");
-
   const [species, setSpecies] = useState("");
 
   const [temperament, setTemperament] = useState("");
+
+  const [shelterId, setShelterId] = useState(0);
+
+  const [newShelterName, setNewShelterName] = useState("");
+
+  const [postedPetId, setPostedPetId] = useState(0);
 
   useEffect(() => {
     setSpecies("Organic Dog");
@@ -61,8 +63,8 @@ export default function CreatePet() {
     setTemperament(target.value);
   };
 
-  const handleShelterNameChange = ({ target }) => {
-    setShelterName(target.value);
+  const handleShelterIdChange = ({ target }) => {
+    setShelterId(target.value);
   };
 
   const handleNewShelterNameChange = ({ target }) => {
@@ -70,8 +72,9 @@ export default function CreatePet() {
   };
 
   function handleSpeciesPost(){
-    if(species == "Organic Dog"){
+    if(species == "Organic Dog" && shelterId){
       postDog();
+      putDogInShelter();
     }
 
     if(species == "Organic Cat"){
@@ -91,10 +94,30 @@ export default function CreatePet() {
         }
         console.log("Dog saved successfully!");
       })
+      .then((responseBody) => setPostedPetId(responseBody.petID))
       .catch((error) => {
         console.error("Error saving dog:", error);
       });
   };
+
+  const putDogInShelter = () => {
+    fetch(`/api/organicShelters/${shelterId}/organicDogs/${postedPetId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog added to shelter successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  }
 
   const postCat = () => {
     fetch("api/organicCats", {
@@ -130,6 +153,34 @@ export default function CreatePet() {
       });
   };
 
+  function OrganicShelters(){
+    const [allOrganicShelters, setAllOrganicShelters] = useState([]);
+  
+    useEffect(() => {
+      getShelters();
+    }, []);
+  
+    function getShelters() {
+      fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => setAllOrganicShelters(responseBody));
+      console.log(allOrganicShelters);
+      return () => {};
+    }
+  
+    if (allOrganicShelters && allOrganicShelters._embedded){
+      return(
+        <select name="shelterId" id="shelterId" onChange={handleShelterIdChange}>
+          <option defaultValue>None</option>
+          {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+            <option key={oneShelter.shelterID} value={oneShelter.shelterID}>{oneShelter.name}</option>
+          ))}
+        </select>
+        
+      )
+    }
+  }
+
   return (
     <div>
       <div className="create-pet-container">
@@ -159,12 +210,13 @@ export default function CreatePet() {
             </select>
 
             <label htmlFor="shelterName">Shelter Name: </label>
-            <input
+            <OrganicShelters />
+            {/* <input
               type="text"
               name="shelterName"
               value={shelterName}
               onChange={handleShelterNameChange}
-            ></input>
+            ></input> */}
           <button onClick={handleSpeciesPost}>Create Pet</button>
           </form>
         </div>
@@ -172,7 +224,7 @@ export default function CreatePet() {
           <div>{petName}</div>
           <div>{species}</div>
           <div>{temperament}</div>
-          <div>{shelterName}</div>
+          {/* <div>{shelterName}</div> */}
           <CreatePetImage species={species}/>
         </div>
       </div>
@@ -222,3 +274,5 @@ function CreateShelterImage(){
     </div>
   );
 }
+
+
