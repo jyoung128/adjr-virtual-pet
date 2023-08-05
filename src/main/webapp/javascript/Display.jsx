@@ -5,6 +5,11 @@ export default function Display() {
   const [showAdoptPrompt, setShowAdoptPrompt] = useState(false);
   const [showPetMenu, setShowPetMenu] = useState(false);
 
+  const [selectedPetName, setSelectedPetName] = useState("");
+  const [selectedPetHunger, setSelectedPetHunger] = useState();
+  const [selectedPetThirst, setSelectedPetThirst] = useState();
+  const [selectedPetMood, setSelectedPetMood] = useState();
+
   function OrganicCats() {
     let [allOrganicCats, setAllOrganicCats] = useState([]);
   
@@ -202,10 +207,22 @@ export default function Display() {
 
   const openPetMenu = (ID) => {
     setShowPetMenu(true);
+    fetch(`/api/organicDogs/${ID}`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => {
+          setSelectedPetName(responseBody.name);
+          setSelectedPetHunger(responseBody.hunger);
+          setSelectedPetThirst(responseBody.thirst);
+          setSelectedPetMood(responseBody.mood);
+        });
   }
 
   const closePetMenu = () => {
     setShowPetMenu(false);
+  }
+
+  const changeValue = (event) => {
+    setSelectedPetName(event.target.value);
   }
   
   const promptAdopt = (ID) => {
@@ -289,7 +306,20 @@ export default function Display() {
 
       {showPetMenu && (<div className="menu" id="pet-menu">
         <div className="popup">
-          <p>relevant stuff goes here</p>
+          <div className="organic-pet-container">
+            <div>
+              <ul className="pet-stats">
+                <li>Name: <input type="text" value={selectedPetName} onChange={changeValue}/></li>
+                <li>Hunger: {selectedPetHunger}</li>
+                <li>Thirst: {selectedPetThirst}</li>
+                <li>Mood: {selectedPetMood}</li>
+              </ul>
+            </div>
+            <div className="organic-pet-image-container">
+              <img src="images/dog.png"></img>
+            </div>
+          </div>
+          <button>Save</button>
           <button onClick={closePetMenu}>Close</button>
         </div>
       </div>
