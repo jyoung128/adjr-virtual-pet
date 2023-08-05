@@ -21,7 +21,7 @@ import org.wcci.adjrvirtualpet.repositories.OrganicCatRepo;
 @Service
 /**
  * I contain the business logic for responding to API requests for
- * student-related requests.
+ * pet-related requests.
  */
 public class ShelterService {
     final private static Logger logger = LoggerFactory.getLogger(ShelterService.class);
