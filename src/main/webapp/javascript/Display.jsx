@@ -66,7 +66,6 @@ export default function Display() {
           </div>
           <div id={`dog-number-${organicDog.id}-buttons`}>
               <a onClick={() => openPetMenu(organicDog.petID)}>Edit</a>
-              <a onClick={() => promptAdopt(organicDog.petID)}>Adopt Out</a>
           </div>
         </div>
       );
@@ -212,6 +211,7 @@ export default function Display() {
     fetch(`/api/organicDogs/${ID}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
         .then((responseBody) => {
+          setSelectedID(ID);
           setSelectedPetName(responseBody.name);
           setSelectedPetHunger(responseBody.hunger);
           setSelectedPetThirst(responseBody.thirst);
@@ -230,15 +230,18 @@ export default function Display() {
   }
   
   const promptAdopt = (ID) => {
+    closePetMenu();
     setSelectedID(ID);
     setShowAdoptPrompt(true);
   };
   const closeAdoptPrompt = () => {
     setShowAdoptPrompt(false);
+    setShowPetMenu(true);
   }
   
   const adoptDog = () => {
     closeAdoptPrompt();
+    closePetMenu();
     const ID = selectedID;
   
     fetch(`api/organicDogs/${ID}`, {
@@ -325,6 +328,7 @@ export default function Display() {
           </div>
           <button disabled={isPetMenuSaveButtonDisabled}>Save</button>
           <button onClick={closePetMenu}>Close</button>
+          <button onClick={() => promptAdopt(selectedID)}>Adopt</button>
         </div>
       </div>
       )}
