@@ -10,6 +10,8 @@ export default function Display() {
   const [selectedPetThirst, setSelectedPetThirst] = useState();
   const [selectedPetMood, setSelectedPetMood] = useState();
 
+  const [isPetMenuSaveButtonDisabled, setIsPetMenuSaveButtonDisabled] = useState(true);
+
   function OrganicCats() {
     let [allOrganicCats, setAllOrganicCats] = useState([]);
   
@@ -221,8 +223,10 @@ export default function Display() {
     setShowPetMenu(false);
   }
 
-  const changeValue = (event) => {
+  const handleNameTextChange = (event) => {
     setSelectedPetName(event.target.value);
+
+    setIsPetMenuSaveButtonDisabled(false);
   }
   
   const promptAdopt = (ID) => {
@@ -309,9 +313,9 @@ export default function Display() {
           <div className="organic-pet-container">
             <div>
               <ul className="pet-stats">
-                <li>Name: <input type="text" value={selectedPetName} onChange={changeValue}/></li>
-                <li>Hunger: {selectedPetHunger}</li>
-                <li>Thirst: {selectedPetThirst}</li>
+                <li>Name: <input type="text" value={selectedPetName} onChange={handleNameTextChange}/></li>
+                <li>Hunger: {selectedPetHunger} <button>Feed</button></li>
+                <li>Thirst: {selectedPetThirst} <button>Water</button></li>
                 <li>Mood: {selectedPetMood}</li>
               </ul>
             </div>
@@ -319,7 +323,7 @@ export default function Display() {
               <img src="images/dog.png"></img>
             </div>
           </div>
-          <button>Save</button>
+          <button disabled={isPetMenuSaveButtonDisabled}>Save</button>
           <button onClick={closePetMenu}>Close</button>
         </div>
       </div>
