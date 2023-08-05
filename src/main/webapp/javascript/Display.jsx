@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 export default function Display() {
   const [selectedID, setSelectedID] = useState(0);
   const [showAdoptPrompt, setShowAdoptPrompt] = useState(false);
+  const [showPetMenu, setShowPetMenu] = useState(false);
 
   function OrganicCats() {
     let [allOrganicCats, setAllOrganicCats] = useState([]);
@@ -57,7 +58,7 @@ export default function Display() {
             </div>
           </div>
           <div id={`dog-number-${organicDog.id}-buttons`}>
-              <a onClick={() => makeDogEditable(organicDog.petID)}>Edit</a>
+              <a onClick={() => openPetMenu(organicDog.petID)}>Edit</a>
               <a onClick={() => promptAdopt(organicDog.petID)}>Adopt Out</a>
           </div>
         </div>
@@ -107,7 +108,7 @@ export default function Display() {
     );
   } else {
     return <button onClick={getShelters}>Show All Shelters</button>;
-  }
+    }
   }
   
   /*const makeDogEditable = (ID) => {
@@ -198,6 +199,14 @@ export default function Display() {
   
     makeDogUneditable(ID);
   };*/
+
+  const openPetMenu = (ID) => {
+    setShowPetMenu(true);
+  }
+
+  const closePetMenu = () => {
+    setShowPetMenu(false);
+  }
   
   const promptAdopt = (ID) => {
     setSelectedID(ID);
@@ -274,6 +283,14 @@ export default function Display() {
           <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
           <button onClick={adoptDog}>I'm Sure</button>
           <button onClick={closeAdoptPrompt}>Cancel</button>
+        </div>
+      </div>
+      )}
+
+      {showPetMenu && (<div className="menu" id="pet-menu">
+        <div className="popup">
+          <p>relevant stuff goes here</p>
+          <button onClick={closePetMenu}>Close</button>
         </div>
       </div>
       )}
