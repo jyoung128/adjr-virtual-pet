@@ -6,3 +6,4 @@ List your bugs here so you don't forget about them:
 -closing and opening of different popup is a tad messy
 
 -turn animalType and animalTypeCapitalized into one thing
+-make consistent classes and IDs

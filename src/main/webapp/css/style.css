@@ -62,7 +62,7 @@ input[type=text], select{
     display: flex;
 }
 
-.organic-pet-image-container img{
+.pet-image-container img{
     max-height: 6em;
     margin-left: 1.5em;
 }
@@ -71,7 +71,7 @@ input[type=text], select{
     display: flex;
 }
 
-.organic-shelter-image-container img{
+.shelter-image-container img{
     max-height: 6em;
 }
 

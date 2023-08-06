@@ -27,7 +27,7 @@ export default function Display() {
             <li>Organic Cats: {shelter.catCount}</li>
           </ul>
         </div>
-        <div className="organic-pet-image-container">
+        <div className="shelter-image-container">
           <img src="images/shelter.webp"></img>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function Display() {
     return (
       <div>
         <ul className="pet-list">
-          {allOrganicShelters["_embedded"][`${camelCaseType}List`].map((oneShelter) => (
+          {allShelters["_embedded"][`${camelCaseType}List`].map((oneShelter) => (
             <DisplayShelter key={oneShelter.shelterID} shelter={oneShelter} />
           ))}
         </ul>
@@ -113,7 +113,7 @@ export default function Display() {
       return (
         <div id={`list-of-${animalType}s`}>
           <ul className="pet-list">
-            {allOrganicPets["_embedded"][`${camelCaseSpecies}List`].map((onePet) => (
+            {allPets["_embedded"][`${camelCaseSpecies}List`].map((onePet) => (
               <DisplayPet key={onePet.petId} pet={onePet} species={species}/>
             ))}
           </ul>
