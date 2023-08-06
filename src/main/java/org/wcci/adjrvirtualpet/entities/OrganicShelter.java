@@ -93,12 +93,10 @@ public class OrganicShelter {
 
     public void addDog(final OrganicDog dog) {
         this.dogs.add(dog);
-        this.dogCount = dogs.size();
     }
 
     public void addCat(final OrganicCat cat) {
         this.cats.add(cat);
-        this.catCount = cats.size();
     }
 
     public void removeDog(final OrganicDog dog) {
