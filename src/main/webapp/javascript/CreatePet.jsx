@@ -45,9 +45,6 @@ export default function CreatePet() {
 
   useEffect(() => {
     setSpecies("Organic Dog");
-  }, [])
-
-  useEffect(() => {
     setTemperament("Docile");
   }, [])
 
@@ -73,17 +70,20 @@ export default function CreatePet() {
 
   function handleSpeciesPost(){
     if(species == "Organic Dog" && shelterId){
+      postDog().then(() => putDogInShelter());
+    } else if(species == "Organic Dog") {
       postDog();
-      putDogInShelter();
     }
 
-    if(species == "Organic Cat"){
+    if(species == "Organic Cat" && shelterId){
+      postCat().then(() => putCatInShelter());
+    } else if(species == "Organic Cat") {
       postCat();
     }
   }
 
-  const postDog = () => {
-    fetch("api/organicDogs", {
+  async function postDog(){
+    return fetch("/api/organicDogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(petName),
@@ -119,8 +119,27 @@ export default function CreatePet() {
       });
   }
 
+  const putCatInShelter = () => {
+    fetch(`/api/organicShelters/${shelterId}/organicCats/${postedPetId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Cat added to shelter successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog name:", error);
+      });
+  }
+
   const postCat = () => {
-    fetch("api/organicCats", {
+    fetch("/api/organicCats", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(petName),
@@ -137,7 +156,7 @@ export default function CreatePet() {
   };
 
   const postShelter = () => {
-    fetch("api/organicShelters", {
+    fetch("/api/organicShelters", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newShelterName }),

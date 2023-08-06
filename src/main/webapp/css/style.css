@@ -19,7 +19,7 @@
 }
 
 input[type=text], select{
-    width: 25em;
+    width: 20em;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -51,6 +51,7 @@ input[type=text], select{
 
 .pet-list{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .pet-stats{
@@ -63,6 +64,7 @@ input[type=text], select{
 
 .organic-pet-image-container img{
     max-height: 6em;
+    margin-left: 1.5em;
 }
 
 .organic-shelter-container {
@@ -137,7 +139,8 @@ nav a:hover{
 }
 
 .popup {
-    background-color: #fff;
+    background-color: #c6e2e9;
+    border-radius: 20px;
     padding: 20px;
-    width: 400px;
+    width: 30%;
 }
