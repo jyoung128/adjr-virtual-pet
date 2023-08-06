@@ -70,9 +70,9 @@ export default function Display() {
 
   function DisplayPet({ pet, species}) {
     console.log("In DisplayPet, pet is " + species);
-    const animalType = species.slice(species.indexOf(" ") + 1).toLowerCase(); //just "dog", "cat", etc.
+    const camelCaseSpecies = toCamelCase(species);
     return (
-      <div id={`${animalType}-number-${pet.petID}`}>
+      <div id={`${camelCaseSpecies}-number-${pet.petID}`}>
         <div className="item-container">
           <div>
             <ul className="stats">
@@ -83,10 +83,10 @@ export default function Display() {
             </ul>
           </div>
           <div className="pet-image-container">
-            <img src={`images/${animalType}.png`}></img>
+            <img src={`images/${camelCaseSpecies}.png`}></img>
           </div>
         </div>
-        <div id={`${animalType}-number-${pet.id}-buttons`}>
+        <div id={`${camelCaseSpecies}-number-${pet.id}-buttons`}>
           <a onClick={() => openPetMenu(pet.petID, pet.species)}>Edit</a>
         </div>
       </div>
@@ -125,69 +125,7 @@ export default function Display() {
     }
   }
   
-  /*const makeDogEditable = (ID) => {
-    //setSelectedID(ID);
-    console.log(ID);
-    //console.log(selectedID);
-    const dogToEdit = document.getElementById(`dog-number-${ID}`);
-  
-    const dogNameInfo = dogToEdit.querySelector("li");
-    const colonPosition = dogNameInfo.textContent.indexOf(":");
-    const labelText = dogNameInfo.textContent.substring(0, colonPosition).trim();
-    const originalValue = dogNameInfo.textContent
-      .substring(colonPosition + 1)
-      .trim();
-  
-    //         const inputElement = document.createElement('input');
-    //         inputElement.type = 'text';
-    //         inputElement.value = originalValue;
-    inputElement.id = `pet-${ID}-name-textbox`;
-  
-    dogNameInfo.textContent = "";
-    dogNameInfo.appendChild(document.createTextNode(`${labelText}: `));
-    dogNameInfo.appendChild(inputElement);
-  
-    const buttons = dogToEdit.querySelector("div");
-  
-    //         const editButton = buttons.querySelector('a:first-child');
-    //         editButton.textContent = 'Save';
-    //         editButton.onclick = () => updateDogName(ID);
-  
-    //         const deleteButton = buttons.querySelector('a:nth-child(2)');
-    //         deleteButton.textContent = 'Cancel';
-    //         deleteButton.onclick = () => makeDogUneditable(ID);
-  };
-  
-  const makeDogUneditable = (ID) => {
-    console.log(ID);
-    fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" })
-      .then((response) => response.json())
-      .then((currentDog) => {
-        console.log(ID);
-        console.log(currentDog.name);
-  
-        const dogToMakeText = document.getElementById(`dog-number-${ID}`);
-  
-        const dogNameInfo = dogToMakeText.querySelector("li");
-  
-        const inputElement = dogNameInfo.querySelector("input");
-        dogNameInfo.removeChild(inputElement);
-        dogNameInfo.textContent = `Name: ${currentDog.name}`;
-      });
-  
-    const buttons = document
-      .getElementById(`dog-number-${ID}`)
-      .querySelector("div");
-  
-    const saveButton = buttons.querySelector("a:first-child");
-    saveButton.textContent = "Edit";
-    saveButton.onclick = () => makeActivityEditable(ID);
-  
-    const cancelButton = buttons.querySelector("a:nth-child(2)");
-    cancelButton.textContent = "Delete";
-    cancelButton.onclick = () => adoptDog();
-  };
-  
+  /* 
   const updateDogName = (ID) => {
     const newDogName = document.getElementById(`pet-${ID}-name-textbox`).value;
     const data = {
@@ -210,8 +148,6 @@ export default function Display() {
       .catch((error) => {
         console.error("Error updating dog name:", error);
       });
-  
-    makeDogUneditable(ID);
   };*/
 
   const openPetMenu = (ID, species) => {
@@ -386,13 +322,13 @@ export default function Display() {
     if(species == "Organic Cat"){
       return(
         <div className="pet-image-container">
-          <img src="images/cat.png"></img>
+          <img src="images/organicCat.png"></img>
         </div>
       );
     } else if(species == "Organic Dog") {
       return(
         <div className="pet-image-container">
-          <img src="images/dog.png"></img>
+          <img src="images/organicDog.png"></img>
         </div>
       );
     }
