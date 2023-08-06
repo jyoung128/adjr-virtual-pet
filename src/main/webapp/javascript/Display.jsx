@@ -119,8 +119,8 @@ export default function Display() {
         <div>
           <ul className="pet-stats">
             <li>Name: {organicShelter.name}</li>
-            <li>Organic Dogs: </li>
-            <li>Organic Cats: </li>
+            <li>Organic Dogs: {organicShelter.dogCount}</li>
+            <li>Organic Cats: {organicShelter.catCount}</li>
           </ul>
         </div>
         <div className="organic-pet-image-container">

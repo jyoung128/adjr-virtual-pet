@@ -22,6 +22,19 @@ public class OrganicShelter {
 
     private String name;
 
+    @JsonIgnore
+    @OneToMany()
+    @JoinTable()
+    private Set<OrganicDog> dogs = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany()
+    @JoinTable()
+    private Set<OrganicCat> cats = new HashSet<>();
+
+    private int dogCount;
+    private int catCount;
+
     public void organicShelter() {
     }
 
@@ -45,15 +58,21 @@ public class OrganicShelter {
         this.name = name;
     }
 
-    @JsonIgnore
-    @OneToMany()
-    @JoinTable()
-    private Set<OrganicDog> dogs = new HashSet<>();
+    public int getDogCount() {
+        return dogCount;
+    }
 
-    @JsonIgnore
-    @OneToMany()
-    @JoinTable()
-    private Set<OrganicCat> cats = new HashSet<>();
+    public void setDogCount(int dogCount) {
+        this.dogCount = dogCount;
+    }
+
+    public int getCatCount() {
+        return catCount;
+    }
+
+    public void setCatCount(int catCount) {
+        this.catCount = catCount;
+    }
 
     public Set<OrganicDog> getDogs() {
         return dogs;
@@ -74,10 +93,12 @@ public class OrganicShelter {
 
     public void addDog(final OrganicDog dog) {
         this.dogs.add(dog);
+        this.dogCount = dogs.size();
     }
 
     public void addCat(final OrganicCat cat) {
         this.cats.add(cat);
+        this.catCount = cats.size();
     }
 
     public void removeDog(final OrganicDog dog) {
