@@ -5,12 +5,36 @@ export default function Display() {
   const [showAdoptPrompt, setShowAdoptPrompt] = useState(false);
   const [showPetMenu, setShowPetMenu] = useState(false);
 
+  let [selectedPet, setSelectedPet] = useState([]);
   const [selectedPetName, setSelectedPetName] = useState("");
   const [selectedPetHunger, setSelectedPetHunger] = useState();
   const [selectedPetThirst, setSelectedPetThirst] = useState();
   const [selectedPetMood, setSelectedPetMood] = useState();
 
   const [isPetMenuSaveButtonDisabled, setIsPetMenuSaveButtonDisabled] = useState(true);
+
+  function OrganicCat({ organicCat }) {
+    return (
+      <div id={`dog-number-${organicCat.petID}`}>
+        <div className="organic-pet-container">
+          <div>
+            <ul className="pet-stats">
+              <li>Name: {organicCat.name}</li>
+              <li>Hunger: {organicCat.hunger}</li>
+              <li>Thirst: {organicCat.thirst}</li>
+              <li>Mood: {organicCat.mood}</li>
+            </ul>
+          </div>
+          <div className="organic-pet-image-container">
+            <img src="images/cat.png"></img>
+          </div>
+        </div>
+        <div id={`dog-number-${organicCat.id}-buttons`}>
+          <a onClick={() => openPetMenu(organicCat.petID, organicCat.species)}>Edit</a>
+        </div>
+      </div>
+    );
+  }
 
   function OrganicCats() {
     let [allOrganicCats, setAllOrganicCats] = useState([]);
@@ -24,7 +48,7 @@ export default function Display() {
   
     if (allOrganicCats && allOrganicCats._embedded) {
       return (
-        <div>
+        <div id="list-of-cats">
           <ul className="pet-list">
             {allOrganicCats["_embedded"]["organicCatList"].map((oneCat) => (
               <OrganicCat key={oneCat.petId} organicCat={oneCat} />
@@ -37,6 +61,29 @@ export default function Display() {
       return <button onClick={getCats}>Show All Cats</button>;
     }
   }
+
+  function OrganicDog({ organicDog }) {
+    return (
+      <div id={`dog-number-${organicDog.petID}`}>
+        <div className="organic-pet-container">
+          <div>
+            <ul className="pet-stats">
+              <li>Name: {organicDog.name}</li>
+              <li>Hunger: {organicDog.hunger}</li>
+              <li>Thirst: {organicDog.thirst}</li>
+              <li>Mood: {organicDog.mood}</li>
+            </ul>
+          </div>
+          <div className="organic-pet-image-container">
+            <img src="images/dog.png"></img>
+          </div>
+        </div>
+        <div id={`dog-number-${organicDog.id}-buttons`}>
+            <a onClick={() => openPetMenu(organicDog.petID, organicDog.species)}>Edit</a>
+        </div>
+      </div>
+    );
+  }
   
   function OrganicDogs() {
     let [allOrganicDogs, setAllOrganicDogs] = useState([]);
@@ -46,29 +93,6 @@ export default function Display() {
         .then((response) => response.json())
         .then((responseBody) => setAllOrganicDogs(responseBody));
       return () => {};
-    }
-
-    function OrganicDog({ organicDog }) {
-      return (
-        <div id={`dog-number-${organicDog.petID}`}>
-          <div className="organic-pet-container">
-            <div>
-              <ul className="pet-stats">
-                <li>Name: {organicDog.name}</li>
-                <li>Hunger: {organicDog.hunger}</li>
-                <li>Thirst: {organicDog.thirst}</li>
-                <li>Mood: {organicDog.mood}</li>
-              </ul>
-            </div>
-            <div className="organic-pet-image-container">
-              <img src="images/dog.png"></img>
-            </div>
-          </div>
-          <div id={`dog-number-${organicDog.id}-buttons`}>
-              <a onClick={() => openPetMenu(organicDog.petID)}>Edit</a>
-          </div>
-        </div>
-      );
     }
   
     if (allOrganicDogs && allOrganicDogs._embedded) {
@@ -206,9 +230,10 @@ export default function Display() {
     makeDogUneditable(ID);
   };*/
 
-  const openPetMenu = (ID) => {
+  const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
-    fetch(`/api/organicDogs/${ID}`, { method: "GET", cache: "default" })
+    if(species == "Organic Dog"){
+      fetch(`/api/organicDogs/${ID}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
         .then((responseBody) => {
           setSelectedID(ID);
@@ -216,7 +241,109 @@ export default function Display() {
           setSelectedPetHunger(responseBody.hunger);
           setSelectedPetThirst(responseBody.thirst);
           setSelectedPetMood(responseBody.mood);
+          setSelectedPet(responseBody);
         });
+    } else if(species == "Organic Cat"){
+      fetch(`/api/organicCats/${ID}`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => {
+          setSelectedID(ID);
+          setSelectedPetName(responseBody.name);
+          setSelectedPetHunger(responseBody.hunger);
+          setSelectedPetThirst(responseBody.thirst);
+          setSelectedPetMood(responseBody.mood);
+          setSelectedPet(responseBody);
+        });
+    }
+    
+  }
+
+  const feedSelectedDog = () => {
+    selectedPet.hunger -= 15;
+    setSelectedPetHunger(selectedPet.hunger);
+
+    fetch(`/api/organicDogs/${selectedPet.petID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedPet),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog:", error);
+      });
+  }
+
+  const feedSelectedCat = () => {
+    selectedPet.hunger -= 15;
+    setSelectedPetHunger(selectedPet.hunger);
+
+    fetch(`/api/organicCats/${selectedPet.petID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedPet),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Cat updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating cat:", error);
+      });
+  }
+
+  const waterSelectedDog = () => {
+    selectedPet.thirst -= 5;
+    setSelectedPetThirst(selectedPet.thirst);
+
+    fetch(`/api/organicDogs/${selectedPet.petID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedPet),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Dog updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating dog:", error);
+      });
+  }
+
+  const waterSelectedCat = () => {
+    selectedPet.thirst -= 5;
+    setSelectedPetThirst(selectedPet.thirst);
+
+    fetch(`/api/organicCats/${selectedPet.petID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedPet),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Cat updated successfully!");
+      })
+      .catch((error) => {
+        console.error("Error updating cat:", error);
+      });
   }
 
   const closePetMenu = () => {
@@ -244,7 +371,7 @@ export default function Display() {
     closePetMenu();
     const ID = selectedID;
   
-    fetch(`api/organicDogs/${ID}`, {
+    fetch(`/api/organicDogs/${ID}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -260,34 +387,53 @@ export default function Display() {
     const dog = document.getElementById(`dog-number-${ID}`);
     dog.parentNode.removeChild(dog);
   };
+
+  const adoptCat = () => {
+    closeAdoptPrompt();
+    closePetMenu();
+    const ID = selectedID;
   
-  function OrganicCat({ organicCat }) {
-    return (
-      <div className="organic-pet-container">
-        <div>
-          <ul className="pet-stats">
-            <li>Name: {organicCat.name}</li>
-            <li>Hunger: {organicCat.hunger}</li>
-            <li>Thirst: {organicCat.thirst}</li>
-            <li>Mood: {organicCat.mood}</li>
-          </ul>
-        </div>
-        <div className="organic-pet-image-container">
-          <img src="images/cat.png"></img>
-        </div>
-      </div>
-    );
-  }
+    fetch(`/api/organicCats/${ID}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Cat adopted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error adopting cat:", error);
+      });
+  
+    const cat = document.getElementById(`dog-number-${ID}`);
+    cat.parentNode.removeChild(cat);
+  };
   
   function ListOrganicShelter({ organicShelter }) {
     return (
       <ul>
-        <li key={organicShelter.shelterID}></li>
         <li>Organic Dogs:{organicShelter.getDogs}</li>
         <li>Organic Cats:{organicShelter.getCats}</li>
         <li>Shelter Name:{organicShelter.name}</li>
       </ul>
     );
+  }
+
+  function PetImage({species}) {
+    if(species == "Organic Cat"){
+      return(
+        <div className="organic-pet-image-container">
+          <img src="images/cat.png"></img>
+        </div>
+      );
+    } else if(species == "Organic Dog") {
+      return(
+        <div className="organic-pet-image-container">
+          <img src="images/dog.png"></img>
+        </div>
+      );
+    }
   }
 
   return (
@@ -305,7 +451,7 @@ export default function Display() {
       {showAdoptPrompt && (<div className="menu" id="adopt-prompt">
         <div className="popup">
           <p>Are you sure you want to give this pet up for adoption? This action can not be undone.</p><br/>
-          <button onClick={adoptDog}>I'm Sure</button>
+          <button onClick={selectedPet.species === "Organic Dog" ? adoptDog : adoptCat}>I'm Sure</button>
           <button onClick={closeAdoptPrompt}>Cancel</button>
         </div>
       </div>
@@ -317,14 +463,12 @@ export default function Display() {
             <div>
               <ul className="pet-stats">
                 <li>Name: <input type="text" value={selectedPetName} onChange={handleNameTextChange}/></li>
-                <li>Hunger: {selectedPetHunger} <button>Feed</button></li>
-                <li>Thirst: {selectedPetThirst} <button>Water</button></li>
+                <li>Hunger: {selectedPetHunger} <button onClick={selectedPet.species === "Organic Dog" ? feedSelectedDog : feedSelectedCat}>Feed</button></li>
+                <li>Thirst: {selectedPetThirst} <button onClick={selectedPet.species === "Organic Dog" ? waterSelectedDog : waterSelectedCat}>Water</button></li>
                 <li>Mood: {selectedPetMood}</li>
               </ul>
             </div>
-            <div className="organic-pet-image-container">
-              <img src="images/dog.png"></img>
-            </div>
+            <PetImage species={selectedPet.species} />
           </div>
           <button disabled={isPetMenuSaveButtonDisabled}>Save</button>
           <button onClick={closePetMenu}>Close</button>

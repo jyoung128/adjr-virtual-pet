@@ -13,9 +13,11 @@ public class OrganicDog extends Dog implements Organic{
 
     private int cageCleanliness;
     private boolean hasBeenRecentlyWalked;
+    private String species;
 
     public OrganicDog(String name) {
         super(name);
+        this.species = "Organic Dog";
         this.cageCleanliness = INITIAL_CAGE_CLEANLINESS;
     }
 
@@ -24,6 +26,14 @@ public class OrganicDog extends Dog implements Organic{
     }
 
     public OrganicDog(){
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     /** Allow any number of hours to pass */
