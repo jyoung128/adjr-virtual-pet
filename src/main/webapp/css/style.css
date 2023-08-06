@@ -115,13 +115,19 @@ nav a:hover{
 }
 
 #list-of-dogs ul a {
-    margin-left: 5px;
+    margin-left: 5%;
+    color: blue;
+    cursor: pointer;
+}
+
+#list-of-cats ul a {
+    margin-left: 5%;
     color: blue;
     cursor: pointer;
 }
 
 .list-of-shelters ul a {
-    margin-left: 5px;
+    margin-left: 5%;
     color: blue;
     cursor: pointer;
 }
