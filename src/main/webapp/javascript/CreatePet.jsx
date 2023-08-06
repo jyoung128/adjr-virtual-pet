@@ -172,34 +172,6 @@ export default function CreatePet() {
       });
   };
 
-  function OrganicShelters(){
-    const [allOrganicShelters, setAllOrganicShelters] = useState([]);
-  
-    useEffect(() => {
-      getShelters();
-    }, []);
-  
-    function getShelters() {
-      fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
-        .then((response) => response.json())
-        .then((responseBody) => setAllOrganicShelters(responseBody));
-      console.log(allOrganicShelters);
-      return () => {};
-    }
-  
-    if (allOrganicShelters && allOrganicShelters._embedded){
-      return(
-        <select name="shelterId" id="shelterId" onChange={handleShelterIdChange}>
-          <option defaultValue>None</option>
-          {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-            <option key={oneShelter.shelterID} value={oneShelter.shelterID}>{oneShelter.name}</option>
-          ))}
-        </select>
-        
-      )
-    }
-  }
-
   return (
     <div>
       <div className="create-pet-container">
@@ -229,7 +201,7 @@ export default function CreatePet() {
             </select>
 
             <label htmlFor="shelterName">Shelter Name: </label>
-            <OrganicShelters />
+            <OrganicShelters handleShelterIdChange={handleShelterIdChange} />
             {/* <input
               type="text"
               name="shelterName"
@@ -268,6 +240,34 @@ export default function CreatePet() {
       </div>
     </div>
   );
+}
+
+function OrganicShelters({handleShelterIdChange}){
+  const [allOrganicShelters, setAllOrganicShelters] = useState([]);
+
+  useEffect(() => {
+    getShelters();
+  }, []);
+
+  function getShelters() {
+    fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
+      .then((response) => response.json())
+      .then((responseBody) => setAllOrganicShelters(responseBody));
+    console.log(allOrganicShelters);
+    return () => {};
+  }
+
+  if (allOrganicShelters && allOrganicShelters._embedded){
+    return(
+      <select name="shelterId" id="shelterId" onChange={handleShelterIdChange}>
+        <option defaultValue>None</option>
+        {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
+          <option key={oneShelter.shelterID} value={oneShelter.shelterID}>{oneShelter.name}</option>
+        ))}
+      </select>
+      
+    )
+  }
 }
 
 function CreatePetImage({species}) {
