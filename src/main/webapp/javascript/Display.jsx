@@ -249,30 +249,18 @@ export default function Display() {
 
   const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
-    if(species == "Organic Dog"){
-      fetch(`/api/organicDogs/${ID}`, { method: "GET", cache: "default" })
-        .then((response) => response.json())
-        .then((responseBody) => {
-          setSelectedID(ID);
-          setSelectedPetName(responseBody.name);
-          setSelectedPetHunger(responseBody.hunger);
-          setSelectedPetThirst(responseBody.thirst);
-          setSelectedPetMood(responseBody.mood);
-          setSelectedPet(responseBody);
-        });
-    } else if(species == "Organic Cat"){
-      fetch(`/api/organicCats/${ID}`, { method: "GET", cache: "default" })
-        .then((response) => response.json())
-        .then((responseBody) => {
-          setSelectedID(ID);
-          setSelectedPetName(responseBody.name);
-          setSelectedPetHunger(responseBody.hunger);
-          setSelectedPetThirst(responseBody.thirst);
-          setSelectedPetMood(responseBody.mood);
-          setSelectedPet(responseBody);
-        });
-    }
+    const apiRoute = species.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase()) + "s"; //converts species to plural camel case
     
+    fetch(`/api/${apiRoute}/${ID}`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => {
+          setSelectedID(ID);
+          setSelectedPetName(responseBody.name);
+          setSelectedPetHunger(responseBody.hunger);
+          setSelectedPetThirst(responseBody.thirst);
+          setSelectedPetMood(responseBody.mood);
+          setSelectedPet(responseBody);
+        });
   }
 
   const feedSelectedDog = () => {
