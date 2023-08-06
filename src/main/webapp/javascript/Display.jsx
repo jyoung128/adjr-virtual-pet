@@ -112,8 +112,25 @@ export default function Display() {
       return <button onClick={getDogs}>Show All Dogs</button>;
     }
   }
+
+  function OrganicShelter({ organicShelter }) {
+    return (
+      <div className="organic-pet-container">
+        <div>
+          <ul className="pet-stats">
+            <li>Name: {organicShelter.name}</li>
+            <li>Organic Dogs: {organicShelter.dogCount}</li>
+            <li>Organic Cats: {organicShelter.catCount}</li>
+          </ul>
+        </div>
+        <div className="organic-pet-image-container">
+          <img src="images/shelter.webp"></img>
+        </div>
+      </div>
+    );
+  }
   
-  function OrganicShelter() {
+  function OrganicShelters() {
     let [allOrganicShelters, setAllOrganicShelters] = useState([]);
   
     function getShelters() {
@@ -127,12 +144,12 @@ export default function Display() {
     if (allOrganicShelters && allOrganicShelters._embedded) {
     return (
       <div>
-        <button onClick={getShelters}>Show All Shelters</button>
-        <ul>
+        <ul className="pet-list">
           {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-            <ListOrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
+            <OrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
           ))}
         </ul>
+        <button onClick={getShelters}>Show All Shelters</button>
         {console.log(JSON.stringify(allOrganicShelters))}
       </div>
     );
@@ -397,16 +414,6 @@ export default function Display() {
     const cat = document.getElementById(`dog-number-${ID}`);
     cat.parentNode.removeChild(cat);
   };
-  
-  function ListOrganicShelter({ organicShelter }) {
-    return (
-      <ul>
-        <li>Organic Dogs:{organicShelter.getDogs}</li>
-        <li>Organic Cats:{organicShelter.getCats}</li>
-        <li>Shelter Name:{organicShelter.name}</li>
-      </ul>
-    );
-  }
 
   function PetImage({species}) {
     if(species == "Organic Cat"){
@@ -433,7 +440,7 @@ export default function Display() {
         <OrganicDogs />
       </div>
       <div id="shelter">
-        <OrganicShelter />
+        <OrganicShelters />
       </div>
 
       {showAdoptPrompt && (<div className="menu" id="adopt-prompt">

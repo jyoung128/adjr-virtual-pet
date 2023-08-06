@@ -115,7 +115,7 @@ export default function CreatePet() {
         console.log("Dog added to shelter successfully!");
       })
       .catch((error) => {
-        console.error("Error updating dog name:", error);
+        console.error("Error adding dog to shelters:", error);
       });
   }
 
@@ -134,7 +134,7 @@ export default function CreatePet() {
         console.log("Cat added to shelter successfully!");
       })
       .catch((error) => {
-        console.error("Error updating dog name:", error);
+        console.error("Error adding cat to shelter:", error);
       });
   }
 
