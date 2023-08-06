@@ -17,14 +17,14 @@ export default function Display() {
     return string.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase());
   }
 
-  function OrganicShelter({ organicShelter }) {
+  function DisplayShelter({ shelter }) {
     return (
       <div className="organic-pet-container">
         <div>
           <ul className="pet-stats">
-            <li>Name: {organicShelter.name}</li>
-            <li>Organic Dogs: {organicShelter.dogCount}</li>
-            <li>Organic Cats: {organicShelter.catCount}</li>
+            <li>Name: {shelter.name}</li>
+            <li>Organic Dogs: {shelter.dogCount}</li>
+            <li>Organic Cats: {shelter.catCount}</li>
           </ul>
         </div>
         <div className="organic-pet-image-container">
@@ -34,31 +34,32 @@ export default function Display() {
     );
   }
   
-  function OrganicShelters() {
-    let [allOrganicShelters, setAllOrganicShelters] = useState([]);
+  function ShelterLister({ shelterType }) {
+    let [allShelters, setAllShelters] = useState([]);
+    const camelCaseType = toCamelCase(shelterType);
   
     function getShelters() {
-      fetch(`/api/organicShelters`, { method: "GET", cache: "default" })
+      fetch(`/api/${camelCaseType + "s"}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
-        .then((responseBody) => setAllOrganicShelters(responseBody));
-      console.log(allOrganicShelters);
+        .then((responseBody) => setAllShelters(responseBody));
+      console.log(allShelters);
       return () => {};
     }
   
-    if (allOrganicShelters && allOrganicShelters._embedded) {
+    if (allShelters && allShelters._embedded) {
     return (
       <div>
         <ul className="pet-list">
-          {allOrganicShelters["_embedded"]["organicShelterList"].map((oneShelter) => (
-            <OrganicShelter key={oneShelter.shelterID} organicShelter={oneShelter} />
+          {allOrganicShelters["_embedded"][`${camelCaseType}List`].map((oneShelter) => (
+            <DisplayShelter key={oneShelter.shelterID} shelter={oneShelter} />
           ))}
         </ul>
-        <button onClick={getShelters}>Show All Shelters</button>
-        {console.log(JSON.stringify(allOrganicShelters))}
+        <button onClick={getShelters}>Show All {shelterType}s</button>
+        {console.log(JSON.stringify(allShelters))}
       </div>
     );
     } else {
-      return <button onClick={getShelters}>Show All Shelters</button>;
+      return <button onClick={getShelters}>Show All {shelterType}s</button>;
     }
   }
 
@@ -406,7 +407,7 @@ export default function Display() {
       <PetLister species="Organic Dog" />
       </div>
       <div id="shelter">
-        <OrganicShelters />
+        <ShelterLister shelterType="Organic Shelter" />
       </div>
 
       {showAdoptPrompt && (<div className="menu" id="adopt-prompt">
