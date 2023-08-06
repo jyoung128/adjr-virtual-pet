@@ -232,7 +232,7 @@ export default function Display() {
 
   const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
-    const apiRoute = species.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase()) + "s";
+    const apiRoute = species.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase()) + "s"; //converts species to plural camel case
     
     fetch(`/api/${apiRoute}/${ID}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
