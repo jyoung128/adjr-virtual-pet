@@ -13,55 +13,12 @@ export default function Display() {
 
   const [isPetMenuSaveButtonDisabled, setIsPetMenuSaveButtonDisabled] = useState(true);
 
-  function OrganicCat({ organicCat }) {
-    return (
-      <div id={`dog-number-${organicCat.petID}`}>
-        <div className="organic-pet-container">
-          <div>
-            <ul className="pet-stats">
-              <li>Name: {organicCat.name}</li>
-              <li>Hunger: {organicCat.hunger}</li>
-              <li>Thirst: {organicCat.thirst}</li>
-              <li>Mood: {organicCat.mood}</li>
-            </ul>
-          </div>
-          <div className="organic-pet-image-container">
-            <img src="images/cat.png"></img>
-          </div>
-        </div>
-        <div id={`dog-number-${organicCat.id}-buttons`}>
-          <a onClick={() => openPetMenu(organicCat.petID, organicCat.species)}>Edit</a>
-        </div>
-      </div>
-    );
+  function toCamelCase(string) {
+    return string.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase());
   }
 
-  function OrganicCats() {
-    let [allOrganicCats, setAllOrganicCats] = useState([]);
-  
-    function getCats() {
-      fetch(`/api/organicCats`, { method: "GET", cache: "default" })
-        .then((response) => response.json())
-        .then((responseBody) => setAllOrganicCats(responseBody));
-      return () => {};
-    }
-  
-    if (allOrganicCats && allOrganicCats._embedded) {
-      return (
-        <div id="list-of-cats">
-          <ul className="pet-list">
-            {allOrganicCats["_embedded"]["organicCatList"].map((oneCat) => (
-              <OrganicCat key={oneCat.petId} organicCat={oneCat} />
-            ))}
-          </ul>
-          <button onClick={getCats}>Show All Cats</button>
-        </div>
-      );
-    } else {
-      return <button onClick={getCats}>Show All Cats</button>;
-    }
-  }
-
+  //KEPT AS REFERENCE
+  /*
   function OrganicDog({ organicDog }) {
     return (
       <div id={`dog-number-${organicDog.petID}`}>
@@ -111,7 +68,7 @@ export default function Display() {
     } else {
       return <button onClick={getDogs}>Show All Dogs</button>;
     }
-  }
+  }*/
 
   function OrganicShelter({ organicShelter }) {
     return (
@@ -153,8 +110,66 @@ export default function Display() {
         {console.log(JSON.stringify(allOrganicShelters))}
       </div>
     );
-  } else {
-    return <button onClick={getShelters}>Show All Shelters</button>;
+    } else {
+      return <button onClick={getShelters}>Show All Shelters</button>;
+    }
+  }
+
+  /////////////////////ATTEMPTING TO CREATE A GENERALIZED VERSION OF ORGANICCAT/DOG/SHELTER
+  function OrganicPet({ organicPet, species}) {
+    console.log("In organicPet, pet is " + species);
+    const animalType = species.slice(species.indexOf(" ") + 1).toLowerCase(); //just "dog", "cat", etc.
+    return (
+      <div id={`${animalType}-number-${organicPet.petID}`}>
+        <div className="organic-pet-container">
+          <div>
+            <ul className="pet-stats">
+              <li>Name: {organicPet.name}</li>
+              <li>Hunger: {organicPet.hunger}</li>
+              <li>Thirst: {organicPet.thirst}</li>
+              <li>Mood: {organicPet.mood}</li>
+            </ul>
+          </div>
+          <div className="organic-pet-image-container">
+            <img src={`images/${animalType}.png`}></img>
+          </div>
+        </div>
+        <div id={`${animalType}-number-${organicPet.id}-buttons`}>
+          <a onClick={() => openPetMenu(organicPet.petID, organicPet.species)}>Edit</a>
+        </div>
+      </div>
+    );
+  }
+
+  function OrganicPets({species}) {
+    console.log("In organicPets, species is " + species);
+    let [allOrganicPets, setAllOrganicPets] = useState([]);
+    const camelCaseSpecies = toCamelCase(species);
+    const animalTypeCapitalized = species.slice(species.indexOf(" ") + 1);
+    const animalType = animalTypeCapitalized.toLowerCase();
+  
+    function getPets() {
+      fetch(`/api/${camelCaseSpecies + "s"}`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => {
+          setAllOrganicPets(responseBody);
+        });
+      return () => {};
+    }
+  
+    if (allOrganicPets && allOrganicPets._embedded) {
+      return (
+        <div id={`list-of-${animalType}s`}>
+          <ul className="pet-list">
+            {allOrganicPets["_embedded"][`${camelCaseSpecies}List`].map((onePet) => (
+              <OrganicPet key={onePet.petId} organicPet={onePet} species={species}/>
+            ))}
+          </ul>
+          <button onClick={getPets}>Show All {animalTypeCapitalized}s</button>
+        </div>
+      );
+    } else {
+      return <button onClick={getPets}>Show All {animalTypeCapitalized}s</button>;
     }
   }
   
@@ -249,7 +264,7 @@ export default function Display() {
 
   const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
-    const apiRoute = species.toLowerCase().replace(/ (\w)/g, (_, letter) => letter.toUpperCase()) + "s"; //converts species to plural camel case
+    const apiRoute = toCamelCase(species) + "s";
     
     fetch(`/api/${apiRoute}/${ID}`, { method: "GET", cache: "default" })
         .then((response) => response.json())
@@ -434,10 +449,10 @@ export default function Display() {
   return (
     <div>
       <div id="cats">
-        <OrganicCats />
+      <OrganicPets species="Organic Cat" />
       </div>
       <div id="dogs">
-        <OrganicDogs />
+      <OrganicPets species="Organic Dog" />
       </div>
       <div id="shelter">
         <OrganicShelters />
