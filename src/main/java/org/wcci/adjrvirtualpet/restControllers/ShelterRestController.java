@@ -167,4 +167,18 @@ public class ShelterRestController {
                 linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
                         .withSelfRel());
     }
+
+    @PutMapping("/api/organicShelters/{organicShelter_id}/organicDogs/{organicDog_id}")
+    public EntityModel<OrganicShelter> addOrganicDogToShelter(
+            @PathVariable final long organicShelter_id,
+            @PathVariable final long organicDog_id,
+            @RequestBody final OrganicShelter organicShelter){
+                final OrganicDog databaseDog = shelterService.findOrganicDog(organicDog_id);
+                final OrganicShelter databaseOrganicShelter = shelterService.addOrganicDogToShelter(organicShelter_id, databaseDog);
+
+                return EntityModel.of(databaseOrganicShelter,
+                        linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
+                                .withSelfRel());
+                
+            }
 }
