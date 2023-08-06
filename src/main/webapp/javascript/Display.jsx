@@ -19,9 +19,9 @@ export default function Display() {
 
   function DisplayShelter({ shelter }) {
     return (
-      <div className="organic-pet-container">
+      <div className="item-container">
         <div>
-          <ul className="pet-stats">
+          <ul className="stats">
             <li>Name: {shelter.name}</li>
             <li>Organic Dogs: {shelter.dogCount}</li>
             <li>Organic Cats: {shelter.catCount}</li>
@@ -49,7 +49,7 @@ export default function Display() {
     if (allShelters && allShelters._embedded) {
     return (
       <div>
-        <ul className="pet-list">
+        <ul className="item-list">
           {allShelters["_embedded"][`${camelCaseType}List`].map((oneShelter) => (
             <DisplayShelter key={oneShelter.shelterID} shelter={oneShelter} />
           ))}
@@ -73,9 +73,9 @@ export default function Display() {
     const animalType = species.slice(species.indexOf(" ") + 1).toLowerCase(); //just "dog", "cat", etc.
     return (
       <div id={`${animalType}-number-${pet.petID}`}>
-        <div className="organic-pet-container">
+        <div className="item-container">
           <div>
-            <ul className="pet-stats">
+            <ul className="stats">
               <li>Name: {pet.name}</li>
               <li>Hunger: {pet.hunger}</li>
               <li>Thirst: {pet.thirst}</li>
@@ -112,7 +112,7 @@ export default function Display() {
     if (allPets && allPets._embedded) {
       return (
         <div id={`list-of-${animalType}s`}>
-          <ul className="pet-list">
+          <ul className="item-list">
             {allPets["_embedded"][`${camelCaseSpecies}List`].map((onePet) => (
               <DisplayPet key={onePet.petId} pet={onePet} species={species}/>
             ))}
@@ -385,13 +385,13 @@ export default function Display() {
   function PetImage({species}) {
     if(species == "Organic Cat"){
       return(
-        <div className="organic-pet-image-container">
+        <div className="pet-image-container">
           <img src="images/cat.png"></img>
         </div>
       );
     } else if(species == "Organic Dog") {
       return(
-        <div className="organic-pet-image-container">
+        <div className="pet-image-container">
           <img src="images/dog.png"></img>
         </div>
       );
@@ -421,9 +421,9 @@ export default function Display() {
 
       {showPetMenu && (<div className="menu" id="pet-menu">
         <div className="popup">
-          <div className="organic-pet-container">
+          <div className="item-container">
             <div>
-              <ul className="pet-stats">
+              <ul className="stats">
                 <li>Name: <input type="text" value={selectedPetName} onChange={handleNameTextChange}/></li>
                 <li>Hunger: {selectedPetHunger} <button onClick={selectedPet.species === "Organic Dog" ? feedSelectedDog : feedSelectedCat}>Feed</button></li>
                 <li>Thirst: {selectedPetThirst} <button onClick={selectedPet.species === "Organic Dog" ? waterSelectedDog : waterSelectedCat}>Water</button></li>
