@@ -174,6 +174,7 @@ export default function CreatePet() {
 
   return (
     <div>
+    <h1 className="page-header">Virtual Pet Shelter</h1>
       <div className="create-pet-container">
         <div className="create-pet-form">
           <form>

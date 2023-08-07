@@ -13,10 +13,8 @@ function Layout() {
   return (
     <>
       <nav>
-        <Link to="/">Main</Link>
-        <Link to="/Display">View Your Pets</Link>
-        <Link to="/Test">Test</Link>
-        <Link to="/Adopt">Adopt out a Pet</Link>
+        <Link to="/">Add a Pet</Link>
+        <Link to="/Display">My Pets</Link>
       </nav>
       <Outlet />
     </>
