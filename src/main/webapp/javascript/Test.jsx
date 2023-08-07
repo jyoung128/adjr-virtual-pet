@@ -77,6 +77,70 @@ export default function Test() {
       });
   };*/
 
+
+
+  //KEPT AS REFERENCE
+  /*
+  function OrganicDog({ organicDog }) {
+    return (
+      <div id={`dog-number-${organicDog.petID}`}>
+        <div className="organic-pet-container">
+          <div>
+            <ul className="pet-stats">
+              <li>Name: {organicDog.name}</li>
+              <li>Hunger: {organicDog.hunger}</li>
+              <li>Thirst: {organicDog.thirst}</li>
+              <li>Mood: {organicDog.mood}</li>
+            </ul>
+          </div>
+          <div className="organic-pet-image-container">
+            <img src="images/dog.png"></img>
+          </div>
+        </div>
+        <div id={`dog-number-${organicDog.id}-buttons`}>
+            <a onClick={() => openPetMenu(organicDog.petID, organicDog.species)}>Edit</a>
+        </div>
+      </div>
+    );
+  }
+  
+  function OrganicDogs() {
+    let [allOrganicDogs, setAllOrganicDogs] = useState([]);
+  
+    function getDogs() {
+      fetch(`/api/organicDogs`, { method: "GET", cache: "default" })
+        .then((response) => response.json())
+        .then((responseBody) => setAllOrganicDogs(responseBody));
+      return () => {};
+    }
+  
+    if (allOrganicDogs && allOrganicDogs._embedded) {
+      return (
+        <div>
+          <div id="list-of-dogs">
+            <ul className="pet-list">
+              {allOrganicDogs["_embedded"]["organicDogList"].map((oneDog) => (
+                <OrganicDog key={oneDog.petId} organicDog={oneDog} />
+              ))}
+            </ul>
+            <button onClick={getDogs}>Show All Dogs</button>
+          </div>
+        </div>
+      );
+    } else {
+      return <button onClick={getDogs}>Show All Dogs</button>;
+    }
+  }
+  */
+
+
+
+
+
+
+
+
+
   const setValuesForUpdate = async (ID) => {
     const response = await fetch(`api/organicDogs/${ID}`, { method: "GET", cache: "default" });
     const responseBody = await response.json();
@@ -118,7 +182,7 @@ export default function Test() {
 
   const adoptDog = () => {
     const ID = document.getElementById('text').value;
-    fetch(`api/organicDogs/${ID}`, {
+    fetch(`api/organicCats/${ID}`, {
         method: "DELETE",
     })
     .then((response) => {

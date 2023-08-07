@@ -274,13 +274,13 @@ function CreatePetImage({species}) {
   if(species == "Organic Cat"){
     return(
       <div className="create-pet-image-container">
-        <img src="images/cat.png"></img>
+        <img src="images/organicCat.png"></img>
       </div>
     );
   } else {
     return(
       <div className="create-pet-image-container">
-        <img src="images/dog.png"></img>
+        <img src="images/organicDog.png"></img>
       </div>
     );
   }
