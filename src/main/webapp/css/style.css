@@ -19,7 +19,7 @@
 }
 
 input[type=text], select{
-    width: 25em;
+    width: 20rem;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -49,28 +49,49 @@ input[type=text], select{
     max-width: 6em;
 }
 
-.pet-list{
+.item-list{
     display: flex;
+    flex-wrap: wrap;
 }
 
-.pet-stats{
+.stats{
     list-style-type: none;
 }
 
-.organic-pet-container{
+.item-container{
     display: flex;
 }
 
-.organic-pet-image-container img{
+.pet-image-container img{
     max-height: 6em;
+    margin-left: 1.5em;
 }
 
-.organic-shelter-container {
+.shelter-container {
     display: flex;
 }
 
-.organic-shelter-image-container img{
+.shelter-image-container img{
     max-height: 6em;
+}
+
+.show-all-button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.show-all-button-container button{
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 1em;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color:#c6e2e9;
+    font-family: 'Big Shoulders Inline Text', cursive;
+}
+
+.page-header{
+    text-align: center;
 }
 
 body{
@@ -113,13 +134,38 @@ nav a:hover{
 }
 
 #list-of-dogs ul a {
-    margin-left: 5px;
+    margin-left: 5%;
+    color: blue;
+    cursor: pointer;
+}
+
+#list-of-cats ul a {
+    margin-left: 5%;
     color: blue;
     cursor: pointer;
 }
 
 .list-of-shelters ul a {
-    margin-left: 5px;
+    margin-left: 5%;
     color: blue;
     cursor: pointer;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup {
+    background-color: #c6e2e9;
+    border-radius: 20px;
+    padding: 20px;
+    width: 30%;
 }

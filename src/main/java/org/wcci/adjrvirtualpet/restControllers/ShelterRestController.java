@@ -167,4 +167,32 @@ public class ShelterRestController {
                 linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
                         .withSelfRel());
     }
+
+    @PutMapping("/api/organicShelters/{organicShelter_id}/organicDogs/{organicDog_id}")
+    public EntityModel<OrganicShelter> addOrganicDogToShelter(
+            @PathVariable final long organicShelter_id,
+            @PathVariable final long organicDog_id,
+            @RequestBody final OrganicShelter organicShelter){
+                final OrganicDog databaseDog = shelterService.findOrganicDog(organicDog_id);
+                final OrganicShelter databaseOrganicShelter = shelterService.addOrganicDogToShelter(organicShelter_id, databaseDog);
+
+                return EntityModel.of(databaseOrganicShelter,
+                        linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
+                                .withSelfRel());
+                
+    }
+
+    @PutMapping("/api/organicShelters/{organicShelter_id}/organicCats/{organicCat_id}")
+    public EntityModel<OrganicShelter> addOrganicCatToShelter(
+            @PathVariable final long organicShelter_id,
+            @PathVariable final long organicCat_id,
+            @RequestBody final OrganicShelter organicShelter){
+                final OrganicCat databaseCat = shelterService.findOrganicCat(organicCat_id);
+                final OrganicShelter databaseOrganicShelter = shelterService.addOrganicCatToShelter(organicShelter_id, databaseCat);
+
+                return EntityModel.of(databaseOrganicShelter,
+                        linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
+                                .withSelfRel());
+                
+    }
 }

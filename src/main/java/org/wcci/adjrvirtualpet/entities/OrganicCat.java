@@ -10,15 +10,25 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 public class OrganicCat extends Cat implements Organic{
 
     private final int INITIAL_LITTER_BOX_CLEANLINESS = 100;
+    private String species;
 
     private int litterBoxCleanliness;
 
     public OrganicCat(String name) {
         super(name);
+        this.species = "Organic Cat";
         this.litterBoxCleanliness = INITIAL_LITTER_BOX_CLEANLINESS;
     }
 
     public OrganicCat(){
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     /** Allow any number of hours to pass */
