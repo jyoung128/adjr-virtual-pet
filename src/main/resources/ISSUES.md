@@ -5,7 +5,6 @@ List your bugs here so you don't forget about them:
 -find consistency with parameters or lack thereof in display.jsx
 -closing and opening of different popup is a tad messy
 
--turn animalType and animalTypeCapitalized into one thing
 -make consistent classes and IDs
 -see if you can blend shelter and pet image container into one class
 -textbox in popup menu doesn't change size with other things
