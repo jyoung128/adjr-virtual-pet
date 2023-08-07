@@ -5,11 +5,9 @@ export default function Display() {
   const [showAdoptPrompt, setShowAdoptPrompt] = useState(false);
   const [showPetMenu, setShowPetMenu] = useState(false);
 
-  let [selectedPet, setSelectedPet] = useState([]);
   const [selectedPetName, setSelectedPetName] = useState("");
-  const [selectedPetHunger, setSelectedPetHunger] = useState();
-  const [selectedPetThirst, setSelectedPetThirst] = useState();
-  const [selectedPetMood, setSelectedPetMood] = useState();
+
+  let [selectedPet, setSelectedPet] = useState([]);
 
   const [isPetMenuSaveButtonDisabled, setIsPetMenuSaveButtonDisabled] = useState(true);
 
@@ -19,7 +17,7 @@ export default function Display() {
 
   function DisplayShelter({ shelter }) {
     return (
-      <div id={`${camelCaseSpecies}-number-${pet.petID}`} className="item-container">
+      <div id={`shelter-number-${shelter.shelterID}`} className="item-container">
         <div>
           <ul className="stats">
             <li>Name: {shelter.name}</li>
@@ -68,13 +66,7 @@ export default function Display() {
     }
   }
 
-  /////////////////////ATTEMPTING TO CREATE A GENERALIZED VERSION OF ORGANICCAT/DOG/SHELTER
-
-
-
-
   function DisplayPet({ pet, species}) {
-    console.log("In DisplayPet, pet is " + species);
     const camelCaseSpecies = toCamelCase(species);
     return (
       <div id={`${camelCaseSpecies}-number-${pet.petID}`}>
@@ -119,20 +111,17 @@ export default function Display() {
               <DisplayPet key={onePet.petID} pet={onePet} species={species}/>
             ))}
           </ul>
-          <button onClick={getPets}>Show All {animalType}s</button>
           <div className="show-all-button-container">
-            <button onClick={setAllPets}>Hide All {animalTypeCapitalized}s</button>
+            <button onClick={setAllPets}>Hide All {animalType}s</button>
           </div>
         </div>
       );
     } else {
       return (
         <div className="show-all-button-container">
-          <button onClick={getPets}>Show All {animalTypeCapitalized}s</button>
+          <button onClick={getPets}>Show All {animalType}s</button>
         </div>
       );
-    } else {
-      return <button onClick={getPets}>Show All {animalType}s</button>;
     }
   }
   
@@ -169,10 +158,6 @@ export default function Display() {
         .then((response) => response.json())
         .then((responseBody) => {
           setSelectedID(ID);
-          setSelectedPetName(responseBody.name);
-          setSelectedPetHunger(responseBody.hunger);
-          setSelectedPetThirst(responseBody.thirst);
-          setSelectedPetMood(responseBody.mood);
           setSelectedPet(responseBody);
         });
   }
@@ -185,7 +170,6 @@ export default function Display() {
     } else if (selectedPet.species === "Organic Cat") {
         selectedPet.hunger -= 5;
     }
-    setSelectedPetHunger(selectedPet.hunger);
 
     fetch(`/api/${camelCaseSpecies}s/${selectedPet.petID}`, {
       method: "PUT",
@@ -208,7 +192,6 @@ export default function Display() {
   const waterSelectedPet = () => {
     const camelCaseSpecies = toCamelCase(selectedPet.species);
     selectedPet.thirst -= 5;
-    setSelectedPetThirst(selectedPet.thirst);
 
     fetch(`/api/${camelCaseSpecies}s/${selectedPet.petID}`, {
       method: "PUT",
@@ -296,8 +279,7 @@ export default function Display() {
 
   return (
     <div>
-    <h3 className="page-header">My Pets</h3>
-      <div id="cats">
+      <h3 className="page-header">My Pets</h3>
       <PetLister species="Organic Cat" />
       <PetLister species="Organic Dog" />
       <ShelterLister shelterType="Organic Shelter" />
