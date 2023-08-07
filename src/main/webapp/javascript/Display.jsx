@@ -318,26 +318,6 @@ export default function Display() {
     cat.parentNode.removeChild(cat);
   };
 
-  function PetImage({species}) {
-    console.log("in petImage, species is " + species);
-    const test = toCamelCase("Hello There");
-    console.log(test);
-    console.log(species.toString());
-    if(species == "Organic Cat"){
-      return(
-        <div className="pet-image-container">
-          <img src="images/organicCat.png"></img>
-        </div>
-      );
-    } else if(species == "Organic Dog") {
-      return(
-        <div className="pet-image-container">
-          <img src="images/organicDog.png"></img>
-        </div>
-      );
-    }
-  }
-
   return (
     <div>
       <div id="cats">
@@ -370,7 +350,9 @@ export default function Display() {
                 <li>Mood: {selectedPet.mood}</li>
               </ul>
             </div>
-            <PetImage species={selectedPet.species} />
+            <div className="pet-image-container">
+              <img src={selectedPet.species === "Organic Dog" ? "images/organicDog.png" : "images/organicCat.png"} />
+            </div>
           </div>
           <button disabled={isPetMenuSaveButtonDisabled}>Save</button>
           <button onClick={closePetMenu}>Close</button>
