@@ -49,29 +49,29 @@ input[type=text], select{
     max-width: 6em;
 }
 
-.pet-list{
+.item-list{
     display: flex;
     flex-wrap: wrap;
 }
 
-.pet-stats{
+.stats{
     list-style-type: none;
 }
 
-.organic-pet-container{
+.item-container{
     display: flex;
 }
 
-.organic-pet-image-container img{
+.pet-image-container img{
     max-height: 6em;
     margin-left: 1.5em;
 }
 
-.organic-shelter-container {
+.shelter-container {
     display: flex;
 }
 
-.organic-shelter-image-container img{
+.shelter-image-container img{
     max-height: 6em;
 }
 
