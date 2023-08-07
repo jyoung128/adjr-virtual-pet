@@ -124,31 +124,6 @@ export default function Display() {
       );
     }
   }
-  
-  /* 
-  const updateDogName = (ID) => {
-    const newDogName = document.getElementById(`pet-${ID}-name-textbox`).value;
-    const data = {
-      name: newDogName,
-    };
-  
-    fetch(`api/organicDogs/${ID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log("Dog name updated successfully!");
-      })
-      .catch((error) => {
-        console.error("Error updating dog name:", error);
-      });
-  };*/
 
   const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
@@ -162,14 +137,22 @@ export default function Display() {
         });
   }
 
-  const feedSelectedPet = () => {
-    const camelCaseSpecies = toCamelCase(selectedPet.species);
-    
+  const feedSelectedPet = () => {   
     if (selectedPet.species === "Organic Dog") {
         selectedPet.hunger -= 15;
     } else if (selectedPet.species === "Organic Cat") {
         selectedPet.hunger -= 5;
     }
+    updateSelectedPet();
+  }
+
+  const waterSelectedPet = () => {
+    selectedPet.thirst -= 5;
+    updateSelectedPet();
+  }
+
+  const updateSelectedPet = () => {
+    const camelCaseSpecies = toCamelCase(selectedPet.species);
 
     fetch(`/api/${camelCaseSpecies}s/${selectedPet.petID}`, {
       method: "PUT",
@@ -189,28 +172,6 @@ export default function Display() {
       });
   }
 
-  const waterSelectedPet = () => {
-    const camelCaseSpecies = toCamelCase(selectedPet.species);
-    selectedPet.thirst -= 5;
-
-    fetch(`/api/${camelCaseSpecies}s/${selectedPet.petID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(selectedPet),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log("Dog updated successfully!");
-      })
-      .catch((error) => {
-        console.error("Error updating dog:", error);
-      });
-  }
-
 
 
   const closePetMenu = () => {
@@ -218,8 +179,7 @@ export default function Display() {
   }
 
   const handleNameTextChange = (event) => {
-    setSelectedPetName(event.target.value);
-
+    selectedPet.name = event.target.value;
     setIsPetMenuSaveButtonDisabled(false);
   }
   
@@ -298,7 +258,7 @@ export default function Display() {
           <div className="item-container">
             <div>
               <ul className="stats">
-                <li>Name: <input type="text" value={selectedPet.name} onChange={handleNameTextChange}/></li>
+                <li>Name: <input type="text" defaultValue={selectedPet.name} onChange={handleNameTextChange}/></li>
                 <li>Hunger: {selectedPet.hunger} <button onClick={feedSelectedPet}>Feed</button></li>
                 <li>Thirst: {selectedPet.thirst} <button onClick={waterSelectedPet}>Water</button></li>
                 <li>Mood: {selectedPet.mood}</li>
@@ -308,7 +268,7 @@ export default function Display() {
               <img src={selectedPet.species === "Organic Dog" ? "images/organicDog.png" : "images/organicCat.png"} />
             </div>
           </div>
-          <button disabled={isPetMenuSaveButtonDisabled}>Save</button>
+          <button onClick={updateSelectedPet} disabled={isPetMenuSaveButtonDisabled}>Save</button>
           <button onClick={closePetMenu}>Close</button>
           <button onClick={() => promptAdopt(selectedID)}>Adopt</button>
         </div>
