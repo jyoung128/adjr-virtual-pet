@@ -8,3 +8,4 @@ List your bugs here so you don't forget about them:
 -turn animalType and animalTypeCapitalized into one thing
 -make consistent classes and IDs
 -see if you can blend shelter and pet image container into one class
+-textbox in popup menu doesn't change size with other things

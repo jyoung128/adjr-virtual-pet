@@ -182,7 +182,7 @@ export default function Test() {
 
   const adoptDog = () => {
     const ID = document.getElementById('text').value;
-    fetch(`api/organicDogs/${ID}`, {
+    fetch(`api/organicCats/${ID}`, {
         method: "DELETE",
     })
     .then((response) => {

@@ -319,6 +319,10 @@ export default function Display() {
   };
 
   function PetImage({species}) {
+    console.log("in petImage, species is " + species);
+    const test = toCamelCase("Hello There");
+    console.log(test);
+    console.log(species.toString());
     if(species == "Organic Cat"){
       return(
         <div className="pet-image-container">
@@ -360,10 +364,10 @@ export default function Display() {
           <div className="item-container">
             <div>
               <ul className="stats">
-                <li>Name: <input type="text" value={selectedPetName} onChange={handleNameTextChange}/></li>
-                <li>Hunger: {selectedPetHunger} <button onClick={selectedPet.species === "Organic Dog" ? feedSelectedDog : feedSelectedCat}>Feed</button></li>
-                <li>Thirst: {selectedPetThirst} <button onClick={selectedPet.species === "Organic Dog" ? waterSelectedDog : waterSelectedCat}>Water</button></li>
-                <li>Mood: {selectedPetMood}</li>
+                <li>Name: <input type="text" value={selectedPet.name} onChange={handleNameTextChange}/></li>
+                <li>Hunger: {selectedPet.hunger} <button onClick={selectedPet.species === "Organic Dog" ? feedSelectedDog : feedSelectedCat}>Feed</button></li>
+                <li>Thirst: {selectedPet.thirst} <button onClick={selectedPet.species === "Organic Dog" ? waterSelectedDog : waterSelectedCat}>Water</button></li>
+                <li>Mood: {selectedPet.mood}</li>
               </ul>
             </div>
             <PetImage species={selectedPet.species} />
