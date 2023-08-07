@@ -358,7 +358,7 @@ public class ShelterRestControllerTest extends HateoasHelper {
         @Test
         public void testPutOrganicDogInShelter() throws Exception {
                 OrganicDog dog = new OrganicDog("Phil");
-                OrganicShelter shelter = new OrganicShelter();
+                OrganicShelter shelter = new OrganicShelter("Big Town");
 
                 // If I add a dog
                 final MvcResult dogPostResult = this.mvc
@@ -373,6 +373,8 @@ public class ShelterRestControllerTest extends HateoasHelper {
                                 .andExpect(jsonPath("$._links", hasKey(ShelterRestController.LIST_ALL_ORGANIC_DOGS)))
                                 .andReturn();
 
+                final OrganicDog dogResultObject = this.extractObject(OrganicDog.class, dogPostResult);
+
                 final MvcResult getAllDogsResult = this.mvc.perform(
                                 MockMvcRequestBuilders
                                                 .get(extractLink(dogPostResult,
@@ -381,11 +383,10 @@ public class ShelterRestControllerTest extends HateoasHelper {
                                 .andExpect(status().isOk())
                                 .andReturn();
 
-                final List<OrganicDog> dogResultObject = extractEmbeddedList(getAllDogsResult, ORGANIC_DOG_LIST,
-                                OrganicDog.class);
+                final List<OrganicDog> allDogs = extractEmbeddedList(getAllDogsResult, ORGANIC_DOG_LIST, OrganicDog.class);
 
                 // Then the resulting list should contain a dog
-                assertEquals(1, dogResultObject.size());
+                assertEquals(1, allDogs.size());
 
                 // If I add a shelter
                 final MvcResult shelterPostResult = this.mvc
@@ -408,17 +409,16 @@ public class ShelterRestControllerTest extends HateoasHelper {
                                 .andExpect(status().isOk())
                                 .andReturn();
 
-                final List<OrganicShelter> shelterResultObject = extractEmbeddedList(getAllSheltersResult, ORGANIC_SHELTER_LIST,
-                                OrganicShelter.class);
+                final OrganicShelter shelterResultObject = this.extractObject(OrganicShelter.class, shelterPostResult);
 
                 // Then the resulting list should contain a shelter
-                assertEquals(1, shelterResultObject.size());
+                assertEquals(1, this.extractEmbeddedList(getAllSheltersResult, ORGANIC_SHELTER_LIST, OrganicShelter.class).size());
 
 
                 // And then put the dog in a shelter
                 this.mvc.perform(
                                 MockMvcRequestBuilders
-                                                .put("/api/organicShelters/" + shelter.getShelterID() + "/organicDogs/" + dog.getPetID())
+                                                .put("/api/organicShelters/" + shelterResultObject.getShelterID() + "/organicDogs/" + dogResultObject.getPetID())
                                                 .accept(MediaTypes.HAL_JSON))
                                 .andExpect(status().isOk())
                                 .andReturn();
@@ -426,7 +426,7 @@ public class ShelterRestControllerTest extends HateoasHelper {
                 // And extract the object from the result
                 this.mvc.perform(
                                 MockMvcRequestBuilders
-                                                .get("/api/organicShelters/" + shelter.getShelterID())
+                                                .get("/api/organicShelters/" + shelterResultObject.getShelterID())
                                                 .accept(MediaTypes.HAL_JSON))
                                 .andExpect(status().isOk())
                                 .andReturn();
