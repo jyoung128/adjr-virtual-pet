@@ -6,7 +6,10 @@ List your bugs here so you don't forget about them:
 -closing and opening of different popup is a tad messy
 
 -thirst and hunger do not update in real time
+-save button should disable when a name is saved
+-the way the code is currently set up, you could type a new name, not save it, but feed or water the dog and the name would be updated
 -stats do not display temperment or home shelter
+
 
 -see if you can blend shelter and pet image container into one class
 -textbox in popup menu doesn't change size with other things
