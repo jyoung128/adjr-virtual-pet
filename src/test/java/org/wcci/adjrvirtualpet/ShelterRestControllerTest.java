@@ -354,4 +354,87 @@ public class ShelterRestControllerTest extends HateoasHelper {
                                 new ObjectMapper().readValue(secondGetResult.getResponse().getContentAsString(),
                                                 OrganicShelter.class).getName());
         }
+
+        @Test
+        public void testPutOrganicDogInShelter() throws Exception {
+                OrganicDog dog = new OrganicDog("Phil");
+                OrganicShelter shelter = new OrganicShelter();
+
+                // If I add a dog
+                final MvcResult dogPostResult = this.mvc
+                                .perform(MockMvcRequestBuilders.post("/api/organicDogs")
+                                                .accept(MediaTypes.HAL_JSON)
+                                                .contentType(MediaType.APPLICATION_JSON) // I'm a program and sending
+                                                                                         // you JSON-encoded data
+                                                .content(new ObjectMapper().writeValueAsString(dog)))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                                .andExpect(jsonPath("$._links", hasKey("self")))
+                                .andExpect(jsonPath("$._links", hasKey(ShelterRestController.LIST_ALL_ORGANIC_DOGS)))
+                                .andReturn();
+
+                final MvcResult getAllDogsResult = this.mvc.perform(
+                                MockMvcRequestBuilders
+                                                .get(extractLink(dogPostResult,
+                                                                ShelterRestController.LIST_ALL_ORGANIC_DOGS))
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                final List<OrganicDog> dogResultObject = extractEmbeddedList(getAllDogsResult, ORGANIC_DOG_LIST,
+                                OrganicDog.class);
+
+                // Then the resulting list should contain a dog
+                assertEquals(1, dogResultObject.size());
+
+                // If I add a shelter
+                final MvcResult shelterPostResult = this.mvc
+                                .perform(MockMvcRequestBuilders.post("/api/organicShelters")
+                                                .accept(MediaTypes.HAL_JSON)
+                                                .contentType(MediaType.APPLICATION_JSON) // I'm a program and sending
+                                                                                         // you JSON-encoded data
+                                                .content(new ObjectMapper().writeValueAsString(shelter)))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                                .andExpect(jsonPath("$._links", hasKey("self")))
+                                .andExpect(jsonPath("$._links", hasKey(ShelterRestController.LIST_ALL_ORGANIC_SHELTERS)))
+                                .andReturn();
+
+                final MvcResult getAllSheltersResult = this.mvc.perform(
+                                MockMvcRequestBuilders
+                                                .get(extractLink(shelterPostResult,
+                                                                ShelterRestController.LIST_ALL_ORGANIC_SHELTERS))
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                final List<OrganicShelter> shelterResultObject = extractEmbeddedList(getAllSheltersResult, ORGANIC_SHELTER_LIST,
+                                OrganicShelter.class);
+
+                // Then the resulting list should contain a shelter
+                assertEquals(1, shelterResultObject.size());
+
+
+                // And then put the dog in a shelter
+                this.mvc.perform(
+                                MockMvcRequestBuilders
+                                                .put("/api/organicShelters/" + shelter.getShelterID() + "/organicDogs/" + dog.getPetID())
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                // And extract the object from the result
+                this.mvc.perform(
+                                MockMvcRequestBuilders
+                                                .get("/api/organicShelters/" + shelter.getShelterID())
+                                                .accept(MediaTypes.HAL_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                final OrganicShelter createdShelter = new ObjectMapper().readValue(
+                                shelterPostResult.getResponse().getContentAsString(),
+                                OrganicShelter.class);
+
+                assertEquals(1, createdShelter.getDogCount());
+        }
 }

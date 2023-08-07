@@ -196,12 +196,13 @@ public class ShelterService {
         return shelter;
     }
 
-    public void addOrganicCatToShelter(final Long shelter_id, final OrganicCat cat) {
+    public OrganicShelter addOrganicCatToShelter(final Long shelter_id, final OrganicCat cat) {
         final OrganicShelter shelter = findOrganicShelter(shelter_id);
         shelter.addCat(cat);
         int catCount = shelter.getCatCount();
         shelter.setCatCount(catCount + 1);
         organicShelterRepo.save(shelter);
+        return shelter;
     }
 
     public void removeOrganicDogFromShelter(final Long shelter_id, final OrganicDog dog) {
