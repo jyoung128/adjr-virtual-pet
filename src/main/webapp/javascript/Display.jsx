@@ -238,7 +238,7 @@ export default function Display() {
 
   return (
     <div>
-      <h3 className="page-header">My Pets</h3>
+      <h1 className="page-header">My Pets</h1>
       <PetLister species="Organic Cat" />
       <PetLister species="Organic Dog" />
       <ShelterLister shelterType="Organic Shelter" />
