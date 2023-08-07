@@ -35,10 +35,10 @@ public class OrganicShelter {
     private int dogCount;
     private int catCount;
 
-    public void organicShelter() {
+    public OrganicShelter() {
     }
 
-    public void organicShelter(String name) {
+    public OrganicShelter(String name) {
         this.name = name;
     }
 

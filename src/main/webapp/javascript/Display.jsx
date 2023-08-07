@@ -54,12 +54,17 @@ export default function Display() {
             <DisplayShelter key={oneShelter.shelterID} shelter={oneShelter} />
           ))}
         </ul>
-        <button onClick={getShelters}>Show All {shelterType}s</button>
-        {console.log(JSON.stringify(allShelters))}
+        <div className="show-all-button-container">
+          <button onClick={setAllShelters}>Hide All {shelterType}s</button>
+        </div>
       </div>
     );
     } else {
-      return <button onClick={getShelters}>Show All {shelterType}s</button>;
+      return (
+        <div className="show-all-button-container">
+          <button onClick={getShelters}>Show All {shelterType}s</button>
+        </div>
+      );
     }
   }
 
@@ -111,10 +116,19 @@ export default function Display() {
         <div className="list-container">
           <ul className="item-list">
             {allPets["_embedded"][`${camelCaseSpecies}List`].map((onePet) => (
-              <DisplayPet key={onePet.petId} pet={onePet} species={species}/>
+              <DisplayPet key={onePet.petID} pet={onePet} species={species}/>
             ))}
           </ul>
           <button onClick={getPets}>Show All {animalType}s</button>
+          <div className="show-all-button-container">
+            <button onClick={setAllPets}>Hide All {animalTypeCapitalized}s</button>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="show-all-button-container">
+          <button onClick={getPets}>Show All {animalTypeCapitalized}s</button>
         </div>
       );
     } else {
@@ -282,6 +296,8 @@ export default function Display() {
 
   return (
     <div>
+    <h3 className="page-header">My Pets</h3>
+      <div id="cats">
       <PetLister species="Organic Cat" />
       <PetLister species="Organic Dog" />
       <ShelterLister shelterType="Organic Shelter" />

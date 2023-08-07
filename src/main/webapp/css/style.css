@@ -19,7 +19,7 @@
 }
 
 input[type=text], select{
-    width: 20em;
+    width: 20rem;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -73,6 +73,25 @@ input[type=text], select{
 
 .shelter-image-container img{
     max-height: 6em;
+}
+
+.show-all-button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.show-all-button-container button{
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 1em;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color:#c6e2e9;
+    font-family: 'Big Shoulders Inline Text', cursive;
+}
+
+.page-header{
+    text-align: center;
 }
 
 body{
