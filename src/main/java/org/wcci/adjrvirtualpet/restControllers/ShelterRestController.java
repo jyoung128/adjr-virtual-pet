@@ -180,5 +180,19 @@ public class ShelterRestController {
                         linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
                                 .withSelfRel());
                 
-            }
+    }
+
+    @PutMapping("/api/organicShelters/{organicShelter_id}/organicCats/{organicCat_id}")
+    public EntityModel<OrganicShelter> addOrganicCatToShelter(
+            @PathVariable final long organicShelter_id,
+            @PathVariable final long organicCat_id,
+            @RequestBody final OrganicShelter organicShelter){
+                final OrganicCat databaseCat = shelterService.findOrganicCat(organicCat_id);
+                final OrganicShelter databaseOrganicShelter = shelterService.addOrganicCatToShelter(organicShelter_id, databaseCat);
+
+                return EntityModel.of(databaseOrganicShelter,
+                        linkTo(methodOn(ShelterRestController.class).getOrganicShelter(organicShelter.getShelterID()))
+                                .withSelfRel());
+                
+    }
 }
