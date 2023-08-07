@@ -6,6 +6,7 @@ List your bugs here so you don't forget about them:
 -closing and opening of different popup is a tad messy
 
 -thirst and hunger do not update in real time
+-stats do not display temperment or home shelter
 
 -see if you can blend shelter and pet image container into one class
 -textbox in popup menu doesn't change size with other things

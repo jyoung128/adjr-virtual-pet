@@ -92,7 +92,6 @@ export default function Display() {
     console.log("In ListPets, species is " + species);
     let [allPets, setAllPets] = useState([]);
     const camelCaseSpecies = toCamelCase(species);
-    const animalType = species.slice(species.indexOf(" ") + 1);
   
     function getPets() {
       fetch(`/api/${camelCaseSpecies}s`, { method: "GET", cache: "default" })
@@ -112,14 +111,14 @@ export default function Display() {
             ))}
           </ul>
           <div className="show-all-button-container">
-            <button onClick={setAllPets}>Hide All {animalType}s</button>
+            <button onClick={setAllPets}>Hide All {species}s</button>
           </div>
         </div>
       );
     } else {
       return (
         <div className="show-all-button-container">
-          <button onClick={getPets}>Show All {animalType}s</button>
+          <button onClick={getPets}>Show All {species}s</button>
         </div>
       );
     }
