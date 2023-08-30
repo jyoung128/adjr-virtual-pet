@@ -126,6 +126,7 @@ export default function Display() {
 
   const openPetMenu = (ID, species) => {
     setShowPetMenu(true);
+    isPetMenuSaveButtonDisabled(true);
     const apiRoute = toCamelCase(species) + "s";
     
     fetch(`/api/${apiRoute}/${ID}`, { method: "GET", cache: "default" })
@@ -133,6 +134,7 @@ export default function Display() {
         .then((responseBody) => {
           setSelectedID(ID);
           setSelectedPet(responseBody);
+          setSelectedPetName(responseBody.name);
         });
   }
 
@@ -178,7 +180,7 @@ export default function Display() {
   }
 
   const handleNameTextChange = (event) => {
-    selectedPet.name = event.target.value;
+    setSelectedPetName(event.target.value);
     setIsPetMenuSaveButtonDisabled(false);
   }
   
@@ -257,7 +259,7 @@ export default function Display() {
           <div className="item-container">
             <div>
               <ul className="stats">
-                <li>Name: <input type="text" defaultValue={selectedPet.name} onChange={handleNameTextChange}/></li>
+                <li>Name: <input type="text" value={selectedPetName} onChange={handleNameTextChange}/></li>
                 <li>Hunger: {selectedPet.hunger} <button onClick={feedSelectedPet}>Feed</button></li>
                 <li>Thirst: {selectedPet.thirst} <button onClick={waterSelectedPet}>Water</button></li>
                 <li>Mood: {selectedPet.mood}</li>
